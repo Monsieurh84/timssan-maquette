@@ -14,63 +14,104 @@
 <main>
   <div class="wrap">
     <nav class="crumbs mono" aria-label="Fil d'Ariane" id="crumbs"></nav>
+
     <div class="pdp">
-      <div class="gal-wrap"><div class="gal" id="gal"></div><span class="gal-count mono" id="galCount"></span></div>
-      <div class="buy" id="buy">
-        <div>
+      <!-- Galerie sticky -->
+      <div class="pg" id="pg" aria-roledescription="carrousel" aria-label="Photos du produit">
+        <div class="pg-thumbs" id="thumbs" role="tablist" aria-label="Choisir une photo"></div>
+        <div class="pg-stage" id="stage">
+          <div class="pg-track" id="track"></div>
+          <button class="pg-nav prev" id="prev" aria-label="Photo précédente">←</button>
+          <button class="pg-nav next" id="next" aria-label="Photo suivante">→</button>
+          <span class="badge mono" id="pBadge" hidden></span>
+          <div class="pg-meta"><span class="mono" id="count"></span><span class="mono hide-s" id="zoomHint">Cliquer pour zoomer</span></div>
+          <div class="pg-dots" id="dots" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- Colonne d'achat -->
+      <div class="buy">
+        <div class="buy-head">
           <div class="mono muted" id="pSku"></div>
           <h1 id="pName"></h1>
           <p class="sub" id="pType"></p>
         </div>
         <div class="pr" id="pPrice"></div>
-        <a class="rating" href="#pAvis"><span class="stars">★★★★★</span> 4,8/5 · avis vérifiés Timssan</a>
-        <div id="colorBlock"><div class="opt-h"><span>Couleur · <b id="cName"></b></span></div><div class="colors" id="colors"></div></div>
+        <a class="rating" href="#avis"><span class="stars" aria-hidden="true">★★★★★</span><span>4,8/5 · <span id="rvCountTop"></span> avis vérifiés</span></a>
+
+        <div id="colorBlock"><div class="opt-h"><span>Couleur · <b id="cName"></b></span><span class="muted" id="cCount"></span></div><div class="colors" id="colors" role="group" aria-label="Couleurs"></div></div>
+
         <div id="sizeBlock">
-          <div class="opt-h"><span>Taille <b id="sName"></b></span><button data-sizes id="guideBtn">Guide des tailles</button></div>
-          <div class="psizes" id="psizes"></div>
+          <div class="opt-h"><span>Taille <b id="sName"></b></span><button data-sizes>Guide des tailles</button></div>
+          <div class="psizes" id="psizes" role="group" aria-label="Tailles"></div>
           <p class="stock" id="stock"></p>
+          <p class="fit-hint" id="fitHint"><i></i>Taille normalement · la plupart de nos clients prennent leur taille habituelle</p>
         </div>
-        <div id="ctaBlock"></div>
+
+        <div class="cta" id="ctaBlock"></div>
+
         <div class="perks-p">
-          <div>Livraison offerte en 24/48h en France métropolitaine</div>
-          <div>Échange offert, 14 jours pour changer d'avis</div>
-          <div>Paiement en 3 ou 4 fois sans frais</div>
+          <div><b>Livré en 24/48h</b><span class="muted">Offert en France métropolitaine</span></div>
+          <div><b>Échange offert</b><span class="muted">14 jours pour changer d'avis</span></div>
+          <div><b>3 ou 4 fois</b><span class="muted">Sans frais, paiement sécurisé</span></div>
         </div>
+
         <div class="acc" id="acc"></div>
-        <div class="word"><span class="mono" style="color:var(--selvedge)">Le mot de l'atelier</span><q id="pWord"></q></div>
+
+        <div class="specs-t"><h2>La fiche technique</h2><dl id="specs"></dl></div>
+
+        <div class="word"><span class="mono" style="color:var(--selvedge)">Le mot de l'atelier</span><q id="pWord"></q><span class="by">L'équipe de l'atelier, Casablanca</span></div>
       </div>
     </div>
   </div>
 
-  <section class="pdp-story">
-    <div class="im"><img id="storyImg" alt="" loading="lazy"></div>
-    <div class="tx">
-      <div class="mono muted">Fabriqué à Casablanca</div>
-      <h2 class="disp">Coupé, cousu<br>et contrôlé<br>à la main.</h2>
-      <p style="margin:0;max-width:46ch">Chaque pièce passe entre les mains de nos couturiers spécialistes du stretch. Une production à taille humaine, pour une qualité qui se sent dès qu'on enfile la pièce.</p>
-      <div class="coords mono"><span>Atelier</span><span>Depuis</span><span>Tailles</span><b>Casablanca</b><b>2017</b><b id="storySizes">38 → 46</b></div>
+  <!-- En situation : visuels entiers -->
+  <section class="look" id="look">
+    <div class="wrap">
+      <div class="look-head">
+        <div><div class="mono muted" style="margin-bottom:12px">En situation</div><h2 class="disp" id="lookTitle">Porté,<br>pour de vrai</h2></div>
+        <p class="lead" style="margin:0" id="lookIntro"></p>
+      </div>
+      <div class="look-grid" id="lookGrid"></div>
     </div>
   </section>
 
-  <section id="pAvis" class="reviews">
+  <!-- Avis -->
+  <section id="avis">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="disp">Ce qu'ils<br>en disent</h2>
-        <div class="score"><b>4,8</b><div><div class="stars">★★★★★</div><span class="muted">Trustpilot · 25 000+ clients</span></div></div>
+        <div><div class="mono muted" style="margin-bottom:12px">Avis clients</div><h2 class="disp">Ce qu'ils<br>en disent</h2></div>
+        <button class="btn ghost" id="writeBtn">Écrire un avis</button>
       </div>
-      <div class="rail" tabindex="0" aria-label="Avis clients">
-        <article class="rv"><q>Après plusieurs commandes, jogpant et 7/8, je suis toujours aussi content de la coupe et de la qualité.</q><div class="who"><span>Will</span><span class="mono">Avis vérifié</span></div></article>
-        <article class="rv"><q>Le guide des tailles est précis : reporte les mesures d'un pantalon qui te va et tu ne peux pas te tromper.</q><div class="who"><span>Julien</span><span class="mono">Avis vérifié</span></div></article>
-        <article class="rv"><q>Troisième commande, qualité vraiment excellente, livraison très courte.</q><div class="who"><span>Hicham</span><span class="mono">Avis vérifié</span></div></article>
-        <article class="rv"><q>À la réception, franchement surpris par la qualité. Il mérite largement ses cinq étoiles.</q><div class="who"><span>Abdel</span><span class="mono">Avis vérifié</span></div></article>
+      <div class="rv-wrap">
+        <aside class="rv-sum" aria-label="Synthèse des avis">
+          <div>
+            <div class="rv-big"><b>4,8</b><div><div class="stars" aria-label="4,8 sur 5">★★★★★</div><span class="muted" style="font-size:14px">25 000+ clients · Trustpilot</span></div></div>
+          </div>
+          <div class="dist" id="dist" role="group" aria-label="Filtrer par note"></div>
+          <div class="fitm">
+            <b style="font-size:15px">La coupe, selon nos clients</b>
+            <span class="rail" aria-hidden="true"><i style="left:52%"></i></span>
+            <div class="lbl"><span>Taille petit</span><span>Normal</span><span>Taille grand</span></div>
+          </div>
+          <span class="demo-tag mono">Répartition et coupe : données d'exemple</span>
+        </aside>
+        <div>
+          <div class="rv-tools">
+            <span class="muted" id="rvLbl"></span>
+            <label class="sr" for="rvSort">Trier les avis</label>
+            <select id="rvSort"><option value="help">Les plus utiles</option><option value="recent">Les plus récents</option></select>
+          </div>
+          <div class="rv-list" id="rvList"></div>
+          <p class="mono muted" style="margin-top:20px">Avis repris du site actuel · à brancher sur l'app d'avis produit (Judge.me, Trustpilot…)</p>
+        </div>
       </div>
-      <p class="mono muted" style="margin-top:18px">Avis génériques en maquette · à brancher sur l'app d'avis produit (Judge.me, Trustpilot…)</p>
     </div>
   </section>
 
-  <section>
+  <section style="padding-top:0">
     <div class="wrap">
-      <div class="sec-head"><h2 class="disp" id="xTitle">À porter avec</h2></div>
+      <div class="sec-head"><h2 class="disp" id="xTitle">Complète<br>la tenue</h2><a class="btn ghost" href="collection.html?c=pantalons">Toute la collection →</a></div>
       <div class="grid-p" id="xGrid"></div>
     </div>
   </section>
@@ -84,7 +125,30 @@
 </main>
 
 <div class="sticky-buy" id="stickyBuy"><div class="nm"><b id="sbName"></b><span class="muted" id="sbMeta"></span></div><button class="btn" id="sbBtn">Ajouter</button></div>
-<div class="modal zoom" id="zoom" role="dialog" aria-modal="true" aria-label="Zoom photo"><div class="modal-in"><button class="x" data-close style="background:var(--paper);padding:8px 12px;z-index:2">Fermer ✕</button><img id="zoomImg" alt=""></div></div>
+
+<!-- Zoom plein écran -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photos en grand" aria-hidden="true">
+  <div class="lb-top"><span class="mono" id="lbCount"></span><button id="lbClose">Fermer ✕</button></div>
+  <div class="lb-img"><button class="pg-nav prev" id="lbPrev" aria-label="Photo précédente">←</button><img id="lbImg" alt=""><button class="pg-nav next" id="lbNext" aria-label="Photo suivante">→</button></div>
+  <div class="lb-thumbs" id="lbThumbs"></div>
+</div>
+
+<!-- Écrire un avis -->
+<div class="modal" id="rvModal" role="dialog" aria-modal="true" aria-labelledby="rvmT"><div class="modal-in">
+  <button class="x" data-close>Fermer ✕</button>
+  <span class="mono muted" id="rvmP"></span><h2 id="rvmT">Ton avis</h2>
+  <form class="form-g" id="rvForm" novalidate>
+    <fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:600;font-size:14px;margin-bottom:6px">Ta note</legend>
+      <div class="stars-in"></div></fieldset>
+    <label for="rvSize">Taille achetée<select id="rvSize"></select></label>
+    <label for="rvFit">La coupe<select id="rvFit"><option value="0">Taille normalement</option><option value="-1">Taille petit</option><option value="1">Taille grand</option></select></label>
+    <label for="rvTitle">Titre<input id="rvTitle" maxlength="80" placeholder="En quelques mots"></label>
+    <label for="rvText">Ton avis<textarea id="rvText" placeholder="La coupe, la matière, le confort après quelques ports…"></textarea></label>
+    <label for="rvName">Prénom<input id="rvName" autocomplete="given-name"></label>
+    <p id="rvErr" class="stock warn" style="margin:0"></p>
+    <button class="btn" type="submit">Publier mon avis</button>
+  </form>
+</div></div>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
@@ -95,95 +159,179 @@
   const p = byId(new URLSearchParams(location.search).get("p")) || byId("lom");
   const col = Object.entries(window.COLLECTIONS).find(([k, c]) => c.cats.includes(p.cat) && k !== "pantalons") || ["pantalons", window.COLLECTIONS.pantalons];
   const isPerfume = p.cat === "parfum";
-  let ci = Math.max(0, p.colors.findIndex(c => c.avail.length)), size = isPerfume ? p.sizes[0] : null;
+  let ci = Math.max(0, p.colors.findIndex(c => c.avail.length)), size = isPerfume ? p.sizes[0] : null, idx = 0;
+  const ERR = "this.onerror=null;this.style.visibility='hidden'";
 
+  /* ---------- En-tête ---------- */
   $("#crumbs").innerHTML = `<a href="index.html">Accueil</a><span>/</span><a href="collection.html?c=${col[0]}">${col[1].title}</a><span>/</span><span aria-current="page">${p.name}</span>`;
   $("#pSku").textContent = "Réf. " + p.sku;
   $("#pName").textContent = p.name;
   $("#pType").textContent = p.type;
   $("#pPrice").innerHTML = priceHTML(p) + (p.compare ? `<span class="badge mono" style="position:static">-${Math.round((1 - p.price / p.compare) * 100)} %</span>` : "") + `<small>ou 3 × ${eur(p.price / 3)} sans frais</small>`;
-  $("#pWord").textContent = isPerfume ? "On voulait un parfum qui ressemble à nos pantalons : présent, confortable, jamais trop." : p.cat === "hauts" ? "Un coton qu'on a lavé des dizaines de fois avant de le valider. Il doit rester net." : "On a refait le patron jusqu'à ce que le genou ne poche plus en fin de journée. C'est ça, notre métier.";
+  if (p.badge) { $("#pBadge").textContent = p.badge; $("#pBadge").hidden = false; if (p.badge === "Best-seller") $("#pBadge").classList.add("dk"); }
+  $("#pWord").textContent = isPerfume ? "On voulait un parfum qui ressemble à nos pantalons : présent, confortable, jamais trop." : p.cat === "hauts" ? "Un coton qu'on a lavé des dizaines de fois avant de le valider. Il doit rester net." : "On a repris le patron jusqu'à ce que le genou ne poche plus en fin de journée. C'est ça, notre métier.";
+  $("#specs").innerHTML = [["Référence", p.sku], ...p.specs, ...(isPerfume ? [] : [["Tailles", p.sizes.join(" · ")]])].map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   $("#acc").innerHTML = [
     ["Description", `<p>${p.desc}</p>`, true],
-    [isPerfume ? "Notes olfactives" : "Matière", `<p>${p.matiere}</p>`],
-    [isPerfume ? "La maison" : "Coupe & taille", `<p>${p.coupe}</p>${isPerfume ? "" : `<p><a href="#" data-sizes>Ouvrir le guide des tailles</a></p>`}`],
+    ...(isPerfume ? [] : [["Coupe & taille", `<p>${p.coupe}. Entre deux tailles, prends la plus petite : la toile s'assouplit au porter.</p><p><a href="#" data-sizes>Ouvrir le guide des tailles</a></p>`]]),
     ["Entretien", `<p>${p.care}</p>`],
-    ["Livraison & retours", `<p>Livraison offerte en 24/48h en France métropolitaine. Échange offert et 14 jours pour changer d'avis.</p>`]
+    ["Livraison & retours", `<p>Expédition sous 24h, livraison offerte en 24/48h en France métropolitaine. Échange offert et 14 jours pour changer d'avis.</p>`]
   ].map(([t, c, o]) => `<details${o ? " open" : ""}><summary>${t}</summary><div class="in">${c}</div></details>`).join("");
-  if (isPerfume) { $("#colorBlock").hidden = true; $("#sizeBlock").hidden = true; $("#storySizes").textContent = "100 ml"; }
+  if (isPerfume) { $("#colorBlock").hidden = true; $("#sizeBlock").hidden = true; }
   if (p.colors.length < 2) $("#colorBlock").hidden = true;
-  if (p.cat === "hauts") $("#storySizes").textContent = "S → XXL";
+  if (p.id === "cozy" || p.cat === "parfum") $("#fitHint").hidden = true;
 
-  function renderGallery() {
-    const c = p.colors[ci];
-    $("#gal").innerHTML = c.imgs.map((f, i) => `<figure><img src="${img(f, i === 0 ? 1400 : 900)}" data-z="${f}" alt="${p.name} ${p.type}${p.colors.length > 1 ? " " + c.name : ""} — photo ${i + 1}" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} onerror="this.onerror=null;this.style.visibility='hidden'"></figure>`).join("");
-    $("#galCount").textContent = `1 / ${c.imgs.length}`;
-    $("#gal").scrollLeft = 0;
-    $("#storyImg").src = img(c.imgs[Math.min(2, c.imgs.length - 1)], 1200);
+  /* ---------- Galerie sticky ---------- */
+  const imgs = () => p.colors[ci].imgs;
+  const alt = (i) => `${p.name} ${p.type}${p.colors.length > 1 ? " " + p.colors[ci].name : ""}, photo ${i + 1} sur ${imgs().length}`;
+  function buildGallery() {
+    const L = imgs();
+    $("#track").innerHTML = L.map((f, i) => `<div class="pg-slide"><img src="${img(f, i ? 1200 : 1400)}" srcset="${img(f, 700)} 700w, ${img(f, 1200)} 1200w, ${img(f, 1800)} 1800w" sizes="(max-width:860px) 100vw, 50vw" alt="${alt(i)}" width="1000" height="1500" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} onerror="${ERR}"></div>`).join("");
+    $("#thumbs").innerHTML = L.map((f, i) => `<button role="tab" aria-label="Photo ${i + 1}" data-i="${i}"><img src="${img(f, 160)}" alt="" loading="lazy" onerror="${ERR}"></button>`).join("");
+    $("#dots").innerHTML = L.map(() => "<i></i>").join("");
+    idx = 0; go(0, true);
   }
-  $("#gal").addEventListener("scroll", e => { const g = e.target; const i = Math.round(g.scrollLeft / g.clientWidth) + 1; $("#galCount").textContent = `${i} / ${p.colors[ci].imgs.length}`; }, { passive: true });
-  $("#gal").addEventListener("click", e => { const i = e.target.closest("img"); if (!i || matchMedia("(max-width:860px)").matches) return; $("#zoomImg").src = img(i.dataset.z, 2000); $("#zoomImg").alt = i.alt; $("#zoom").classList.add("on"); document.body.classList.add("lock"); });
+  function go(i, instant) {
+    const n = imgs().length; idx = (i + n) % n;
+    const t = $("#track"); if (instant) t.style.transition = "none";
+    t.style.transform = `translateX(${-idx * 100}%)`;
+    if (instant) { void t.offsetWidth; t.style.transition = ""; }
+    $("#count").textContent = String(idx + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
+    $$("#thumbs button").forEach((b, k) => b.setAttribute("aria-current", k === idx));
+    $$("#dots i").forEach((d, k) => d.classList.toggle("on", k === idx));
+    const tb = $$("#thumbs button")[idx]; if (tb) tb.scrollIntoView({ block: "nearest" });
+  }
+  $("#thumbs").onclick = e => { const b = e.target.closest("[data-i]"); if (b) go(+b.dataset.i); };
+  $("#thumbs").addEventListener("mouseover", e => { const b = e.target.closest("[data-i]"); if (b && matchMedia("(hover:hover)").matches) go(+b.dataset.i); });
+  $("#prev").onclick = e => { e.stopPropagation(); go(idx - 1); };
+  $("#next").onclick = e => { e.stopPropagation(); go(idx + 1); };
+  $("#stage").onclick = e => { if (e.target.closest(".pg-nav")) return; if (matchMedia("(min-width:861px)").matches) openLb(idx); };
+  // Swipe mobile
+  let x0 = null, y0 = null, moved = false;
+  $("#stage").addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; moved = false; }, { passive: true });
+  $("#stage").addEventListener("touchmove", e => { if (x0 === null) return; const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0; if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) { moved = true; $("#track").style.transition = "none"; $("#track").style.transform = `translateX(calc(${-idx * 100}% + ${dx}px))`; } }, { passive: true });
+  $("#stage").addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; $("#track").style.transition = ""; if (moved && Math.abs(dx) > 50) go(idx + (dx < 0 ? 1 : -1)); else if (!moved) openLb(idx); else go(idx); x0 = null; });
+  document.addEventListener("keydown", e => {
+    if ($("#lb").classList.contains("on")) { if (e.key === "ArrowRight") lbGo(lbI + 1); if (e.key === "ArrowLeft") lbGo(lbI - 1); if (e.key === "Escape") closeLb(); return; }
+    if (e.target.closest("input,textarea,select")) return;
+    if (e.key === "ArrowRight") go(idx + 1); if (e.key === "ArrowLeft") go(idx - 1);
+  });
 
+  /* ---------- Zoom plein écran (galerie + visuels du bas) ---------- */
+  let lbList = [], lbI = 0;
+  function openLb(i, list) {
+    lbList = list || imgs(); lbI = i;
+    $("#lbThumbs").innerHTML = lbList.map((f, k) => `<button data-k="${k}" aria-label="Photo ${k + 1}"><img src="${img(f, 120)}" alt="" onerror="${ERR}"></button>`).join("");
+    lbGo(i); $("#lb").classList.add("on"); $("#lb").setAttribute("aria-hidden", "false"); document.body.classList.add("lock"); $("#lbClose").focus();
+  }
+  function lbGo(i) { const n = lbList.length; lbI = (i + n) % n; $("#lbImg").src = img(lbList[lbI], 2000); $("#lbImg").alt = `${p.name}, photo ${lbI + 1}`; $("#lbCount").textContent = `${lbI + 1} / ${n}`; $$("#lbThumbs button").forEach((b, k) => b.setAttribute("aria-current", k === lbI)); }
+  function closeLb() { $("#lb").classList.remove("on"); $("#lb").setAttribute("aria-hidden", "true"); document.body.classList.remove("lock"); }
+  $("#lbClose").onclick = closeLb; $("#lbPrev").onclick = () => lbGo(lbI - 1); $("#lbNext").onclick = () => lbGo(lbI + 1);
+  $("#lbThumbs").onclick = e => { const b = e.target.closest("[data-k]"); if (b) lbGo(+b.dataset.k); };
+
+  /* ---------- Couleurs, tailles, CTA ---------- */
   function renderColors() {
-    $("#colors").innerHTML = p.colors.map((c, i) => `<button style="background:${c.hex}" aria-pressed="${i === ci}" aria-label="${c.name}${c.avail.length ? "" : " (épuisé)"}" title="${c.name}" class="${c.avail.length ? "" : "out"}" data-ci="${i}"></button>`).join("");
+    $("#colors").innerHTML = p.colors.map((c, i) => `<button style="background:${c.hex}" aria-pressed="${i === ci}" aria-label="${c.name}${c.avail.length ? "" : " (épuisée)"}" title="${c.name}" class="${c.avail.length ? "" : "out"}" data-ci="${i}"></button>`).join("");
     $("#cName").textContent = p.colors[ci].name + (p.colors[ci].avail.length ? "" : " · épuisée");
+    $("#cCount").textContent = p.colors.length + " couleurs";
   }
-  $("#colors").onclick = e => { const b = e.target.closest("[data-ci]"); if (!b) return; ci = +b.dataset.ci; if (size && !p.colors[ci].avail.includes(size)) size = null; renderAll(); };
-
+  $("#colors").onclick = e => { const b = e.target.closest("[data-ci]"); if (!b || +b.dataset.ci === ci) return; ci = +b.dataset.ci; if (size && !p.colors[ci].avail.includes(size)) size = null; renderAll(); buildGallery(); };
   function renderSizes() {
     const c = p.colors[ci];
-    $("#psizes").innerHTML = p.sizes.map(s => {
-      const ok = c.avail.includes(s), low = ok && c.avail.length <= 2;
-      return `<button ${ok ? "" : "disabled"} aria-pressed="${s === size}" class="${low ? "low" : ""}" aria-label="Taille ${s}${ok ? "" : " épuisée"}">${s}</button>`;
-    }).join("");
+    $("#psizes").style.gridTemplateColumns = `repeat(${Math.min(5, p.sizes.length)},1fr)`;
+    $("#psizes").innerHTML = p.sizes.map(s => { const ok = c.avail.includes(s), low = ok && c.avail.length <= 2; return `<button ${ok ? "" : "disabled"} aria-pressed="${s === size}" class="${low ? "low" : ""}" aria-label="Taille ${s}${ok ? "" : ", épuisée"}">${s}</button>`; }).join("");
     $("#sName").textContent = size ? "· " + size : "";
     const st = $("#stock");
     if (!c.avail.length) { st.textContent = "Cette couleur est épuisée pour le moment."; st.className = "stock warn"; }
-    else if (size && c.avail.length <= 2) { st.textContent = "Plus que quelques pièces dans cette taille, ne tarde pas."; st.className = "stock warn"; }
+    else if (size && c.avail.length <= 2) { st.textContent = "Plus que quelques pièces dans cette taille."; st.className = "stock warn"; }
     else if (size) { st.textContent = "En stock · expédié sous 24h"; st.className = "stock"; }
     else { st.textContent = c.avail.length < p.sizes.length ? "Les tailles barrées reviennent bientôt." : ""; st.className = "stock muted"; }
   }
   $("#psizes").onclick = e => { const b = e.target.closest("button"); if (!b || b.disabled) return; size = b.textContent; renderAll(); };
-
   function renderCta() {
     const c = p.colors[ci];
     if (!c.avail.length) {
-      $("#ctaBlock").innerHTML = `<div class="alert"><b>Me prévenir du retour en stock</b><form id="alertF" novalidate><label class="sr" for="aMail">E-mail</label><input id="aMail" type="email" placeholder="ton@email.fr"><button class="btn" type="submit">M'alerter</button></form></div>`;
-      $("#alertF").onsubmit = e => { e.preventDefault(); toast(/@.+\./.test($("#aMail").value) ? "C'est noté, on te prévient dès le retour." : "Vérifie ton adresse e-mail."); };
+      $("#ctaBlock").innerHTML = `<div class="alert"><b>Me prévenir du retour de la couleur ${c.name}</b><form id="alertF" novalidate><label class="sr" for="aMail">E-mail</label><input id="aMail" type="email" placeholder="ton@email.fr" autocomplete="email"><button class="btn" type="submit">M'alerter</button></form></div>`;
+      $("#alertF").onsubmit = e => { e.preventDefault(); toast(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($("#aMail").value) ? "C'est noté, on te prévient dès le retour." : "Vérifie ton adresse e-mail."); };
     } else {
       $("#ctaBlock").innerHTML = `<button class="btn block" id="addBtn">${size ? `Ajouter au panier · ${eur(p.price)}` : "Choisis ta taille"}</button>`;
       $("#addBtn").onclick = doAdd;
     }
-    $("#sbName").textContent = p.name; $("#sbMeta").textContent = `${eur(p.price)}${size ? " · " + size : ""}`;
-    $("#sbBtn").textContent = !c.avail.length ? "Épuisé" : size ? "Ajouter" : "Taille ?"; $("#sbBtn").disabled = !c.avail.length;
+    $("#sbName").textContent = p.name; $("#sbMeta").textContent = `${eur(p.price)}${size && !isPerfume ? " · Taille " + size : ""}`;
+    $("#sbBtn").textContent = !c.avail.length ? "Épuisé" : size ? "Ajouter" : "Choisir la taille"; $("#sbBtn").disabled = !c.avail.length;
   }
   function doAdd() {
-    if (!size) { toast("Choisis d'abord ta taille"); $("#sizeBlock").scrollIntoView({ behavior: "smooth", block: "center" }); $("#psizes").animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }], { duration: 280 }); return; }
+    if (!size) { $("#sizeBlock").scrollIntoView({ behavior: "smooth", block: "center" }); $("#psizes").animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }], { duration: 300 }); toast("Choisis d'abord ta taille"); return; }
     add(p.id, p.colors[ci].name, size); setTimeout(openCart, 450);
   }
   $("#sbBtn").onclick = doAdd;
-
   function renderAll() { renderColors(); renderSizes(); renderCta(); }
-  renderGallery(); renderAll();
-  $("#colors").addEventListener("click", renderGallery);
+  renderAll(); buildGallery();
+  new IntersectionObserver(([en]) => $("#stickyBuy").classList.toggle("on", !en.isIntersecting && en.boundingClientRect.top < 0)).observe($("#ctaBlock"));
 
-  /* barre d'achat mobile : visible quand le bouton principal sort de l'écran */
-  const io = new IntersectionObserver(([en]) => $("#stickyBuy").classList.toggle("on", !en.isIntersecting && en.boundingClientRect.top < 0));
-  io.observe($("#ctaBlock"));
+  /* ---------- En situation ---------- */
+  $("#lookIntro").textContent = isPerfume ? "Le flacon, l'écrin et les matières qui ont inspiré 22.09." : `${p.name} hors studio : en ville, en mouvement, de près. Les photos sont présentées entières, telles qu'elles ont été prises.`;
+  if (isPerfume) $("#lookTitle").innerHTML = "Le flacon,<br>de près";
+  const L = p.look.map(l => l[0]);
+  $("#lookGrid").innerHTML = p.look.map(([f, t, d], i) => `<figure><div class="fr" data-l="${i}"><img src="${img(f, i ? 900 : 1200)}" alt="${p.name} — ${t}" loading="lazy" width="1000" height="1500" onerror="${ERR}"></div><figcaption><b>${t}</b><span>${d}</span></figcaption></figure>`).join("");
+  $("#lookGrid").onclick = e => { const f = e.target.closest("[data-l]"); if (f) openLb(+f.dataset.l, L); };
 
-  /* ventes croisées */
+  /* ---------- Avis ---------- */
+  const R = window.REVIEWS.map((r, i) => ({ ...r, i })), split = window.RATING_SPLIT;
+  let starF = 0;
+  $("#rvCountTop").textContent = "25 000+";
+  $("#dist").innerHTML = split.map((v, k) => `<button data-s="${5 - k}" aria-pressed="false"><span>${5 - k} ★</span><span class="db"><i style="width:${v}%"></i></span><span>${v} %</span></button>`).join("");
+  $("#dist").onclick = e => { const b = e.target.closest("[data-s]"); if (!b) return; starF = starF === +b.dataset.s ? 0 : +b.dataset.s; $$("#dist button").forEach(x => x.setAttribute("aria-pressed", +x.dataset.s === starF)); renderRv(); };
+  $("#rvSort").onchange = () => renderRv();
+  const voted = new Set();
+  function renderRv() {
+    let list = R.filter(r => !starF || r.rating === starF);
+    if ($("#rvSort").value === "help") list.sort((a, b) => b.helpful - a.helpful); else list.sort((a, b) => a.i - b.i);
+    $("#rvLbl").textContent = starF ? `${list.length} avis à ${starF} étoiles` : `${list.length} avis affichés`;
+    $("#rvList").innerHTML = list.length ? list.map(r => `<article class="rvc">
+      <div class="who"><b>${r.name}</b><span class="ver">Achat vérifié</span>${r.size ? `<span class="muted">Taille ${r.size}</span>` : ""}</div>
+      <div><div class="stars" aria-label="${r.rating} sur 5">${"★".repeat(r.rating)}<span style="color:var(--concrete)">${"★".repeat(5 - r.rating)}</span></div>
+        <h3>${r.title}</h3><p>${r.text}</p>
+        <div class="foot"><button data-h="${r.i}" aria-pressed="${voted.has(r.i)}">Utile · ${r.helpful + (voted.has(r.i) ? 1 : 0)}</button>${r.mine ? '<span class="mono">En attente de vérification</span>' : ""}</div></div>
+    </article>`).join("") : `<p class="muted" style="padding:40px 0">Aucun avis avec ce filtre pour l'instant.</p>`;
+  }
+  $("#rvList").onclick = e => { const b = e.target.closest("[data-h]"); if (!b) return; const i = +b.dataset.h; voted.has(i) ? voted.delete(i) : voted.add(i); renderRv(); };
+  renderRv();
+
+  /* Écrire un avis */
+  $(".stars-in").innerHTML = [5, 4, 3, 2, 1].map(n => `<input type="radio" name="note" id="n${n}" value="${n}"><label for="n${n}" title="${n} sur 5">★</label>`).join("");
+  $("#rvSize").innerHTML = p.sizes.map(s => `<option>${s}</option>`).join("");
+  $("#rvmP").textContent = `${p.name} · ${p.type}`;
+  $("#writeBtn").onclick = () => { $("#rvModal").classList.add("on"); document.body.classList.add("lock"); };
+  $("#rvForm").onsubmit = e => {
+    e.preventDefault();
+    const note = +(($("input[name=note]:checked") || {}).value || 0), t = $("#rvText").value.trim(), n = $("#rvName").value.trim();
+    if (!note) return $("#rvErr").textContent = "Choisis une note de 1 à 5 étoiles.";
+    if (t.length < 15) return $("#rvErr").textContent = "Écris au moins une phrase sur la coupe ou la matière.";
+    if (!n) return $("#rvErr").textContent = "Indique ton prénom.";
+    $("#rvErr").textContent = "";
+    R.unshift({ name: n, rating: note, title: $("#rvTitle").value.trim() || "Mon avis", text: t, size: isPerfume ? "" : $("#rvSize").value, helpful: 0, i: -1, mine: true });
+    R.forEach((r, k) => r.i = k);
+    $("#rvSort").value = "recent"; starF = 0; $$("#dist button").forEach(x => x.setAttribute("aria-pressed", "false")); renderRv();
+    $("#rvModal").classList.remove("on"); document.body.classList.remove("lock"); e.target.reset();
+    toast("Merci ! Ton avis apparaîtra après vérification de ta commande.");
+  };
+
+  /* ---------- Ventes croisées ---------- */
   const pairs = { jogpants: ["built", "blevo", "parfum-22-09", "elvi"], "pantalons-7-8": ["built", "lom", "parfum-22-09", "nuby"], "bermudas-longs": ["built", "axis", "miro", "parfum-22-09"], hauts: ["lom", "elvi", "nuby", "blevo"], parfum: ["nuby", "lom", "elvi", "built"] };
-  const xs = (pairs[p.cat] || pairs.jogpants).filter(id => id !== p.id).slice(0, 4);
-  $("#xTitle").innerHTML = isPerfume ? "À porter<br>avec 22.09" : "Complète<br>la tenue";
+  const xs = [...new Set([...(pairs[p.cat] || pairs.jogpants), "nuby", "lom"])].filter(id => id !== p.id).slice(0, 4);
+  if (isPerfume) $("#xTitle").innerHTML = "À porter<br>avec 22.09";
   $("#xGrid").innerHTML = xs.map(id => card(byId(id))).join("");
 
-  /* SEO : title, meta, Product + BreadcrumbList */
+  /* ---------- SEO ---------- */
   const allAvail = p.colors.some(c => c.avail.length);
   seo(`${p.name} — ${p.type} | Timssan`, `${p.name}, ${p.type.toLowerCase()} Timssan à ${eur(p.price)}. ${p.desc.slice(0, 110)}… Livraison offerte 24/48h.`, {
     "@context": "https://schema.org", "@type": "Product", "name": `${p.name} – ${p.type}`, "sku": p.sku, "brand": { "@type": "Brand", "name": "Timssan" },
-    "description": p.desc, "image": p.colors[0].imgs.slice(0, 3).map(f => img(f, 1500)),
+    "description": p.desc, "image": p.colors[0].imgs.slice(0, 4).map(f => img(f, 1500)),
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "bestRating": "5", "reviewCount": String(window.REVIEWS.length) },
     "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": p.price.toFixed(2), "availability": allAvail ? "https://schema.org/InStock" : "https://schema.org/OutOfStock", "url": `https://www.timssan.com/products/${p.id}` }
   });
+  document.head.insertAdjacentHTML("beforeend", `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.timssan.com/" }, { "@type": "ListItem", "position": 2, "name": col[1].title, "item": "https://www.timssan.com/collections/" + col[0] }, { "@type": "ListItem", "position": 3, "name": p.name }] })}<\/script>`);
 })();
 </script>
 </body>
