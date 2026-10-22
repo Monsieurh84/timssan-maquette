@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
 </head>
 <body data-page="product">
 <main>
@@ -150,8 +150,8 @@
   </form>
 </div></div>
 
-<script src="data.js?v=2"></script>
-<script src="app.js?v=2"></script>
+<script src="data.js?v=3"></script>
+<script src="app.js?v=3"></script>
 <script>
 (() => {
   const { $, $$, eur, priceHTML, byId, card, add, openCart, seo, toast } = window.TIMSSAN;
@@ -187,7 +187,7 @@
   function buildGallery() {
     const L = imgs();
     $("#track").innerHTML = L.map((f, i) => `<div class="pg-slide"><img src="${img(f, i ? 1200 : 1400)}" srcset="${img(f, 700)} 700w, ${img(f, 1200)} 1200w, ${img(f, 1800)} 1800w" sizes="(max-width:860px) 100vw, 50vw" alt="${alt(i)}" width="1000" height="1500" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} onerror="${ERR}"></div>`).join("");
-    $("#thumbs").innerHTML = L.map((f, i) => `<button role="tab" aria-label="Photo ${i + 1}" data-i="${i}"><img src="${img(f, 160)}" alt="" loading="lazy" onerror="${ERR}"></button>`).join("");
+    $("#thumbs").innerHTML = L.map((f, i) => `<button role="tab" aria-label="Photo ${i + 1}" data-i="${i}"><img src="${img(f, 160)}" alt="" onerror="${ERR}"></button>`).join("");
     $("#dots").innerHTML = L.map(() => "<i></i>").join("");
     idx = 0; go(0, true);
   }
