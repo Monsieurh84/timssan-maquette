@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Yellowtail&family=Barlow+Condensed:wght@200;300;400;500;600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=1">
+<link rel="stylesheet" href="style.css?v=3">
 <style>
 /* Univers fragrance : typographie fine et condensée (étiquettes du brand book), filets pleins, bandeau bleu. */
 .fx{--thin:"Barlow Condensed","DIN Condensed","Arial Narrow",sans-serif}
@@ -44,12 +44,12 @@
 
 .pyr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(32px,5vw,80px);align-items:center}
 .pyr-notes{display:grid}
-.note{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;padding:24px 0;border-top:3px solid var(--line);opacity:.35;transition:opacity .35s,border-color .35s}
-.note:last-child{border-bottom:3px solid var(--line)}
-.note.on{opacity:1;border-top-color:var(--ink)}
-.note .script{font-size:clamp(52px,5.4vw,88px);grid-row:span 2;align-self:center;min-width:3.2em}
-.note .label{align-self:end}
-.note p{margin:0;color:var(--ink-80);max-width:40ch}
+.nt{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;padding:24px 0;cursor:pointer;border-top:3px solid var(--line);opacity:.35;transition:opacity .35s,border-color .35s}
+.nt:last-child{border-bottom:3px solid var(--line)}
+.nt.on{opacity:1;border-top-color:var(--ink)}
+.nt .script{font-size:clamp(52px,5.4vw,88px);grid-row:span 2;align-self:center;min-width:3.2em}
+.nt .label{align-self:end}
+.nt p{margin:0;color:var(--ink-80);max-width:40ch}
 .curve-box{background:var(--bg);box-shadow:0 0 0 1.5px var(--line);padding:clamp(18px,2.4vw,30px);display:grid;gap:16px}
 .curve-box svg{width:100%;height:auto;display:block;overflow:visible}
 .curve-box input[type=range]{width:100%;accent-color:var(--ink)}
@@ -130,9 +130,9 @@
       <div class="sec-head"><div><div class="label muted" style="margin-bottom:12px">[ La pyramide olfactive ]</div><h2 class="thin" style="font-size:clamp(54px,7vw,116px)">Heure par heure</h2></div><p class="lead" style="margin:0;max-width:36ch">Faites glisser le curseur pour suivre 22.09 sur la peau, de la première pulvérisation à la fin de journée.</p></div>
       <div class="pyr">
         <div class="pyr-notes" id="notes">
-          <div class="note" data-n="0"><span class="script">Pêche</span><span class="label">Tête · 0 → 30 min</span><p>Ronde et lumineuse. C'est elle qu'on sent en premier, au moment où vous refermez la porte.</p></div>
-          <div class="note" data-n="1"><span class="script">Safran</span><span class="label">Cœur · 30 min → 3 h</span><p>Sec, presque cuiré. Il donne du caractère sans jamais prendre toute la place.</p></div>
-          <div class="note" data-n="2"><span class="script">Ambre</span><span class="label">Fond · 3 h → le soir</span><p>Le bois et l'ambre s'installent, la pistache adoucit le tout. Ce qui reste sur le col en fin de journée.</p></div>
+          <div class="nt" data-n="0"><span class="script">Pêche</span><span class="label">Tête · 0 → 30 min</span><p>Ronde et lumineuse. C'est elle qu'on sent en premier, au moment où vous refermez la porte.</p></div>
+          <div class="nt" data-n="1"><span class="script">Safran</span><span class="label">Cœur · 30 min → 3 h</span><p>Sec, presque cuiré. Il donne du caractère sans jamais prendre toute la place.</p></div>
+          <div class="nt" data-n="2"><span class="script">Ambre</span><span class="label">Fond · 3 h → le soir</span><p>Le bois et l'ambre s'installent, la pistache adoucit le tout. Ce qui reste sur le col en fin de journée.</p></div>
         </div>
         <div class="curve-box">
           <div class="curve-top"><span class="thin" id="hLbl">0 h 15</span><span class="label muted" id="nLbl">Note dominante : pêche</span></div>
@@ -218,8 +218,8 @@
   <div class="lb-thumbs"></div>
 </div>
 
-<script src="data.js?v=1"></script>
-<script src="app.js?v=1"></script>
+<script src="data.js?v=3"></script>
+<script src="app.js?v=3"></script>
 <script>
 (() => {
   const { $, $$, eur, priceHTML, byId, card, add, openCart, seo } = window.TIMSSAN;
@@ -254,7 +254,7 @@
   /* Pyramide : courbes d'intensité (une échelle commune, 0–480 min sur 40–580 px) */
   const X = m => 40 + m / 480 * 540, Y = v => 220 - v * 196;
   const bell = (c, w, h, tail) => m => { const d = (m - c) / w; return h * Math.exp(-d * d) + (m > c ? tail * Math.exp(-(m - c) / 260) : 0); };
-  const notes = [bell(8, 40, 1, 0), bell(110, 95, .82, .05), m => .62 / (1 + Math.exp(-(m - 170) / 45)) * Math.exp(-Math.max(0, m - 420) / 200)];
+  const notes = [bell(8, 40, 1, 0), bell(110, 95, .82, .05), m => .62 / (1 + Math.exp(-(m - 170) / 45)) * (1 - .35 / (1 + Math.exp(-(m - 410) / 35)))];
   const path = f => { let d = `M${X(0)},${Y(0)}`; for (let m = 0; m <= 480; m += 5) d += ` L${X(m).toFixed(1)},${Y(f(m)).toFixed(1)}`; return d + ` L${X(480)},${Y(0)} Z`; };
   ["#cTop", "#cMid", "#cBase"].forEach((id, k) => $(id).setAttribute("d", path(notes[k])));
   const names = ["pêche", "safran", "bois et ambre"];
@@ -263,11 +263,11 @@
     $("#cur").setAttribute("x1", X(m)); $("#cur").setAttribute("x2", X(m)); $("#curDot").setAttribute("cx", X(m));
     $("#hLbl").textContent = `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, "0")}`;
     $("#nLbl").textContent = `Note dominante : ${names[dom]}`;
-    $$(".note").forEach((n, k) => n.classList.toggle("on", k === dom));
+    $$(".nt").forEach((n, k) => n.classList.toggle("on", k === dom));
     ["#tTop", "#tMid", "#tBase"].forEach((id, k) => $(id).setAttribute("opacity", k === dom ? 1 : .35));
   }
   $("#hr").oninput = setH; setH();
-  $$(".note").forEach((n, k) => n.addEventListener("click", () => { $("#hr").value = [15, 120, 330][k]; setH(); }));
+  $$(".nt").forEach((n, k) => n.addEventListener("click", () => { $("#hr").value = [15, 120, 330][k]; setH(); }));
 
   /* L'objet : visuels entiers */
   const LK = p.look.map(l => l[0]);

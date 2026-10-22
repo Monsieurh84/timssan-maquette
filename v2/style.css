@@ -85,8 +85,8 @@ header.site{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:
 .mega-feat img{aspect-ratio:2/3;object-fit:cover;background:var(--tint);width:100%}
 .mega-feat b{font-family:var(--f-title);font-stretch:75%;font-weight:800;font-size:32px;text-transform:uppercase;display:block;line-height:1}
 .tools{display:flex;justify-content:flex-end;gap:6px;align-items:center;font-size:15px}
-.tools a,.icon-btn{text-decoration:none;background:none;border:0;padding:8px 10px;font-weight:500}
-.cart-btn{background:var(--ink);color:var(--bg);border:0;padding:9px 16px;display:flex;gap:10px;align-items:center;font-weight:600;margin-left:6px}
+.tools a,.icon-btn{text-decoration:none;background:none;border:0;padding:8px 10px;font-weight:500;white-space:nowrap}
+.cart-btn{white-space:nowrap;background:var(--ink);color:var(--bg);border:0;padding:9px 16px;display:flex;gap:10px;align-items:center;font-weight:600;margin-left:6px}
 .cart-btn b{font-family:var(--f-label);font-size:14px;letter-spacing:.1em;font-variant-numeric:tabular-nums}
 .cart-btn b::before{content:"[ "}.cart-btn b::after{content:" ]"}
 .cart-btn.bump{animation:bump .5s}
@@ -393,6 +393,12 @@ section{padding-block:clamp(64px,9vw,128px)}
 .acc details[open] summary::after{content:"–"}
 .acc .in{padding:0 0 20px;color:var(--ink-80);display:grid;gap:10px}
 .acc .in p{margin:0}
+
+.specs-t{border-top:2px solid var(--ink)}
+.specs-t h2{font-family:var(--f-label);font-weight:500;font-size:13px;letter-spacing:.24em;text-transform:uppercase;margin:16px 0 6px}
+.specs-t dl{display:grid;grid-template-columns:minmax(120px,auto) 1fr;margin:0}
+.specs-t dt,.specs-t dd{padding:12px 0;border-bottom:2px dashed var(--line);margin:0;font-size:15px}
+.specs-t dt{color:var(--ink-60)}
 
 /* Carte d'identité produit (brand book) */
 .idcard{background:var(--bg);box-shadow:0 0 0 1.5px var(--line)}
