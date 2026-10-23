@@ -42,7 +42,7 @@ canvas{width:100%;height:auto;background:#fff;box-shadow:0 0 0 1px var(--line);t
 </style>
 </head>
 <body>
-<header><div><b>TIMSSAN</b> <span>· Générateur de tableau des tailles</span></div><button class="btn" id="dl">Télécharger le PNG</button></header>
+<header><div><b>TIMSSAN</b> <span>· Générateur de guide des tailles</span></div><button class="btn" id="dl">Télécharger le PNG</button></header>
 <main>
   <div class="panel">
     <fieldset>
@@ -252,7 +252,7 @@ canvas{width:100%;height:auto;background:#fff;box-shadow:0 0 0 1px var(--line);t
     if (prodImg) {
       const r = Math.min(box.w / prodImg.width, box.h / prodImg.height), w = prodImg.width * r, h = prodImg.height * r;
       im = { x: box.x + (box.w - w) / 2, y: box.y + (box.h - h) / 2, w, h };
-      ctx.drawImage(prodImg, im.x, im.y, w, h);
+      ctx.save(); if (S.theme !== "bleu") ctx.globalCompositeOperation = "multiply"; ctx.drawImage(prodImg, im.x, im.y, w, h); ctx.restore();
     } else if (!forExport) {
       ctx.font = "400 24px Inter"; ctx.fillStyle = T.soft; ctx.textAlign = "center"; ctx.fillText("Importez la photo du produit", W / 2, box.y + box.h / 2); ctx.textAlign = "left";
     }
