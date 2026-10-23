@@ -72,7 +72,7 @@ function footer() {
         <ul class="pay" aria-label="Moyens de paiement acceptés">${[["cartes_bancaires", "CB"], ["visa", "Visa"], ["master", "Mastercard"], ["american_express", "American Express"], ["apple_pay", "Apple Pay"], ["google_pay", "Google Pay"], ["paypal", "PayPal"], ["shopify_pay", "Shop Pay"]].map(([f, n]) => `<li><img src="pay/${f}.svg" alt="${n}" title="${n}" width="38" height="24" loading="lazy"></li>`).join("")}</ul></div>
       <div><h5>Collections</h5><ul><li><a href="collection.html?c=jogpants">Jogpants</a></li><li><a href="collection.html?c=pantalons-7-8">Pantalons 7/8</a></li><li><a href="collection.html?c=pantalons">Classiques</a></li><li><a href="collection.html?c=bermudas-longs">Bermudas longs</a></li><li><a href="collection.html?c=hauts">T-shirts &amp; chemises</a></li><li><a href="parfum.html?p=parfum-22-09">Le Parfum</a></li></ul></div>
       <div><h5>Service</h5><ul><li><a href="index.html#club">Fidélité &amp; parrainage</a></li><li><a href="index.html#taille">Guide des tailles</a></li><li><a href="#">FAQ · Contact</a></li><li><a href="index.html#avis">Avis clients</a></li></ul></div>
-      <div><h5>La maison</h5><ul><li><a href="index.html#manifeste">Le manifeste</a></li><li><a href="index.html#atelier">L'atelier</a></li><li><a href="#">CGV</a></li><li><a href="#">Retours &amp; remboursements</a></li><li><a href="#">Mentions légales</a></li></ul></div>
+      <div><h5>La maison</h5><ul><li><a href="index.html#manifeste">Le manifeste</a></li><li><a href="#">CGV</a></li><li><a href="#">Retours &amp; remboursements</a></li><li><a href="#">Mentions légales</a></li></ul></div>
     </div>
     <div class="foot-sign">
       <div class="wordmark" aria-hidden="true"><b>TIMSSAN</b><small>BUILT FOR EVERYDAY</small></div>
@@ -175,7 +175,7 @@ window.TIMSSAN.card = function (p) {
     </div>
     <a class="info" href="${purl(p)}">
       <div class="row"><h3>${p.name}<span>${p.type}</span></h3>${priceHTML(p)}</div>
-      <div class="row"><div class="swatches">${p.cat === "parfum" ? "" : p.colors.map(x => `<i style="background:${x.hex}" title="${x.name}"></i>`).join("")}</div><span class="mono muted">${p.colors.length > 1 ? p.colors.length + " couleurs" : ""}</span></div>
+      <div class="row"><div class="swatches">${p.cat === "parfum" ? "" : p.colors.map(x => `<i style="background:${x.hex}" title="${x.name}"></i>`).join("")}</div></div>
     </a>
   </article>`;
 };
@@ -184,16 +184,46 @@ document.addEventListener("click", e => {
   e.preventDefault(); const [id, color, size] = q.dataset.qa.split("|"); add(id, color, size);
 });
 
-/* ---------- Guide des tailles (modale partagée) ---------- */
-const SIZE_ROWS = [["38", "74 – 79", "S"], ["40", "80 – 84", "M"], ["42", "85 – 89", "L"], ["44", "90 – 95", "XL"], ["46", "96 – 102", "XXL"]];
+/* ---------- Guide des tailles : barème officiel Timssan poids × taille (modale partagée) ---------- */
+const LBL = { 38: "S", 40: "M", 42: "L", 44: "XL", 46: "XXL" };
+/* [poids kg, 165-175 cm, 175-185 cm, 185-195 cm] */
+const SIZE_GRID = [[60,38,38,38],[62,38,38,38],[64,40,38,38],[66,40,40,38],[68,40,40,38],[70,40,40,40],[72,40,40,40],[74,40,40,40],[76,42,40,40],[78,42,42,42],[80,42,42,42],[82,42,42,42],[84,42,42,42],[86,44,42,42],[88,44,44,44],[90,44,44,44],[92,46,44,44],[94,46,46,44],[96,46,46,46],[98,46,46,46],[100,46,46,46],[102,46,46,46],[104,46,46,46]];
+function recSize(h, w) {
+  if (!h || !w) return null;
+  if (w > 105) return { size: null, msg: "Au-delà de 104 kg, écrivez-nous : on vous conseille la meilleure coupe." };
+  const col = h < 175 ? 1 : h < 185 ? 2 : 3;
+  const row = SIZE_GRID.reduce((b, r) => Math.abs(r[0] - w) < Math.abs(b[0] - w) ? r : b);
+  const size = String(row[col]);
+  let msg = `On vous conseille le ${size} (${LBL[size]}).`;
+  if (h < 165 || h > 195 || w < 59) msg += " Vous êtes en bord de barème : en cas de doute, prenez la plus petite, la toile s'assouplit au porter.";
+  return { size, label: LBL[size], msg };
+}
+const FINDER = id => `<div class="finder" data-finder="${id}">
+  <label for="${id}H">Votre taille <output id="${id}HO">178 cm</output></label><input id="${id}H" type="range" min="155" max="200" value="178" step="1">
+  <label for="${id}W">Votre poids <output id="${id}WO">75 kg</output></label><input id="${id}W" type="range" min="50" max="115" value="75" step="1">
+  <div class="sizes" aria-hidden="true">${Object.keys(LBL).map(k => `<span data-s="${k}"><b>${k}</b><small>${LBL[k]}</small></span>`).join("")}</div>
+  <p class="res" role="status" aria-live="polite"></p>
+</div>`;
+function bindFinder(root, onRec) {
+  const [h, w] = root.querySelectorAll("input"), [ho, wo] = root.querySelectorAll("output");
+  const run = () => {
+    ho.textContent = h.value + " cm"; wo.textContent = w.value + " kg";
+    const r = recSize(+h.value, +w.value);
+    root.querySelectorAll(".sizes span").forEach(s => s.classList.toggle("hit", r && s.dataset.s === r.size));
+    root.querySelector(".res").textContent = r ? r.msg : "";
+    if (onRec) onRec(r);
+  };
+  h.oninput = run; w.oninput = run; run();
+}
 document.body.insertAdjacentHTML("beforeend", `<div class="modal" id="sizeModal" role="dialog" aria-modal="true" aria-labelledby="sgT"><div class="modal-in">
   <button class="x" data-close>Fermer ✕</button>
   <span class="mono muted">Guide des tailles</span><h2 id="sgT">Trouvez votre taille</h2>
-  <p style="margin:0">Mesurez votre tour de taille au niveau du nombril, ou posez à plat un pantalon qui vous va bien et multipliez la largeur de la ceinture par deux. Entre deux tailles, prenez la plus petite : la toile s'assouplit au porter.</p>
-  <div class="tbl-wrap"><table class="ptable"><thead><tr><th>Taille FR</th><th>Tour de taille (cm)</th><th>Équivalent</th></tr></thead><tbody>${SIZE_ROWS.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</tbody></table></div>
-  <p class="note" style="margin:0">Barème indicatif de la maquette, à remplacer par le guide officiel Timssan.</p>
+  <p style="margin:0">Indiquez votre taille et votre poids : on vous donne la taille Timssan qui vous va. Entre deux tailles, prenez la plus petite.</p>
+  ${FINDER("sg")}
+  <details class="grid-d"><summary>Voir le barème complet</summary><div class="tbl-wrap"><table class="ptable"><thead><tr><th>Poids</th><th>165–175 cm</th><th>175–185 cm</th><th>185–195 cm</th></tr></thead><tbody>${SIZE_GRID.map(r => `<tr><td><b>${r[0]} kg</b></td>${r.slice(1).map(x => `<td>${LBL[x]} ${x}</td>`).join("")}</tr>`).join("")}</tbody></table></div></details>
 </div></div>`);
-window.TIMSSAN.SIZE_ROWS = SIZE_ROWS;
+bindFinder(document.querySelector('#sizeModal [data-finder]'));
+window.TIMSSAN.recSize = recSize; window.TIMSSAN.FINDER = FINDER; window.TIMSSAN.bindFinder = bindFinder;
 window.TIMSSAN.openSizes = () => { $("#sizeModal").classList.add("on"); document.body.classList.add("lock"); };
 document.addEventListener("click", e => {
   if (e.target.closest("[data-close]") || e.target.classList.contains("modal")) { $$(".modal").forEach(m => m.classList.remove("on")); if (!openPanel) document.body.classList.remove("lock"); }

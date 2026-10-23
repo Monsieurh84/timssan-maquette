@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Yellowtail&family=Barlow+Condensed:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body data-page="product">
 <main>
@@ -36,7 +36,7 @@
           <p class="sub" id="pType"></p>
         </div>
         <div class="pr" id="pPrice"></div>
-        <a class="rating" href="#avisP"><span class="tp-stars sm" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span>4,8/5 · Plus de 25 000 clients satisfaits</span></a>
+        <a class="rating" href="#avisP"><span class="lx-stars" aria-hidden="true">★★★★★</span><span>4,8/5 · Lire les avis clients</span></a>
 
         <div id="colorBlock"><div class="opt-h"><span>Couleur · <b id="cName"></b></span><span class="muted" id="cCount"></span></div><div class="colors" id="colors" role="group" aria-label="Couleurs"></div></div>
 
@@ -57,10 +57,9 @@
         <!-- Avis : carrousel sous la réassurance, avant la description -->
         <section class="rvx" id="avisP" aria-label="Avis clients">
           <div class="rvx-head">
-            <div class="tp-badge" aria-label="Trustpilot : 4,8 sur 5, Excellent">
-              <span class="tp-logo"><svg viewBox="0 0 24 23" aria-hidden="true"><path d="M12 0l2.8 8.6H24l-7.4 5.4 2.8 8.7L12 17.3l-7.4 5.4 2.8-8.7L0 8.6h9.2z"/></svg>Trustpilot</span>
-              <span class="tp-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="part"></i></span>
-              <span class="tp-txt"><b>4,8</b>/5 · Excellent</span>
+            <div class="lx-head">
+              <h2>Avis clients</h2>
+              <span class="lx-sum"><span class="lx-stars" aria-hidden="true">★★★★★</span><b>4,8</b>/5 · avis vérifiés</span>
             </div>
             <div class="rvx-nav"><button id="rvPrev" aria-label="Avis précédent">←</button><button id="rvNext" aria-label="Avis suivant">→</button></div>
           </div>
@@ -119,7 +118,8 @@
       <button class="icon-btn" id="ssClose" aria-label="Fermer">Fermer ✕</button>
     </div>
     <div class="sheet-body">
-      <div class="opt-h"><span id="ssT">Choisissez votre taille</span><button class="lnk" data-sizes>Guide des tailles</button></div>
+      <div class="opt-h"><span id="ssT">Touchez votre taille pour l'ajouter au panier</span><button class="lnk" data-sizes>Guide</button></div>
+      <details class="ss-find" id="ssFind"><summary>Je ne connais pas ma taille</summary><div id="ssFinder"></div></details>
       <div class="ss-list" id="ssList" role="radiogroup" aria-labelledby="ssT"></div>
       <div class="ss-notify" id="ssNotify" hidden>
         <b id="ssNotifyT"></b>
@@ -129,7 +129,6 @@
       <p class="fit-hint" id="ssFit"><i></i>Taille normalement · entre deux tailles, prenez la plus petite</p>
     </div>
     <div class="sheet-foot">
-      <button class="btn block" id="ssAdd" disabled>Sélectionnez une taille</button>
       <small class="muted">Livraison offerte 24/48h · Échange offert</small>
     </div>
   </div>
@@ -138,12 +137,12 @@
 <!-- Zoom plein écran -->
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photos en grand" aria-hidden="true">
   <div class="lb-top"><span class="label" id="lbCount"></span><button id="lbClose">Fermer ✕</button></div>
-  <div class="lb-img"><button class="pg-nav prev" id="lbPrev" aria-label="Photo précédente">←</button><img id="lbImg" alt=""><video id="lbVid" muted loop playsinline controls hidden></video><button class="pg-nav next" id="lbNext" aria-label="Photo suivante">→</button></div>
+  <div class="lb-img"><button class="pg-nav prev" id="lbPrev" aria-label="Photo précédente">←</button><img id="lbImg" alt=""><video id="lbVid" muted loop playsinline hidden></video><button class="pg-nav next" id="lbNext" aria-label="Photo suivante">→</button></div>
   <div class="lb-thumbs" id="lbThumbs"></div>
 </div>
 
-<script src="data.js?v=4"></script>
-<script src="app.js?v=4"></script>
+<script src="data.js?v=5"></script>
+<script src="app.js?v=5"></script>
 <script>
 (() => {
   const { $, $$, eur, priceHTML, byId, card, add, openCart, seo, toast } = window.TIMSSAN;
@@ -193,7 +192,7 @@
   function buildGallery() {
     M = media();
     $("#track").innerHTML = M.map((m, i) => m.t === "video"
-      ? `<div class="pg-slide is-video"><video src="${m.src}" poster="${m.poster}" muted loop playsinline preload="metadata" aria-label="${alt(i)}"></video><button class="vid-ctl" aria-label="Mettre la vidéo en pause">❚❚</button></div>`
+      ? `<div class="pg-slide is-video"><video src="${m.src}" poster="${m.poster}" muted loop playsinline preload="metadata" aria-label="${alt(i)}"></video></div>`
       : `<div class="pg-slide"><img src="${img(m.f, i ? 1200 : 1400)}" srcset="${img(m.f, 700)} 700w, ${img(m.f, 1200)} 1200w, ${img(m.f, 1800)} 1800w" sizes="(max-width:860px) 100vw, 50vw" alt="${alt(i)}" width="1000" height="1500" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} onerror="${ERR}"></div>`).join("");
     $("#thumbs").innerHTML = M.map((m, i) => `<button role="tab" aria-label="${m.t === "video" ? "Vidéo" : "Photo " + (i + 1)}" data-i="${i}" class="${m.t === "video" ? "is-video" : ""}"><img src="${m.t === "video" ? m.poster : img(m.f, 160)}" alt="" onerror="${ERR}"></button>`).join("");
     $("#dots").innerHTML = M.map(() => "<i></i>").join("");
@@ -221,16 +220,11 @@
   $("#thumbs").addEventListener("mouseover", e => { const b = e.target.closest("[data-i]"); if (b && matchMedia("(hover:hover)").matches) go(+b.dataset.i); });
   $("#prev").onclick = e => { e.stopPropagation(); go(idx - 1); };
   $("#next").onclick = e => { e.stopPropagation(); go(idx + 1); };
-  $("#track").addEventListener("click", e => {
-    const c = e.target.closest(".vid-ctl"); if (!c) return;
-    e.stopPropagation(); const v = c.parentNode.querySelector("video");
-    if (v.paused) { v.play(); c.textContent = "❚❚"; c.setAttribute("aria-label", "Mettre la vidéo en pause"); } else { v.pause(); c.textContent = "▶"; c.setAttribute("aria-label", "Lire la vidéo"); }
-  });
-  $("#stage").onclick = e => { if (e.target.closest(".pg-nav,.vid-ctl")) return; if (matchMedia("(min-width:861px)").matches) openLb(idx); };
+  $("#stage").onclick = e => { if (e.target.closest(".pg-nav")) return; if (matchMedia("(min-width:861px)").matches) openLb(idx); };
   let x0 = null, y0 = null, moved = false;
   $("#stage").addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; moved = false; }, { passive: true });
   $("#stage").addEventListener("touchmove", e => { if (x0 === null) return; const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0; if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) { moved = true; $("#track").style.transition = "none"; $("#track").style.transform = `translateX(calc(${-idx * 100}% + ${dx}px))`; } }, { passive: true });
-  $("#stage").addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; $("#track").style.transition = ""; if (moved && Math.abs(dx) > 50) go(idx + (dx < 0 ? 1 : -1)); else if (!moved && !e.target.closest(".vid-ctl")) openLb(idx); else go(idx); x0 = null; });
+  $("#stage").addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; $("#track").style.transition = ""; if (moved && Math.abs(dx) > 50) go(idx + (dx < 0 ? 1 : -1)); else if (!moved) openLb(idx); else go(idx); x0 = null; });
 
   /* ---------- Zoom plein écran (photos et vidéo) ---------- */
   let lbList = [], lbI = 0;
@@ -242,12 +236,17 @@
   function lbGo(i) {
     const n = lbList.length; lbI = (i + n) % n; const m = lbList[lbI];
     const v = $("#lbVid"), im = $("#lbImg");
-    if (m.t === "video") { im.hidden = true; v.hidden = false; if (v.getAttribute("src") !== m.src) v.src = m.src; v.play().catch(() => {}); }
+    if (m.t === "video") {
+      im.hidden = true; v.hidden = false;
+      const sv = $("#track video"), t = sv ? sv.currentTime : 0;
+      if (v.getAttribute("src") !== m.src) { v.src = m.src; v.addEventListener("loadedmetadata", () => { v.currentTime = t; }, { once: true }); } else v.currentTime = t;
+      if (sv) sv.pause(); v.play().catch(() => {});
+    }
     else { v.pause(); v.hidden = true; im.hidden = false; im.src = img(m.f, 2000); im.alt = `${p.name}, photo ${lbI + 1}`; }
     $("#lbCount").textContent = `${lbI + 1} / ${n}`;
     $$("#lbThumbs button").forEach((b, k) => b.setAttribute("aria-current", k === lbI));
   }
-  function closeLb() { $("#lbVid").pause(); $("#lb").classList.remove("on"); $("#lb").setAttribute("aria-hidden", "true"); document.body.classList.remove("lock"); syncVideos(); }
+  function closeLb() { const lv = $("#lbVid"), sv = $("#track video"); if (sv && !lv.hidden && lv.currentTime) sv.currentTime = lv.currentTime; lv.pause(); $("#lb").classList.remove("on"); $("#lb").setAttribute("aria-hidden", "true"); document.body.classList.remove("lock"); syncVideos(); }
   $("#lbClose").onclick = closeLb; $("#lbPrev").onclick = () => lbGo(lbI - 1); $("#lbNext").onclick = () => lbGo(lbI + 1);
   $("#lbThumbs").onclick = e => { const b = e.target.closest("[data-k]"); if (b) lbGo(+b.dataset.k); };
 
@@ -255,7 +254,6 @@
   function renderColors() {
     $("#colors").innerHTML = p.colors.map((c, i) => `<button style="background:${c.hex}" aria-pressed="${i === ci}" aria-label="${c.name}${c.avail.length ? "" : " (épuisée)"}" title="${c.name}" class="${c.avail.length ? "" : "out"}" data-ci="${i}"></button>`).join("");
     $("#cName").textContent = p.colors[ci].name + (p.colors[ci].avail.length ? "" : " · épuisée");
-    $("#cCount").textContent = p.colors.length + " couleurs";
   }
   $("#colors").onclick = e => { const b = e.target.closest("[data-ci]"); if (!b || +b.dataset.ci === ci) return; ci = +b.dataset.ci; size = null; renderColors(); renderCta(); buildGallery(); };
 
@@ -278,31 +276,35 @@
     notifySize = null; $("#ssNotify").hidden = true; $("#ssMsg").textContent = "";
     renderSheet();
     sheet.classList.add("on"); sheet.setAttribute("aria-hidden", "false"); document.body.classList.add("lock");
-    setTimeout(() => { const f = $("#ssList button"); if (f) f.focus(); }, 60);
+    setTimeout(() => $("#ssClose").focus({ preventScroll: true }), 60);
   }
   function closeSheet() { sheet.classList.remove("on"); sheet.setAttribute("aria-hidden", "true"); document.body.classList.remove("lock"); if (lastFocus) lastFocus.focus(); }
+  let rec = null;
   function renderSheet() {
     const c = p.colors[ci];
     $("#ssList").innerHTML = p.sizes.map(s => {
       const ok = c.avail.includes(s), low = ok && c.avail.length <= 2;
       const st = ok ? (low ? "Plus que quelques pièces" : "En stock") : "Épuisé · Me notifier";
-      const on = ok ? s === size : s === notifySize;
-      return `<button role="radio" aria-checked="${on}" data-s="${s}" class="ss-row${ok ? "" : " out"}${low ? " low" : ""}"><span class="ss-size">${s}</span><span class="ss-st">${st}</span><span class="ss-dot" aria-hidden="true"></span></button>`;
+      const on = !ok && s === notifySize;
+      return `<button data-s="${s}" class="ss-row${ok ? "" : " out"}${low ? " low" : ""}${on ? " on" : ""}${rec === s ? " rec" : ""}" aria-label="${ok ? `Ajouter la taille ${s} au panier` : `Taille ${s} épuisée, être prévenu du retour`}"><span class="ss-size">${s}</span><span class="ss-st">${st}${rec === s ? ' <em>Conseillé pour vous</em>' : ""}</span><span class="ss-go" aria-hidden="true">${ok ? "Ajouter +" : "🔔"}</span></button>`;
     }).join("");
-    const btn = $("#ssAdd");
-    if (size) { btn.disabled = false; btn.textContent = `Ajouter au panier · ${eur(p.price)}`; }
-    else { btn.disabled = true; btn.textContent = c.avail.length ? "Sélectionnez une taille" : "Aucune taille disponible"; }
   }
+  if (p.cat !== "hauts") {
+    $("#ssFinder").innerHTML = window.TIMSSAN.FINDER("ssf");
+    window.TIMSSAN.bindFinder($("#ssFinder .finder"), r => { rec = r && r.size; if (sheet.classList.contains("on")) renderSheet(); });
+    rec = null;
+    $("#ssFind").addEventListener("toggle", () => { if (!$("#ssFind").open) rec = null; else { const r = window.TIMSSAN.recSize(+$("#ssfH").value, +$("#ssfW").value); rec = r && r.size; } renderSheet(); });
+  } else $("#ssFind").hidden = true;
   $("#ssList").onclick = e => {
     const b = e.target.closest("[data-s]"); if (!b) return;
     const s = b.dataset.s;
     if (b.classList.contains("out")) {
-      size = null; notifySize = s;
+      notifySize = s;
       $("#ssNotify").hidden = false; $("#ssMsg").textContent = "";
       $("#ssNotifyT").textContent = `Me notifier dès le retour en stock du ${s}`;
       renderSheet(); setTimeout(() => $("#ssMail").focus(), 30);
     } else {
-      size = s; notifySize = null; $("#ssNotify").hidden = true; renderSheet();
+      size = s; add(p.id, p.colors[ci].name, s); closeSheet(); setTimeout(openCart, 250);
     }
   };
   $("#ssNotifyF").onsubmit = e => {
@@ -312,7 +314,6 @@
     $("#ssMsg").textContent = `C'est noté : on vous écrit dès que le ${notifySize} revient.`;
     $("#ssMail").value = "";
   };
-  $("#ssAdd").onclick = () => { if (!size) return; add(p.id, p.colors[ci].name, size); closeSheet(); setTimeout(openCart, 250); };
   $("#ssClose").onclick = closeSheet;
   sheet.addEventListener("click", e => { if (e.target === sheet) closeSheet(); });
   $("#openSize").onclick = openSheet; $("#sbBtn").onclick = openSheet;
@@ -328,7 +329,7 @@
 
   /* ---------- Avis : carrousel ---------- */
   const R = window.REVIEWS;
-  $("#rvTrack").innerHTML = R.map(r => `<article class="rvx-card"><span class="tp-stars sm" aria-label="${r.rating} sur 5"><i></i><i></i><i></i><i></i><i></i></span><h3>${r.title}</h3><p>${r.text}</p><span class="rvx-who"><b>${r.name}</b> · Avis vérifié</span></article>`).join("");
+  $("#rvTrack").innerHTML = R.map(r => `<article class="rvx-card"><span class="lx-stars" aria-label="${r.rating} sur 5">${"★".repeat(r.rating)}</span><h3>${r.title}</h3><p>${r.text}</p><span class="rvx-who"><b>${r.name}</b> · Avis vérifié</span></article>`).join("");
   $("#rvDots").innerHTML = R.map(() => "<i></i>").join("");
   const tr = $("#rvTrack");
   const cardW = () => { const c = tr.querySelector(".rvx-card"); return c ? c.getBoundingClientRect().width + 12 : tr.clientWidth; };

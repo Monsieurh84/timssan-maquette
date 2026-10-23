@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://www.timssan.com/cdn/shop/files/timssan_jogpant_jeans.png?v=1757004039">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Yellowtail&family=Barlow+Condensed:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Timssan","slogan":"Built for everyday","url":"https://www.timssan.com","description":"Pantalons casual premium pour homme, confectionnés à Casablanca."}</script>
 </head>
 <body data-page="home">
@@ -124,34 +124,15 @@
   </div>
 </section>
 
-<section class="atelier inv" id="atelier">
-  <div class="im" role="img" aria-label="Machine à coudre dans l'atelier Timssan" style="background-image:url('https://www.timssan.com/cdn/shop/files/MACHINE_ATELIER_TIMSSAN.png?v=1725876753&width=1600')"></div>
-  <div class="tx">
-    <div class="label muted">[ L'humain avant le produit ]</div>
-    <h2 class="disp">Rencontrez<br>l'atelier.</h2>
-    <p>Nos couturières et couturiers sont des spécialistes du stretch, une matière qui ne pardonne pas. Certains sont arrivés là après des parcours compliqués. Tous bossent avec cœur.</p>
-    <p>On les soutient pour qu'ils vivent de ce qu'ils aiment faire. Ils ne parlent pas beaucoup, mais ils coupent droit.</p>
-  </div>
-</section>
-
 <section id="taille">
   <div class="wrap fit">
     <div>
       <div class="label muted" style="margin-bottom:12px">[ Guide des tailles ]</div>
       <h2 class="disp" style="font-size:clamp(46px,5.8vw,92px)">Votre taille<br>en 10 secondes</h2>
-      <p class="lead" style="margin-top:22px">Mesurez votre tour de taille au niveau du nombril, ou reportez les mesures d'un pantalon qui vous va déjà. Le stretch fait le reste.</p>
-      <button class="btn ghost" data-sizes style="margin-top:12px">Voir le tableau complet</button>
+      <p class="lead" style="margin-top:22px">Pas besoin de mètre ruban : indiquez votre taille et votre poids, on fait le calcul avec le barème de l'atelier.</p>
+      <button class="btn ghost" data-sizes style="margin-top:12px">Voir le barème complet</button>
     </div>
-    <div class="fit-box stitched">
-      <label for="waist">Tour de taille <output id="wOut" for="waist">84 cm</output></label>
-      <input id="waist" type="range" min="70" max="110" value="84" step="1">
-      <label for="pref">Vous préférez le porter
-        <select id="pref"><option value="0">Ajusté, comme sur les photos</option><option value="1">Plus ample, détendu</option></select>
-      </label>
-      <div class="sizes" id="sizes"><span>38</span><span>40</span><span>42</span><span>44</span><span>46</span></div>
-      <p class="res" id="fitRes"></p>
-      <p class="label muted" style="margin:0">Barème indicatif, à caler sur le guide officiel</p>
-    </div>
+    <div class="fit-box stitched" id="homeFinder"></div>
   </div>
 </section>
 
@@ -162,7 +143,7 @@
       <a class="tp-badge lg" href="https://fr.trustpilot.com/review/timssan.com" target="_blank" rel="noopener" aria-label="Trustpilot : 4,8 sur 5, Excellent. Voir les avis">
         <span class="tp-logo"><svg viewBox="0 0 24 23" aria-hidden="true"><path d="M12 0l2.8 8.6H24l-7.4 5.4 2.8 8.7L12 17.3l-7.4 5.4 2.8-8.7L0 8.6h9.2z"/></svg>Trustpilot</span>
         <span class="tp-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="part"></i></span>
-        <span class="tp-txt"><b>Excellent</b> · 4,8/5 · plus de 25 000 clients satisfaits</span>
+        <span class="tp-txt"><b>Excellent</b> · 4,8 sur 5</span>
       </a>
     </div>
     <div class="rail" tabindex="0" aria-label="Avis clients">
@@ -208,8 +189,8 @@
 <div style="height:72px"></div>
 </main>
 
-<script src="data.js?v=4"></script>
-<script src="app.js?v=4"></script>
+<script src="data.js?v=5"></script>
+<script src="app.js?v=5"></script>
 <script>
 (() => {
   const v = document.getElementById("heroVid"), b = document.getElementById("heroVidBtn");
@@ -225,14 +206,7 @@
   const pins = $$(".pin"), specs = $$(".spec");
   const sel = i => { pins.forEach((p, k) => p.setAttribute("aria-pressed", k == i)); specs.forEach((s, k) => s.classList.toggle("on", k == i)); };
   pins.forEach(p => p.onclick = () => sel(p.dataset.pin)); specs.forEach(s => s.onclick = () => sel(s.dataset.spec));
-  const g = [[38, 79], [40, 84], [42, 89], [44, 95], [46, 102]];
-  function fit() {
-    const w = +$("#waist").value, pref = +$("#pref").value; $("#wOut").textContent = w + " cm";
-    let i = g.findIndex(x => w <= x[1]); if (i < 0) i = 4; if (pref && i < 4) i++;
-    $$("#sizes span").forEach((s, k) => s.classList.toggle("hit", k === i));
-    $("#fitRes").textContent = w > 102 ? "Au-delà du 46 : écrivez-nous, on vous conseille la meilleure coupe." : `On vous conseille le ${g[i][0]}${pref ? " pour un tombé plus détendu" : ""}. Entre deux tailles ? Prenez la plus petite, la toile s'assouplit au porter.`;
-  }
-  $("#waist").oninput = fit; $("#pref").onchange = fit; fit();
+  $("#homeFinder").innerHTML = window.TIMSSAN.FINDER("hf"); window.TIMSSAN.bindFinder($("#homeFinder .finder"));
   $("#nl").addEventListener("submit", e => { e.preventDefault(); const ok = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($("#email").value); const m = $("#nlMsg"); m.textContent = ok ? "Bienvenue dans le club. Votre code de bienvenue arrive par e-mail." : "Cette adresse semble incomplète : vérifiez le @ et le domaine."; if (ok) $("#email").value = ""; });
 })();
 </script>
