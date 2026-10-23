@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Yellowtail&family=Barlow+Condensed:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body data-page="product">
 <main>
@@ -24,7 +24,7 @@
           <button class="pg-nav prev" id="prev" aria-label="Photo précédente">←</button>
           <button class="pg-nav next" id="next" aria-label="Photo suivante">→</button>
           <span class="badge label" id="pBadge" hidden></span>
-          <div class="pg-meta"><span class="label" id="count"></span><span class="label hide-s" id="zoomHint">Cliquer pour zoomer</span></div>
+          <div class="pg-meta"><span class="label" id="count"></span></div>
           <div class="pg-dots" id="dots" aria-hidden="true"></div>
         </div>
       </div>
@@ -134,15 +134,9 @@
   </div>
 </div>
 
-<!-- Zoom plein écran -->
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photos en grand" aria-hidden="true">
-  <div class="lb-top"><span class="label" id="lbCount"></span><button id="lbClose">Fermer ✕</button></div>
-  <div class="lb-img"><button class="pg-nav prev" id="lbPrev" aria-label="Photo précédente">←</button><img id="lbImg" alt=""><video id="lbVid" muted loop playsinline hidden></video><button class="pg-nav next" id="lbNext" aria-label="Photo suivante">→</button></div>
-  <div class="lb-thumbs" id="lbThumbs"></div>
-</div>
 
-<script src="data.js?v=5"></script>
-<script src="app.js?v=5"></script>
+<script src="data.js?v=6"></script>
+<script src="app.js?v=6"></script>
 <script>
 (() => {
   const { $, $$, eur, priceHTML, byId, card, add, openCart, seo, toast } = window.TIMSSAN;
@@ -212,7 +206,6 @@
     $("#count").textContent = String(idx + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
     $$("#thumbs button").forEach((b, k) => b.setAttribute("aria-current", k === idx));
     $$("#dots i").forEach((d, k) => d.classList.toggle("on", k === idx));
-    $("#zoomHint").textContent = M[idx].t === "video" ? "Vidéo" : "Cliquer pour zoomer";
     const tb = $$("#thumbs button")[idx]; if (tb) tb.scrollIntoView({ block: "nearest" });
     syncVideos();
   }
@@ -220,35 +213,10 @@
   $("#thumbs").addEventListener("mouseover", e => { const b = e.target.closest("[data-i]"); if (b && matchMedia("(hover:hover)").matches) go(+b.dataset.i); });
   $("#prev").onclick = e => { e.stopPropagation(); go(idx - 1); };
   $("#next").onclick = e => { e.stopPropagation(); go(idx + 1); };
-  $("#stage").onclick = e => { if (e.target.closest(".pg-nav")) return; if (matchMedia("(min-width:861px)").matches) openLb(idx); };
   let x0 = null, y0 = null, moved = false;
   $("#stage").addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; moved = false; }, { passive: true });
   $("#stage").addEventListener("touchmove", e => { if (x0 === null) return; const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0; if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) { moved = true; $("#track").style.transition = "none"; $("#track").style.transform = `translateX(calc(${-idx * 100}% + ${dx}px))`; } }, { passive: true });
-  $("#stage").addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; $("#track").style.transition = ""; if (moved && Math.abs(dx) > 50) go(idx + (dx < 0 ? 1 : -1)); else if (!moved) openLb(idx); else go(idx); x0 = null; });
-
-  /* ---------- Zoom plein écran (photos et vidéo) ---------- */
-  let lbList = [], lbI = 0;
-  function openLb(i, list) {
-    lbList = list || M; lbI = i;
-    $("#lbThumbs").innerHTML = lbList.map((m, k) => `<button data-k="${k}" aria-label="${m.t === "video" ? "Vidéo" : "Photo " + (k + 1)}"><img src="${m.t === "video" ? m.poster : img(m.f, 120)}" alt="" onerror="${ERR}"></button>`).join("");
-    lbGo(i); $("#lb").classList.add("on"); $("#lb").setAttribute("aria-hidden", "false"); document.body.classList.add("lock"); $("#lbClose").focus();
-  }
-  function lbGo(i) {
-    const n = lbList.length; lbI = (i + n) % n; const m = lbList[lbI];
-    const v = $("#lbVid"), im = $("#lbImg");
-    if (m.t === "video") {
-      im.hidden = true; v.hidden = false;
-      const sv = $("#track video"), t = sv ? sv.currentTime : 0;
-      if (v.getAttribute("src") !== m.src) { v.src = m.src; v.addEventListener("loadedmetadata", () => { v.currentTime = t; }, { once: true }); } else v.currentTime = t;
-      if (sv) sv.pause(); v.play().catch(() => {});
-    }
-    else { v.pause(); v.hidden = true; im.hidden = false; im.src = img(m.f, 2000); im.alt = `${p.name}, photo ${lbI + 1}`; }
-    $("#lbCount").textContent = `${lbI + 1} / ${n}`;
-    $$("#lbThumbs button").forEach((b, k) => b.setAttribute("aria-current", k === lbI));
-  }
-  function closeLb() { const lv = $("#lbVid"), sv = $("#track video"); if (sv && !lv.hidden && lv.currentTime) sv.currentTime = lv.currentTime; lv.pause(); $("#lb").classList.remove("on"); $("#lb").setAttribute("aria-hidden", "true"); document.body.classList.remove("lock"); syncVideos(); }
-  $("#lbClose").onclick = closeLb; $("#lbPrev").onclick = () => lbGo(lbI - 1); $("#lbNext").onclick = () => lbGo(lbI + 1);
-  $("#lbThumbs").onclick = e => { const b = e.target.closest("[data-k]"); if (b) lbGo(+b.dataset.k); };
+  $("#stage").addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; $("#track").style.transition = ""; if (moved && Math.abs(dx) > 50) go(idx + (dx < 0 ? 1 : -1)); else go(idx); x0 = null; });
 
   /* ---------- Couleurs ---------- */
   function renderColors() {
@@ -319,7 +287,6 @@
   $("#openSize").onclick = openSheet; $("#sbBtn").onclick = openSheet;
   document.addEventListener("keydown", e => {
     if (e.key === "Escape" && sheet.classList.contains("on") && !$("#sizeModal.on")) { closeSheet(); return; }
-    if ($("#lb").classList.contains("on")) { if (e.key === "ArrowRight") lbGo(lbI + 1); if (e.key === "ArrowLeft") lbGo(lbI - 1); if (e.key === "Escape") closeLb(); return; }
     if (sheet.classList.contains("on") || e.target.closest("input,textarea,select")) return;
     if (e.key === "ArrowRight") go(idx + 1); if (e.key === "ArrowLeft") go(idx - 1);
   });
@@ -344,9 +311,7 @@
 
   /* ---------- En situation ---------- */
   $("#lookIntro").textContent = `${p.name} hors studio : en ville, en mouvement, de près. Pour s'asseoir longtemps sans tirer sur la couture.`;
-  const LK = p.look.map(l => ({ t: "img", f: l[0] }));
   $("#lookGrid").innerHTML = p.look.map(([f, t, d], i) => `<figure><div class="fr" data-l="${i}"><img src="${img(f, i ? 900 : 1200)}" alt="${p.name} — ${t}" loading="lazy" width="1000" height="1500" onerror="${ERR}"></div><figcaption><b>${t}</b><span>${d}</span></figcaption></figure>`).join("");
-  $("#lookGrid").onclick = e => { const f = e.target.closest("[data-l]"); if (f) openLb(+f.dataset.l, LK); };
 
   /* ---------- Ventes croisées ---------- */
   const pairs = { jogpants: ["built", "blevo", "parfum-22-09", "elvi"], "pantalons-7-8": ["built", "lom", "parfum-22-09", "nuby"], "bermudas-longs": ["built", "axis", "miro", "parfum-22-09"], hauts: ["lom", "elvi", "nuby", "blevo"] };

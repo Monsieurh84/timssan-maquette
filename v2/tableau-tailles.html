@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Générateur tableau des tailles · Timssan</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Barlow+Condensed:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#FFFCF5;--ink:#0F2E4B;--line:#C9D1D8;--tint:#F1EFE8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 Inter,-apple-system,Arial,sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px max(16px,3vw);border-bottom:2px dashed var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+header b{font-family:"Bricolage Grotesque",Arial Black,sans-serif;font-stretch:75%;font-weight:800;font-size:24px;letter-spacing:.01em}
+header span{font-family:"Barlow Condensed",sans-serif;letter-spacing:.18em;text-transform:uppercase;font-size:13px;opacity:.75}
+main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;padding:22px max(16px,3vw) 60px;align-items:start}
+.panel{display:grid;gap:18px}
+fieldset{border:0;margin:0;padding:16px;background:var(--tint);display:grid;gap:12px}
+legend{font-family:"Barlow Condensed",sans-serif;font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:14px;padding:0;float:left;width:100%;margin-bottom:4px}
+label{display:grid;gap:6px;font-weight:600;font-size:14px}
+input[type=text],input[type=url],select,textarea{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:0;box-shadow:inset 0 0 0 1.5px var(--line);padding:10px 12px;width:100%;min-width:0}
+input:focus,select:focus,textarea:focus{outline:none;box-shadow:inset 0 0 0 2px var(--ink)}
+input[type=range]{accent-color:var(--ink);width:100%}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{font:inherit;font-weight:600;border:0;background:var(--ink);color:var(--bg);padding:12px 16px;cursor:pointer}
+.btn.ghost{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn.sm{padding:8px 12px;font-size:14px}
+.bar{display:flex;gap:8px;flex-wrap:wrap}
+.grid-ed{overflow-x:auto}
+.grid-ed table{border-collapse:collapse;min-width:100%}
+.grid-ed td,.grid-ed th{padding:3px}
+.grid-ed th{font-family:"Barlow Condensed",sans-serif;font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:12px;text-align:left;white-space:nowrap;opacity:.8}
+.grid-ed input{padding:8px;font-size:15px;text-align:center;min-width:56px}
+.grid-ed input.lab{text-align:left;min-width:170px}
+.grid-ed input.let{min-width:40px;width:44px}
+.hint{font-size:13px;opacity:.8;margin:0}
+.prev{position:sticky;top:76px;display:grid;gap:12px}
+canvas{width:100%;height:auto;background:#fff;box-shadow:0 0 0 1px var(--line);touch-action:none;cursor:grab}
+.msg{font-size:14px;min-height:1.4em;margin:0}
+@media (max-width:900px){main{grid-template-columns:1fr}.prev{position:static;order:-1}}
+</style>
+</head>
+<body>
+<header><div><b>TIMSSAN</b> <span>· Générateur de tableau des tailles</span></div><button class="btn" id="dl">Télécharger le PNG</button></header>
+<main>
+  <div class="panel">
+    <fieldset>
+      <legend>Modèle</legend>
+      <div class="row2">
+        <label>Partir de
+          <select id="preset"></select>
+        </label>
+        <label>Style
+          <select id="theme"><option value="classic">Actuel (noir sur blanc)</option><option value="brand">Brand book (bleu sur crème)</option></select>
+        </label>
+      </div>
+      <div class="bar"><button class="btn ghost sm" id="save">Enregistrer ce modèle</button><button class="btn ghost sm" id="del">Supprimer le modèle</button></div>
+      <p class="hint">Les modèles enregistrés restent dans ce navigateur.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Textes</legend>
+      <label>Titre <input type="text" id="title"></label>
+      <label>Sous-titre du tableau <input type="text" id="sub"></label>
+      <label>Note en bas <input type="text" id="note"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Photos</legend>
+      <label>Photo du produit (PNG détouré idéalement)
+        <input type="file" id="pFile" accept="image/*">
+      </label>
+      <label>… ou adresse de l'image Shopify <input type="url" id="pUrl" placeholder="https://cdn.shopify.com/…"></label>
+      <label>Taille de la photo <input type="range" id="pScale" min="60" max="130" value="100"></label>
+      <label>Photo de fond (facultatif, affichée en transparence)
+        <input type="file" id="bFile" accept="image/*">
+      </label>
+      <label>Transparence du fond <input type="range" id="bOp" min="0" max="40" value="14"></label>
+      <p class="hint">Les flèches A, B, C se déplacent directement sur l'aperçu : attrapez un bout de flèche ou une lettre.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Mesures (en cm)</legend>
+      <div class="grid-ed"><table id="ed"></table></div>
+      <div class="bar">
+        <button class="btn ghost sm" id="addS">+ Taille</button><button class="btn ghost sm" id="remS">− Taille</button>
+        <button class="btn ghost sm" id="addR">+ Mesure</button><button class="btn ghost sm" id="remR">− Mesure</button>
+      </div>
+    </fieldset>
+  </div>
+
+  <div class="prev">
+    <canvas id="cv" width="1080" height="1500" aria-label="Aperçu du tableau des tailles"></canvas>
+    <p class="msg" id="msg" role="status"></p>
+  </div>
+</main>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const CDN = "https://cdn.shopify.com/s/files/1/0454/2693/3911/files/";
+  const W = 1080, PAD = 60;
+  const BUILTIN = {
+    "Jogpant jeans": {
+      title: "JOGPANT JEANS", sub: "TABLEAU DE MESURE EN CM*", note: "*Il est important de considérer une marge de tolérance allant de 0,5 à 1 cm.",
+      img: CDN + "pantalon_jeans_jogpant_2_stone_09.png?width=900",
+      eu: ["38", "40", "42", "44", "46"], us: ["US28", "US30", "US32", "US34", "US36"],
+      rows: [
+        { l: "A", t: "1/2 TOUR CEINTURE", v: ["38", "40", "42", "44", "46"], a: [.30, .06, .70, .06], p: [.72, .1] },
+        { l: "B", t: "1/2 TOUR BASSIN", v: ["52", "54", "56", "60", "62"], a: [.26, .30, .74, .30], p: [.76, .35] },
+        { l: "C", t: "LONGUEUR", v: ["99", "100", "103", "105", "107"], a: [.28, .06, .28, .97], p: [.23, .62] }
+      ]
+    },
+    "Vierge": {
+      title: "NOM DU PRODUIT", sub: "TABLEAU DE MESURE EN CM*", note: "*Il est important de considérer une marge de tolérance allant de 0,5 à 1 cm.",
+      img: "", eu: ["38", "40", "42", "44", "46"], us: ["US28", "US30", "US32", "US34", "US36"],
+      rows: [{ l: "A", t: "MESURE", v: ["", "", "", "", ""], a: [.3, .1, .7, .1], p: [.72, .14] }]
+    }
+  };
+  const store = { get() { try { return JSON.parse(localStorage.getItem("timssan-tt") || "{}"); } catch (e) { return {}; } }, set(o) { try { localStorage.setItem("timssan-tt", JSON.stringify(o)); return true; } catch (e) { return false; } } };
+  let S, prodImg = null, bgImg = null, layout = null;
+  const clone = o => JSON.parse(JSON.stringify(o));
+  const msg = t => { $("#msg").textContent = t; };
+
+  function fillPresets(sel) {
+    const mine = store.get();
+    $("#preset").innerHTML = Object.keys(BUILTIN).map(k => `<option value="b:${k}">${k}</option>`).join("") +
+      (Object.keys(mine).length ? `<optgroup label="Mes modèles">${Object.keys(mine).map(k => `<option value="m:${k}">${k}</option>`).join("")}</optgroup>` : "");
+    if (sel) $("#preset").value = sel;
+  }
+  function loadPreset(v) {
+    const [t, k] = [v.slice(0, 1), v.slice(2)];
+    S = clone(t === "b" ? BUILTIN[k] : store.get()[k]);
+    $("#title").value = S.title; $("#sub").value = S.sub; $("#note").value = S.note; $("#pUrl").value = S.img && !S.img.startsWith("data:") ? S.img : "";
+    $("#theme").value = S.theme || "classic"; $("#pScale").value = S.scale || 100;
+    loadImg(S.img).then(i => { prodImg = i; draw(); });
+    buildEditor(); draw();
+  }
+  function loadImg(src) {
+    return new Promise(res => {
+      if (!src) return res(null);
+      const i = new Image(); i.crossOrigin = "anonymous";
+      i.onload = () => res(i); i.onerror = () => { msg("Impossible de charger cette image : importez plutôt le fichier."); res(null); };
+      i.src = src;
+    });
+  }
+  const readFile = f => new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(f); });
+
+  /* ---------- Éditeur du tableau ---------- */
+  function buildEditor() {
+    const n = S.eu.length;
+    $("#ed").innerHTML =
+      `<tr><th></th><th>Taille EU</th>${S.eu.map((x, j) => `<td><input data-k="eu" data-j="${j}" value="${x}"></td>`).join("")}</tr>` +
+      `<tr><th></th><th>Taille US</th>${S.us.map((x, j) => `<td><input data-k="us" data-j="${j}" value="${x}"></td>`).join("")}</tr>` +
+      S.rows.map((r, i) => `<tr><td><input class="let" data-k="l" data-i="${i}" value="${r.l}" aria-label="Lettre"></td><td><input class="lab" data-k="t" data-i="${i}" value="${r.t}" aria-label="Nom de la mesure"></td>${r.v.map((x, j) => `<td><input data-k="v" data-i="${i}" data-j="${j}" value="${x}" inputmode="decimal" aria-label="${r.t} ${S.eu[j]}"></td>`).join("")}</tr>`).join("");
+  }
+  $("#ed").addEventListener("input", e => {
+    const t = e.target, k = t.dataset.k, i = +t.dataset.i, j = +t.dataset.j;
+    if (k === "eu" || k === "us") S[k][j] = t.value; else if (k === "v") S.rows[i].v[j] = t.value; else S.rows[i][k] = t.value;
+    draw();
+  });
+  $("#addS").onclick = () => { S.eu.push(""); S.us.push(""); S.rows.forEach(r => r.v.push("")); buildEditor(); draw(); };
+  $("#remS").onclick = () => { if (S.eu.length < 2) return; S.eu.pop(); S.us.pop(); S.rows.forEach(r => r.v.pop()); buildEditor(); draw(); };
+  $("#addR").onclick = () => { const L = String.fromCharCode(65 + S.rows.length), y = .15 + .12 * S.rows.length; S.rows.push({ l: L, t: "MESURE", v: S.eu.map(() => ""), a: [.3, y, .7, y], p: [.72, y + .04] }); buildEditor(); draw(); };
+  $("#remR").onclick = () => { if (S.rows.length < 2) return; S.rows.pop(); buildEditor(); draw(); };
+
+  ["title", "sub", "note"].forEach(id => $("#" + id).addEventListener("input", e => { S[id] = e.target.value; draw(); }));
+  $("#theme").onchange = e => { S.theme = e.target.value; draw(); };
+  $("#pScale").oninput = e => { S.scale = +e.target.value; draw(); };
+  $("#bOp").oninput = draw;
+  $("#pFile").onchange = async e => { const f = e.target.files[0]; if (!f) return; S.img = await readFile(f); prodImg = await loadImg(S.img); $("#pUrl").value = ""; draw(); };
+  $("#pUrl").onchange = async e => { S.img = e.target.value.trim(); prodImg = await loadImg(S.img); draw(); };
+  $("#bFile").onchange = async e => { const f = e.target.files[0]; if (!f) return; bgImg = await loadImg(await readFile(f)); draw(); };
+
+  /* ---------- Rendu ---------- */
+  const TH = {
+    classic: { bg: "#FFFFFF", ink: "#111111", line: "#111111", title: "800 46px Poppins", sub: "300 34px Poppins", head: "600 22px Poppins", cell: "600 30px Poppins", lab: "600 22px Poppins", note: "400 22px Poppins", us: "400 24px Poppins" },
+    brand: { bg: "#FFFCF5", ink: "#0F2E4B", line: "#0F2E4B", title: "800 64px 'Bricolage Grotesque'", sub: "500 30px 'Barlow Condensed'", head: "600 24px 'Barlow Condensed'", cell: "600 34px 'Barlow Condensed'", lab: "600 24px 'Barlow Condensed'", note: "400 22px Inter", us: "400 24px 'Barlow Condensed'" }
+  };
+  function arrow(ctx, x1, y1, x2, y2, c) {
+    ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 4; ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+    const ang = Math.atan2(y2 - y1, x2 - x1), h = 18;
+    [[x2, y2, ang], [x1, y1, ang + Math.PI]].forEach(([x, y, a]) => {
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - h * Math.cos(a - .45), y - h * Math.sin(a - .45)); ctx.moveTo(x, y); ctx.lineTo(x - h * Math.cos(a + .45), y - h * Math.sin(a + .45)); ctx.stroke();
+    });
+  }
+  function draw(forExport) {
+    if (!S) return;
+    const T = TH[S.theme || "classic"], cv = $("#cv"), n = S.eu.length;
+    const rowH = 96, headH = 92, tableTop = 960, H = Math.max(1350, tableTop + headH + S.rows.length * rowH + 150);
+    if (cv.height !== H) cv.height = H;
+    const ctx = cv.getContext("2d");
+    ctx.fillStyle = T.bg; ctx.fillRect(0, 0, W, H);
+    if (bgImg) {
+      ctx.globalAlpha = +$("#bOp").value / 100;
+      const r = Math.max(W / bgImg.width, H / bgImg.height), w = bgImg.width * r, h = bgImg.height * r;
+      ctx.drawImage(bgImg, (W - w) / 2, (H - h) / 2, w, h); ctx.globalAlpha = 1;
+    }
+    ctx.fillStyle = T.ink; ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    ctx.font = T.title; ctx.fillText(S.title, W / 2, 96);
+    // zone photo
+    const k = (S.scale || 100) / 100, bw = 520 * k, bh = 700 * k, box = { x: (W - bw) / 2, y: 130 + (700 - bh) / 2, w: bw, h: bh };
+    let im = box;
+    if (prodImg) {
+      const r = Math.min(box.w / prodImg.width, box.h / prodImg.height), w = prodImg.width * r, h = prodImg.height * r;
+      im = { x: box.x + (box.w - w) / 2, y: box.y + (box.h - h) / 2, w, h };
+      ctx.drawImage(prodImg, im.x, im.y, w, h);
+    } else if (!forExport) {
+      ctx.setLineDash([10, 8]); ctx.strokeStyle = "#B8C2CC"; ctx.lineWidth = 2; ctx.strokeRect(box.x, box.y, box.w, box.h); ctx.setLineDash([]);
+      ctx.font = "400 24px Inter"; ctx.fillStyle = "#8A98A6"; ctx.fillText("Importez la photo du produit", W / 2, box.y + box.h / 2); ctx.fillStyle = T.ink;
+    }
+    layout = { im, handles: [] };
+    S.rows.forEach((r, i) => {
+      const P = (x, y) => [im.x + x * im.w, im.y + y * im.h];
+      const [x1, y1] = P(r.a[0], r.a[1]), [x2, y2] = P(r.a[2], r.a[3]), [lx, ly] = P(r.p[0], r.p[1]);
+      arrow(ctx, x1, y1, x2, y2, T.ink);
+      ctx.font = "500 34px Poppins"; ctx.fillStyle = T.ink; ctx.textBaseline = "middle"; ctx.fillText(r.l, lx, ly); ctx.textBaseline = "alphabetic";
+      layout.handles.push({ i, w: "a0", x: x1, y: y1 }, { i, w: "a1", x: x2, y: y2 }, { i, w: "p", x: lx, y: ly });
+      if (!forExport && dragging && dragging.i === i) { ctx.fillStyle = "rgba(15,46,75,.25)"; [[x1, y1], [x2, y2], [lx, ly]].forEach(([x, y]) => { ctx.beginPath(); ctx.arc(x, y, 14, 0, 7); ctx.fill(); }); }
+    });
+    // sous-titre
+    ctx.fillStyle = T.ink; ctx.font = T.sub; ctx.fillText(S.sub, W / 2, tableTop - 50);
+    // tableau
+    const labW = 300, x0 = PAD, cw = (W - 2 * PAD - labW) / n;
+    ctx.font = T.head; ctx.textAlign = "center";
+    const hl = ["TAILLE EUROPÉENNE", "(TAILLE US)"];
+    ctx.fillText(hl[0], x0 + labW / 2, tableTop + 34); ctx.fillText(hl[1], x0 + labW / 2, tableTop + 64);
+    S.eu.forEach((s, j) => {
+      const cx = x0 + labW + cw * j + cw / 2;
+      ctx.font = T.us; ctx.fillText(s, cx, tableTop + 34); if (S.us[j]) ctx.fillText(`(${S.us[j]})`, cx, tableTop + 64);
+    });
+    const ty = tableTop + headH;
+    ctx.strokeStyle = T.line; ctx.lineWidth = 2;
+    ctx.strokeRect(x0, ty, W - 2 * PAD, S.rows.length * rowH);
+    for (let i = 1; i < S.rows.length; i++) { ctx.beginPath(); ctx.moveTo(x0, ty + i * rowH); ctx.lineTo(W - PAD, ty + i * rowH); ctx.stroke(); }
+    for (let j = 0; j <= n - 1; j++) { const x = x0 + labW + cw * j; ctx.beginPath(); ctx.moveTo(x, ty); ctx.lineTo(x, ty + S.rows.length * rowH); ctx.stroke(); }
+    S.rows.forEach((r, i) => {
+      const cy = ty + i * rowH + rowH / 2;
+      ctx.textBaseline = "middle"; ctx.textAlign = "left"; ctx.font = T.lab;
+      const lab = `${r.l} : ${r.t}`; let fs = parseInt(T.lab.split(" ")[1]);
+      while (ctx.measureText(lab).width > labW - 24 && fs > 14) { fs--; ctx.font = T.lab.replace(/\d+px/, fs + "px"); }
+      ctx.fillText(lab, x0 + 14, cy);
+      ctx.textAlign = "center"; ctx.font = T.cell;
+      r.v.forEach((v, j) => ctx.fillText(v, x0 + labW + cw * j + cw / 2, cy));
+      ctx.textBaseline = "alphabetic";
+    });
+    ctx.textAlign = "center"; ctx.font = T.note; ctx.fillText(S.note, W / 2, ty + S.rows.length * rowH + 70);
+  }
+
+  /* ---------- Déplacer les flèches sur l'aperçu ---------- */
+  let dragging = null;
+  const pt = e => { const r = $("#cv").getBoundingClientRect(), s = W / r.width; return [(e.clientX - r.left) * s, (e.clientY - r.top) * s]; };
+  $("#cv").addEventListener("pointerdown", e => {
+    if (!layout) return; const [x, y] = pt(e);
+    let best = null, bd = 60;
+    layout.handles.forEach(h => { const d = Math.hypot(h.x - x, h.y - y); if (d < bd) { bd = d; best = h; } });
+    if (best) { dragging = best; $("#cv").setPointerCapture(e.pointerId); $("#cv").style.cursor = "grabbing"; draw(); }
+  });
+  $("#cv").addEventListener("pointermove", e => {
+    if (!dragging) return; const [x, y] = pt(e), im = layout.im, r = S.rows[dragging.i];
+    const nx = (x - im.x) / im.w, ny = (y - im.y) / im.h;
+    if (dragging.w === "a0") { r.a[0] = nx; r.a[1] = ny; } else if (dragging.w === "a1") { r.a[2] = nx; r.a[3] = ny; } else { r.p = [nx, ny]; }
+    draw();
+  });
+  const stop = () => { if (dragging) { dragging = null; $("#cv").style.cursor = "grab"; draw(); } };
+  $("#cv").addEventListener("pointerup", stop); $("#cv").addEventListener("pointercancel", stop);
+
+  /* ---------- Enregistrer / exporter ---------- */
+  $("#save").onclick = () => {
+    const name = (S.title || "Modèle").trim();
+    const all = store.get(); all[name] = clone(S);
+    if (store.set(all)) { fillPresets("m:" + name); msg(`Modèle « ${name} » enregistré.`); } else msg("Enregistrement impossible dans ce navigateur (navigation privée ?).");
+  };
+  $("#del").onclick = () => {
+    const v = $("#preset").value; if (!v.startsWith("m:")) { msg("Seuls vos modèles enregistrés peuvent être supprimés."); return; }
+    const all = store.get(); delete all[v.slice(2)]; store.set(all); fillPresets("b:Jogpant jeans"); loadPreset("b:Jogpant jeans"); msg("Modèle supprimé.");
+  };
+  $("#preset").onchange = e => loadPreset(e.target.value);
+  $("#dl").onclick = () => {
+    draw(true);
+    try {
+      $("#cv").toBlob(b => {
+        const a = document.createElement("a"), slug = (S.title || "tableau").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+        a.href = URL.createObjectURL(b); a.download = `tableau-tailles-${slug}.png`; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000); draw(); msg("PNG téléchargé : il est prêt à être ajouté à la fiche produit.");
+      }, "image/png");
+    } catch (err) { draw(); msg("Le navigateur bloque l'export avec cette image en ligne : importez la photo depuis votre appareil puis réessayez."); }
+  };
+
+  fillPresets("b:Jogpant jeans");
+  document.fonts.load("800 46px Poppins").then(() => Promise.all(["300 34px Poppins", "600 22px Poppins", "800 64px 'Bricolage Grotesque'", "600 24px 'Barlow Condensed'"].map(f => document.fonts.load(f)))).finally(() => loadPreset("b:Jogpant jeans"));
+})();
+</script>
+</body>
+</html>

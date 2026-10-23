@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Yellowtail&family=Barlow+Condensed:wght@200;300;400;500;600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 <style>
 /* Univers 22.09 : palette tirée du flacon — jus ambré, pêche, safran, pistache, écrin ivoire. Header et footer restent Timssan. */
 .fx main,.fx .sticky-buy,.fx #lb{--bg:#FBF5EC;--ink:#3A2214;--amber:#C8862E;--peach:#EFA77A;--saffron:#B23A1E;--pista:#8E9A5A;
@@ -29,7 +29,7 @@
 .rule{height:0;border:0;border-top:3px solid currentColor;margin:0}
 .f-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,4.5vw,80px);align-items:start;padding-bottom:clamp(56px,7vw,104px)}
 .f-gal{display:grid;gap:10px;position:sticky;top:calc(var(--hd) + 16px)}
-.f-main{background:#fff;aspect-ratio:4/5;max-width:100%;position:relative;overflow:hidden;cursor:zoom-in}
+.f-main{background:#fff;aspect-ratio:4/5;max-width:100%;position:relative;overflow:hidden;}
 .f-main img{width:100%;height:100%;object-fit:contain;transition:opacity .35s}
 .f-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .f-thumbs button{padding:0;border:0;background:#fff;aspect-ratio:1;opacity:.5;outline:1.5px dashed transparent;outline-offset:2px}
@@ -232,8 +232,8 @@
   <div class="lb-thumbs"></div>
 </div>
 
-<script src="data.js?v=5"></script>
-<script src="app.js?v=5"></script>
+<script src="data.js?v=6"></script>
+<script src="app.js?v=6"></script>
 <script>
 (() => {
   const { $, $$, eur, priceHTML, byId, card, add, openCart, seo } = window.TIMSSAN;
@@ -253,7 +253,6 @@
   const lbGo = i => { li = (i + L.length) % L.length; $("#lbImg").src = img(L[li], 2000); $("#lbCount").textContent = `${li + 1} / ${L.length}`; };
   const openLb = (i, list) => { L = list || G; lbGo(i); $("#lb").classList.add("on"); $("#lb").setAttribute("aria-hidden", "false"); document.body.classList.add("lock"); };
   const closeLb = () => { $("#lb").classList.remove("on"); $("#lb").setAttribute("aria-hidden", "true"); document.body.classList.remove("lock"); };
-  $("#fMain").onclick = () => openLb(gi);
   $("#lbClose").onclick = closeLb; $("#lbPrev").onclick = () => lbGo(li - 1); $("#lbNext").onclick = () => lbGo(li + 1);
   document.addEventListener("keydown", e => { if (!$("#lb").classList.contains("on")) return; if (e.key === "Escape") closeLb(); if (e.key === "ArrowRight") lbGo(li + 1); if (e.key === "ArrowLeft") lbGo(li - 1); });
 
@@ -286,7 +285,6 @@
   /* L'objet : visuels entiers */
   const LK = p.look.map(l => l[0]);
   $("#lookGrid").innerHTML = p.look.map(([f, t, d], i) => `<figure><div class="fr" data-l="${i}"><img src="${img(f, i ? 900 : 1200)}" alt="22.09 — ${t}" loading="lazy" width="1000" height="1500" onerror="${ERR}"></div><figcaption><b>${t}</b><span>${d}</span></figcaption></figure>`).join("");
-  $("#lookGrid").onclick = e => { const f = e.target.closest("[data-l]"); if (f) openLb(+f.dataset.l, LK); };
 
   /* Ventes croisées vêtements */
   $("#xGrid").innerHTML = ["nuby", "lom", "elvi", "built"].map(id => card(byId(id))).join("");

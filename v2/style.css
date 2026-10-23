@@ -720,3 +720,4 @@ footer a:hover{text-decoration:underline dashed;text-underline-offset:4px}
 .lx-sum{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink-80)}
 .lx-sum b{color:var(--ink)}
 .lb-img video{width:100%;height:100%;object-fit:contain}
+.pg-stage,.look-grid .fr,.f-main{cursor:default}
