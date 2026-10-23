@@ -139,7 +139,9 @@ window.PRODUCTS = [
     care: "Lavage à 30 °C, repassage doux sur l'envers."
   },
   {
-    id: "parfum-22-09", name: "22.09", type: "Eau de parfum · 100 ml", cat: "parfum", sku: "PARFUM2209100", price: 100, compare: 125, badge: "-20 % lancement",
+    id: "parfum-22-09", name: "22.09", type: "Eau de parfum · 100 ml", cat: "parfum",
+    /* couleurs d'écriture de l'étui 22.09 (vert sauge sur ivoire) — L'Homme d'Exception 10.07 : { bg:"#F4F1E8", ink:"#22384F", acc:"#476B8E", "on-acc":"#F4F1E8" } */
+    palette: { bg: "#F5F1E4", ink: "#2C463E", acc: "#557067", "on-acc": "#F5F1E4" }, sku: "PARFUM2209100", price: 100, compare: 125, badge: "-20 % lancement",
     sizes: ["100 ml"],
     colors: [{ name: "100 ml", hex: "#e3d9cc", avail: ["100 ml"],
       imgs: ["Parfum_22.09_peche_safran_et_ambre.png", "Parfum_22.09_elegance_ambree.png", "Flacon_et_boite_22.09_en_studio.png", "Parfum_22.09_en_ecrin_ivoire.png"] }],
