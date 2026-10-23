@@ -721,3 +721,13 @@ footer a:hover{text-decoration:underline dashed;text-underline-offset:4px}
 .lx-sum b{color:var(--ink)}
 .lb-img video{width:100%;height:100%;object-fit:contain}
 .pg-stage,.look-grid .fr,.f-main{cursor:default}
+/* v6 : photos de la galerie pleine surface, sans bandes blanches */
+.pg-stage{background:transparent}
+.pg-slide img,.pg-slide video{width:100%;height:100%;max-width:none;max-height:none;aspect-ratio:auto;object-fit:cover;object-position:50% 50%}
+.pg-thumbs img{object-fit:cover}
+.look-grid .fr img{width:100%;height:100%;object-fit:cover}
+@media (min-width:1081px){
+  .pdp{grid-template-columns:auto minmax(380px,1fr)}
+  .pg{grid-template-columns:72px auto;justify-content:start}
+  .pg-stage{height:100%;aspect-ratio:2/3;width:auto;max-width:calc(58vw - 86px)}
+}
