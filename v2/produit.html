@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Yellowtail&family=Barlow+Condensed:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 </head>
 <body data-page="product">
 <main>
@@ -25,8 +25,8 @@
           <button class="pg-nav next" id="next" aria-label="Photo suivante">→</button>
           <span class="badge label" id="pBadge" hidden></span>
           <div class="pg-meta"><span class="label" id="count"></span></div>
-          <div class="pg-dots" id="dots" aria-hidden="true"></div>
         </div>
+        <div class="pg-dots" id="dots" aria-hidden="true"></div>
       </div>
 
       <!-- Colonne d'achat -->
@@ -135,8 +135,8 @@
 </div>
 
 
-<script src="data.js?v=7"></script>
-<script src="app.js?v=7"></script>
+<script src="data.js?v=8"></script>
+<script src="app.js?v=8"></script>
 <script>
 (() => {
   const { $, $$, eur, priceHTML, byId, card, add, openCart, seo, toast } = window.TIMSSAN;
@@ -188,7 +188,7 @@
     $("#track").innerHTML = M.map((m, i) => m.t === "video"
       ? `<div class="pg-slide is-video"><video src="${m.src}" poster="${m.poster}" muted loop playsinline preload="metadata" aria-label="${alt(i)}"></video></div>`
       : `<div class="pg-slide"><img src="${img(m.f, i ? 1200 : 1400)}" srcset="${img(m.f, 700)} 700w, ${img(m.f, 1200)} 1200w, ${img(m.f, 1800)} 1800w" sizes="(max-width:860px) 100vw, 50vw" alt="${alt(i)}" width="1000" height="1500" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} onerror="${ERR}"></div>`).join("");
-    $("#thumbs").innerHTML = M.map((m, i) => `<button role="tab" aria-label="${m.t === "video" ? "Vidéo" : "Photo " + (i + 1)}" data-i="${i}" class="${m.t === "video" ? "is-video" : ""}"><img src="${m.t === "video" ? m.poster : img(m.f, 160)}" alt="" onerror="${ERR}"></button>`).join("");
+    $("#thumbs").innerHTML = M.map((m, i) => `<button role="tab" aria-label="${m.t === "video" ? "Vidéo" : "Photo " + (i + 1)}" data-i="${i}" class="${m.t === "video" ? "is-video" : ""}"><img src="${m.t === "video" ? m.poster : img(m.f, 240)}" alt="" width="160" height="240" decoding="async" onerror="${ERR}"></button>`).join("");
     $("#dots").innerHTML = M.map(() => "<i></i>").join("");
     idx = 0; go(0, true);
   }

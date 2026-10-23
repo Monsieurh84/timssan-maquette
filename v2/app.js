@@ -35,7 +35,7 @@ function header() {
     <div class="tools">
       <button class="icon-btn hide-xs" id="openSearch" aria-label="Rechercher">Rechercher</button>
       <a class="hide-s" href="index.html#club">Espace membres</a>
-      <button class="cart-btn" id="cartBtn" aria-label="Ouvrir le panier">Panier <b id="cartCount">0</b></button>
+      <button class="cart-btn" id="cartBtn" aria-label="Ouvrir le panier"><svg class="bag" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cb-l">Panier</span> <b id="cartCount">0</b></button>
     </div>
   </div></header>
   <nav class="mnav" id="mnav" aria-label="Menu mobile" aria-hidden="true">
@@ -237,4 +237,22 @@ window.TIMSSAN.seo = (title, desc, ld) => {
   m.content = desc;
   if (ld) { const s = document.createElement("script"); s.type = "application/ld+json"; s.textContent = JSON.stringify(ld); document.head.appendChild(s); }
 };
+})();
+
+/* ---------- Signature « Built for everyday » : tracé exact du brand book (Luminaire Script) ---------- */
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".script").forEach(el => {
+    if (/^built for everyday$/i.test(el.textContent.trim())) { el.classList.add("bfe"); el.innerHTML = '<span class="sr">Built for everyday</span>'; }
+  });
+});
+/* ---------- iOS : verrouillage du scroll fiable quand un panneau est ouvert ---------- */
+(() => {
+  let y = 0, locked = false;
+  new MutationObserver(() => {
+    const on = document.body.classList.contains("lock");
+    if (on === locked) return; locked = on;
+    const b = document.body.style;
+    if (on) { y = window.scrollY; b.position = "fixed"; b.top = -y + "px"; b.left = "0"; b.right = "0"; b.width = "100%"; }
+    else { b.position = b.top = b.left = b.right = b.width = ""; window.scrollTo(0, y); }
+  }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
 })();

@@ -8,12 +8,13 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Yellowtail&family=Barlow+Condensed:wght@200;300;400;500;600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=8">
 <style>
 /* Univers 22.09 : palette tirée du flacon — jus ambré, pêche, safran, pistache, écrin ivoire. Header et footer restent Timssan. */
 .fx main,.fx .sticky-buy,.fx #lb{--bg:#FBF5EC;--ink:#3A2214;--amber:#C8862E;--peach:#EFA77A;--saffron:#B23A1E;--pista:#8E9A5A;
   --ink-80:color-mix(in srgb,var(--ink) 88%,var(--bg));--ink-60:color-mix(in srgb,var(--ink) 72%,var(--bg));--line:color-mix(in srgb,var(--amber) 38%,var(--bg));--tint:color-mix(in srgb,var(--peach) 14%,var(--bg));--tint-2:color-mix(in srgb,var(--peach) 24%,var(--bg));
   background:var(--bg);color:var(--ink)}
+@supports not (color:color-mix(in srgb,red,blue)){.fx main,.fx .sticky-buy,.fx #lb{--ink-80:#513B2E;--ink-60:#705D50;--line:#E8CBA4;--tint:#F9EADC;--tint-2:#F8E2D1}}
 .fx main .inv{background:linear-gradient(160deg,#4A2A15 0%,#3A2214 55%,#2E1A0F 100%);color:#FBF0E2}
 .fx main .inv .muted,.fx main .inv .label{color:color-mix(in srgb,#FBF0E2 75%,#4A2A15)}
 .fx .f-label .band{background:linear-gradient(90deg,var(--peach) 0%,var(--amber) 55%,var(--saffron) 100%)}
@@ -232,8 +233,8 @@
   <div class="lb-thumbs"></div>
 </div>
 
-<script src="data.js?v=7"></script>
-<script src="app.js?v=7"></script>
+<script src="data.js?v=8"></script>
+<script src="app.js?v=8"></script>
 <script>
 (() => {
   const { $, $$, eur, priceHTML, byId, card, add, openCart, seo } = window.TIMSSAN;
