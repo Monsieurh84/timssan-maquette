@@ -27,7 +27,7 @@ function header() {
     return `<li><a href="${m.href}"${cur}>${m.label}${m.tag ? `<span class="tag mono">${m.tag}</span>` : ""}</a>${mega}</li>`;
   }).join("");
   return `
-  <div class="announce mono" aria-label="Informations livraison"><div class="track">${("<span>Livraison offerte en 24/48h</span><span>Échange offert</span><span>14 jours pour changer d'avis</span><span>Paiement en 3 ou 4 fois sans frais</span><span>Confectionné à Casablanca · Estd 2017</span>").repeat(2)}</div></div>
+  <div class="announce mono" aria-label="Informations livraison"><div class="track">${("<span>Livraison offerte en 24/48h</span><span>Échange offert</span><span>14 jours pour changer d'avis</span><span>Paiement en 3 ou 4 fois sans frais</span><span>Confectionné à Casablanca</span>").repeat(2)}</div></div>
   <header class="site"><div class="wrap hd">
     <ul class="nav" role="menubar">${nav}</ul>
     <button class="burger icon-btn mono" id="burger" aria-expanded="false" aria-controls="mnav">Menu</button>
@@ -68,15 +68,15 @@ window.TIMSSAN_MONO = MONO;
 function footer() {
   return `<footer><div class="wrap">
     <div class="ft">
-      <div><h5>Timssan</h5><p style="margin:0 0 18px;max-width:38ch">Des pantalons casual premium, bien coupés et agréables à porter, fabriqués dans le respect de l'humain et du savoir-faire. Confectionnés à Casablanca depuis 2017.</p>
-        <div class="pay label">${["CB", "Visa", "Mastercard", "Amex", "Apple Pay", "PayPal", "Shop Pay"].map(x => `<span>${x}</span>`).join("")}</div></div>
+      <div><h5>Timssan</h5><p style="margin:0 0 18px;max-width:38ch">Des pantalons casual premium, bien coupés et agréables à porter, fabriqués dans le respect de l'humain et du savoir-faire. Confectionnés à Casablanca.</p>
+        <ul class="pay" aria-label="Moyens de paiement acceptés">${[["cartes_bancaires", "CB"], ["visa", "Visa"], ["master", "Mastercard"], ["american_express", "American Express"], ["apple_pay", "Apple Pay"], ["google_pay", "Google Pay"], ["paypal", "PayPal"], ["shopify_pay", "Shop Pay"]].map(([f, n]) => `<li><img src="pay/${f}.svg" alt="${n}" title="${n}" width="38" height="24" loading="lazy"></li>`).join("")}</ul></div>
       <div><h5>Collections</h5><ul><li><a href="collection.html?c=jogpants">Jogpants</a></li><li><a href="collection.html?c=pantalons-7-8">Pantalons 7/8</a></li><li><a href="collection.html?c=pantalons">Classiques</a></li><li><a href="collection.html?c=bermudas-longs">Bermudas longs</a></li><li><a href="collection.html?c=hauts">T-shirts &amp; chemises</a></li><li><a href="parfum.html?p=parfum-22-09">Le Parfum</a></li></ul></div>
-      <div><h5>Service</h5><ul><li><a href="index.html#club">Fidélité &amp; parrainage</a></li><li><a href="index.html#taille">Guide des tailles</a></li><li><a href="index.html#services">Entretien</a></li><li><a href="#">FAQ · Contact</a></li><li><a href="index.html#avis">Avis clients</a></li><li><a href="index.html#cadeau">Carte cadeau</a></li></ul></div>
+      <div><h5>Service</h5><ul><li><a href="index.html#club">Fidélité &amp; parrainage</a></li><li><a href="index.html#taille">Guide des tailles</a></li><li><a href="#">FAQ · Contact</a></li><li><a href="index.html#avis">Avis clients</a></li></ul></div>
       <div><h5>La maison</h5><ul><li><a href="index.html#manifeste">Le manifeste</a></li><li><a href="index.html#atelier">L'atelier</a></li><li><a href="#">CGV</a></li><li><a href="#">Retours &amp; remboursements</a></li><li><a href="#">Mentions légales</a></li></ul></div>
     </div>
     <div class="foot-sign">
       <div class="wordmark" aria-hidden="true"><b>TIMSSAN</b><small>BUILT FOR EVERYDAY</small></div>
-      <div style="display:grid;gap:18px;justify-items:end"><span class="script">Built for everyday</span><div class="estd" style="color:var(--bg)"><span>ESTD</span>${MONO}<span>2017</span></div></div>
+      <div style="display:grid;gap:18px;justify-items:end"><span class="script">Built for everyday</span><div class="foot-mono" style="color:var(--bg)">${MONO}</div></div>
     </div>
     <div class="legal"><span>© 2026 Timssan · Tous droits réservés</span><span class="credit">Développé par <a href="#">Monsieur.H</a></span></div>
   </div></footer>`;

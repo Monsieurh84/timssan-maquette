@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Timssan</title>
-<meta name="description" content="Pantalon homme Timssan, cousu main à Casablanca.">
+<meta name="description" content="Pantalon homme Timssan, confectionné à Casablanca.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Yellowtail&family=Barlow+Condensed:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body data-page="product">
 <main>
@@ -16,15 +16,15 @@
     <nav class="crumbs label" aria-label="Fil d'Ariane" id="crumbs"></nav>
 
     <div class="pdp">
-      <!-- Galerie sticky -->
-      <div class="pg" id="pg" aria-roledescription="carrousel" aria-label="Photos du produit">
+      <!-- Galerie sticky : photos + vidéo -->
+      <div class="pg" id="pg" aria-roledescription="carrousel" aria-label="Photos et vidéo du produit">
         <div class="pg-thumbs" id="thumbs" role="tablist" aria-label="Choisir une photo"></div>
         <div class="pg-stage" id="stage">
           <div class="pg-track" id="track"></div>
           <button class="pg-nav prev" id="prev" aria-label="Photo précédente">←</button>
           <button class="pg-nav next" id="next" aria-label="Photo suivante">→</button>
-          <span class="badge mono" id="pBadge" hidden></span>
-          <div class="pg-meta"><span class="label" id="count"></span><span class="mono hide-s" id="zoomHint">Cliquer pour zoomer</span></div>
+          <span class="badge label" id="pBadge" hidden></span>
+          <div class="pg-meta"><span class="label" id="count"></span><span class="label hide-s" id="zoomHint">Cliquer pour zoomer</span></div>
           <div class="pg-dots" id="dots" aria-hidden="true"></div>
         </div>
       </div>
@@ -32,29 +32,41 @@
       <!-- Colonne d'achat -->
       <div class="buy">
         <div class="buy-head">
-          <div class="label muted" id="pSku"></div>
           <h1 id="pName"></h1>
           <p class="sub" id="pType"></p>
         </div>
         <div class="pr" id="pPrice"></div>
-        <a class="rating" href="#avis"><span class="stars" aria-hidden="true">★★★★★</span><span>4,8/5 · <span id="rvCountTop"></span> avis vérifiés</span></a>
+        <a class="rating" href="#avisP"><span class="tp-stars sm" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span>4,8/5 · Plus de 25 000 clients satisfaits</span></a>
 
         <div id="colorBlock"><div class="opt-h"><span>Couleur · <b id="cName"></b></span><span class="muted" id="cCount"></span></div><div class="colors" id="colors" role="group" aria-label="Couleurs"></div></div>
 
-        <div id="sizeBlock">
-          <div class="opt-h"><span>Taille <b id="sName"></b></span><button data-sizes>Guide des tailles</button></div>
-          <div class="psizes" id="psizes" role="group" aria-label="Tailles"></div>
-          <p class="stock" id="stock"></p>
-          <p class="fit-hint" id="fitHint"><i></i>Taille normalement · la plupart de nos clients prennent leur taille habituelle</p>
+        <div class="cta" id="ctaBlock">
+          <button class="btn block" id="openSize" aria-haspopup="dialog" aria-controls="sizeSheet"></button>
+          <div class="cta-sub">
+            <p class="fit-hint" id="fitHint"><i></i>Taille normalement</p>
+            <button class="lnk" data-sizes>Guide des tailles</button>
+          </div>
         </div>
-
-        <div class="cta" id="ctaBlock"></div>
 
         <div class="perks-p">
           <div><b>Livré en 24/48h</b><span class="muted">Offert en France métropolitaine</span></div>
           <div><b>Échange offert</b><span class="muted">14 jours pour changer d'avis</span></div>
           <div><b>3 ou 4 fois</b><span class="muted">Sans frais, paiement sécurisé</span></div>
         </div>
+
+        <!-- Avis : carrousel sous la réassurance, avant la description -->
+        <section class="rvx" id="avisP" aria-label="Avis clients">
+          <div class="rvx-head">
+            <div class="tp-badge" aria-label="Trustpilot : 4,8 sur 5, Excellent">
+              <span class="tp-logo"><svg viewBox="0 0 24 23" aria-hidden="true"><path d="M12 0l2.8 8.6H24l-7.4 5.4 2.8 8.7L12 17.3l-7.4 5.4 2.8-8.7L0 8.6h9.2z"/></svg>Trustpilot</span>
+              <span class="tp-stars" aria-hidden="true"><i></i><i></i><i></i><i></i><i class="part"></i></span>
+              <span class="tp-txt"><b>4,8</b>/5 · Excellent</span>
+            </div>
+            <div class="rvx-nav"><button id="rvPrev" aria-label="Avis précédent">←</button><button id="rvNext" aria-label="Avis suivant">→</button></div>
+          </div>
+          <div class="rvx-track" id="rvTrack" tabindex="0"></div>
+          <div class="rvx-dots" id="rvDots" aria-hidden="true"></div>
+        </section>
 
         <div class="acc" id="acc"></div>
 
@@ -66,7 +78,6 @@
           <div class="back">Prenez-en soin.<br>Il le rendra.</div>
         </div>
         <div class="care" id="careBlock"></div>
-        <p class="label muted" style="margin:-8px 0 0">Carte et étiquette reprises du brand book · prénoms et composition à valider</p>
       </div>
     </div>
   </div>
@@ -82,40 +93,7 @@
     </div>
   </section>
 
-  <!-- Avis -->
-  <section id="avis">
-    <div class="wrap">
-      <div class="sec-head">
-        <div><div class="label muted" style="margin-bottom:12px">Avis clients</div><h2 class="disp">Ce qu'ils<br>en disent</h2></div>
-        <button class="btn ghost" id="writeBtn">Écrire un avis</button>
-      </div>
-      <div class="rv-wrap">
-        <aside class="rv-sum" aria-label="Synthèse des avis">
-          <div>
-            <div class="rv-big"><b>4,8</b><div><div class="stars" aria-label="4,8 sur 5">★★★★★</div><span class="muted" style="font-size:14px">25 000+ clients · Trustpilot</span></div></div>
-          </div>
-          <div class="dist" id="dist" role="group" aria-label="Filtrer par note"></div>
-          <div class="fitm">
-            <b style="font-size:15px">La coupe, selon nos clients</b>
-            <span class="rail" aria-hidden="true"><i style="left:52%"></i></span>
-            <div class="lbl"><span>Taille petit</span><span>Normal</span><span>Taille grand</span></div>
-          </div>
-          <span class="demo-tag mono">Répartition et coupe : données d'exemple</span>
-        </aside>
-        <div>
-          <div class="rv-tools">
-            <span class="muted" id="rvLbl"></span>
-            <label class="sr" for="rvSort">Trier les avis</label>
-            <select id="rvSort"><option value="help">Les plus utiles</option><option value="recent">Les plus récents</option></select>
-          </div>
-          <div class="rv-list" id="rvList"></div>
-          <p class="label muted" style="margin-top:20px">Avis repris du site actuel · à brancher sur l'app d'avis produit (Judge.me, Trustpilot…)</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section style="padding-top:0">
+  <section>
     <div class="wrap">
       <div class="sec-head"><h2 class="disp" id="xTitle">Complète<br>la tenue</h2><a class="btn ghost" href="collection.html?c=pantalons">Toute la collection →</a></div>
       <div class="grid-p" id="xGrid"></div>
@@ -130,214 +108,248 @@
   <div style="height:72px"></div>
 </main>
 
-<div class="sticky-buy" id="stickyBuy"><div class="nm"><b id="sbName"></b><span class="muted" id="sbMeta"></span></div><button class="btn" id="sbBtn">Ajouter</button></div>
+<div class="sticky-buy" id="stickyBuy"><div class="nm"><b id="sbName"></b><span class="muted" id="sbMeta"></span></div><button class="btn" id="sbBtn" aria-haspopup="dialog" aria-controls="sizeSheet">Choisir ma taille</button></div>
+
+<!-- Pop-up de taille -->
+<div class="sheet" id="sizeSheet" role="dialog" aria-modal="true" aria-labelledby="ssT" aria-hidden="true">
+  <div class="sheet-in">
+    <div class="sheet-head">
+      <img id="ssImg" alt="">
+      <div><b id="ssName"></b><span class="muted" id="ssMeta"></span></div>
+      <button class="icon-btn" id="ssClose" aria-label="Fermer">Fermer ✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="opt-h"><span id="ssT">Choisissez votre taille</span><button class="lnk" data-sizes>Guide des tailles</button></div>
+      <div class="ss-list" id="ssList" role="radiogroup" aria-labelledby="ssT"></div>
+      <div class="ss-notify" id="ssNotify" hidden>
+        <b id="ssNotifyT"></b>
+        <form id="ssNotifyF" novalidate><label class="sr" for="ssMail">Adresse e-mail</label><input id="ssMail" type="email" placeholder="votre@email.fr" autocomplete="email"><button class="btn" type="submit">Me notifier</button></form>
+        <p class="ss-msg" id="ssMsg" role="status"></p>
+      </div>
+      <p class="fit-hint" id="ssFit"><i></i>Taille normalement · entre deux tailles, prenez la plus petite</p>
+    </div>
+    <div class="sheet-foot">
+      <button class="btn block" id="ssAdd" disabled>Sélectionnez une taille</button>
+      <small class="muted">Livraison offerte 24/48h · Échange offert</small>
+    </div>
+  </div>
+</div>
 
 <!-- Zoom plein écran -->
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photos en grand" aria-hidden="true">
   <div class="lb-top"><span class="label" id="lbCount"></span><button id="lbClose">Fermer ✕</button></div>
-  <div class="lb-img"><button class="pg-nav prev" id="lbPrev" aria-label="Photo précédente">←</button><img id="lbImg" alt=""><button class="pg-nav next" id="lbNext" aria-label="Photo suivante">→</button></div>
+  <div class="lb-img"><button class="pg-nav prev" id="lbPrev" aria-label="Photo précédente">←</button><img id="lbImg" alt=""><video id="lbVid" muted loop playsinline controls hidden></video><button class="pg-nav next" id="lbNext" aria-label="Photo suivante">→</button></div>
   <div class="lb-thumbs" id="lbThumbs"></div>
 </div>
 
-<!-- Écrire un avis -->
-<div class="modal" id="rvModal" role="dialog" aria-modal="true" aria-labelledby="rvmT"><div class="modal-in">
-  <button class="x" data-close>Fermer ✕</button>
-  <span class="label muted" id="rvmP"></span><h2 id="rvmT">Votre avis</h2>
-  <form class="form-g" id="rvForm" novalidate>
-    <fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:600;font-size:14px;margin-bottom:6px">Ta note</legend>
-      <div class="stars-in"></div></fieldset>
-    <label for="rvSize">Taille achetée<select id="rvSize"></select></label>
-    <label for="rvFit">La coupe<select id="rvFit"><option value="0">Taille normalement</option><option value="-1">Taille petit</option><option value="1">Taille grand</option></select></label>
-    <label for="rvTitle">Titre<input id="rvTitle" maxlength="80" placeholder="En quelques mots"></label>
-    <label for="rvText">Votre avis<textarea id="rvText" placeholder="La coupe, la matière, le confort après quelques ports…"></textarea></label>
-    <label for="rvName">Prénom<input id="rvName" autocomplete="given-name"></label>
-    <p id="rvErr" class="stock warn" style="margin:0"></p>
-    <button class="btn" type="submit">Publier mon avis</button>
-  </form>
-</div></div>
-
-<script src="data.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="data.js?v=4"></script>
+<script src="app.js?v=4"></script>
 <script>
 (() => {
   const { $, $$, eur, priceHTML, byId, card, add, openCart, seo, toast } = window.TIMSSAN;
   const img = window.img;
   const p = byId(new URLSearchParams(location.search).get("p")) || byId("lom");
+  if (p.cat === "parfum") { location.replace("parfum.html" + location.search); return; }
   const col = Object.entries(window.COLLECTIONS).find(([k, c]) => c.cats.includes(p.cat) && k !== "pantalons") || ["pantalons", window.COLLECTIONS.pantalons];
-  const isPerfume = p.cat === "parfum";
-  if (isPerfume) { location.replace("parfum.html" + location.search); return; }
-  let ci = Math.max(0, p.colors.findIndex(c => c.avail.length)), size = isPerfume ? p.sizes[0] : null, idx = 0;
+  let ci = Math.max(0, p.colors.findIndex(c => c.avail.length)), size = null, notifySize = null, idx = 0;
   const ERR = "this.onerror=null;this.style.visibility='hidden'";
+  const mailOk = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
 
   /* ---------- En-tête ---------- */
   $("#crumbs").innerHTML = `<a href="index.html">Accueil</a><span>/</span><a href="collection.html?c=${col[0]}">${col[1].title}</a><span>/</span><span aria-current="page">${p.name}</span>`;
-  $("#pSku").textContent = "Réf. " + p.sku;
   $("#pName").textContent = p.name;
   $("#pType").textContent = p.type;
-  $("#pPrice").innerHTML = priceHTML(p) + (p.compare ? `<span class="badge mono" style="position:static">-${Math.round((1 - p.price / p.compare) * 100)} %</span>` : "") + `<small>ou 3 × ${eur(p.price / 3)} sans frais</small>`;
+  $("#pPrice").innerHTML = priceHTML(p) + (p.compare ? `<span class="badge label" style="position:static">-${Math.round((1 - p.price / p.compare) * 100)} %</span>` : "") + `<small>ou 3 × ${eur(p.price / 3)} sans frais</small>`;
   if (p.badge) { $("#pBadge").textContent = p.badge; $("#pBadge").hidden = false; if (p.badge === "Best-seller") $("#pBadge").classList.add("dk"); }
-  /* Carte d'identité (brand book) */
+  if (p.id === "cozy") { $("#fitHint").hidden = true; $("#ssFit").hidden = true; }
+
+  /* ---------- Carte d'identité + étiquette (brand book) ---------- */
   $("#idImg").src = img(p.colors[0].imgs[0], 300);
-  $("#idList").innerHTML = [["Nom", `${p.name} – ${p.type}`], ["Né à", "Atelier TIMSSAN, Casablanca"], ["Parents", "Brahim, Fatima, Karim"], ["Âge à la sortie", p.cat === "hauts" ? "8 heures de travail" : "15 heures de travail"], ["Taille", "La vôtre"], ["Caractère", "Discret, fiable, constant"], ["Destination", "Vous."]].map(([k, v]) => `<dt>${k}</dt><dd class="sep">:</dd><dd>${v}</dd>`).join("");
-  /* Étiquette d'entretien (brand book) */
+  $("#idList").innerHTML = [["Nom", `${p.name} – ${p.type}`], ["Né à", "Atelier TIMSSAN, Casablanca"], ["Âge à la sortie", p.cat === "hauts" ? "8 heures de travail" : "15 heures de travail"], ["Taille", "La vôtre"], ["Caractère", "Discret, fiable, constant"], ["Destination", "Vous."]].map(([k, v]) => `<dt>${k}</dt><dd class="sep">:</dd><dd>${v}</dd>`).join("");
   const ICONS = `<span class="ic" aria-label="Pas de javel, lavage 30 °C, pas de sèche-linge, repassage doux, pas de nettoyage à sec">
     <svg viewBox="0 0 28 28"><path d="M14 4 25 23H3z"/><path d="M6 6l16 16M22 6 6 22"/></svg>
     <svg viewBox="0 0 28 28"><path d="M3 8l3 14h16l3-14"/><path d="M3 8c3 2 5 2 7 0 2 2 6 2 8 0 2 2 4 2 7 0"/><text x="9" y="19" font-size="7" fill="currentColor" stroke="none" font-family="Barlow Condensed">30°</text></svg>
     <svg viewBox="0 0 28 28"><rect x="4" y="4" width="20" height="20"/><circle cx="14" cy="14" r="7"/><path d="M5 5l18 18M23 5 5 23"/></svg>
     <svg viewBox="0 0 28 28"><path d="M4 20h20l-2-9H10c-3 0-5 3-6 9z"/><circle cx="14" cy="16" r="1" fill="currentColor"/></svg>
     <svg viewBox="0 0 28 28"><circle cx="14" cy="14" r="9"/><path d="M7 7l14 14M21 7 7 21"/></svg></span>`;
-  $("#careBlock").innerHTML = `<div class="care-l"><span>COMPOSITION<br>${p.cat === "hauts" ? "100 % Coton peigné" : "98 % Coton — 2 % Élasthanne"}</span><span>${p.care}</span><span>Confectionné au Maroc.<br>Made in Morocco.</span>${ICONS}</div><div class="care-l"><span class="script">Built for everyday</span>${ICONS}</div>`;
-  $("#specs").innerHTML = [["Référence", p.sku], ...p.specs, ...(isPerfume ? [] : [["Tailles", p.sizes.join(" · ")]])].map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+  $("#careBlock").innerHTML = `<div class="care-l"><span>COMPOSITION<br>${p.cat === "hauts" ? "100 % Coton peigné" : "98 % Coton — 2 % Élasthanne"}</span><span>${p.care}</span>${ICONS}</div><div class="care-l"><span class="script">Built for everyday</span>${ICONS}</div>`;
+  $("#specs").innerHTML = [["Référence", p.sku], ...p.specs, ["Tailles", p.sizes.join(" · ")]].map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   $("#acc").innerHTML = [
     ["Description", `<p>${p.desc}</p>`, true],
-    ...(isPerfume ? [] : [["Coupe & taille", `<p>${p.coupe}. Entre deux tailles, prenez la plus petite : la toile s'assouplit au porter.</p><p><a href="#" data-sizes>Ouvrir le guide des tailles</a></p>`]]),
+    ["Coupe & taille", `<p>${p.coupe}. Entre deux tailles, prenez la plus petite : la toile s'assouplit au porter.</p><p><a href="#" data-sizes>Ouvrir le guide des tailles</a></p>`],
     ["Entretien", `<p>${p.care}</p>`],
     ["Livraison & retours", `<p>Expédition sous 24h, livraison offerte en 24/48h en France métropolitaine. Échange offert et 14 jours pour changer d'avis.</p>`]
   ].map(([t, c, o]) => `<details${o ? " open" : ""}><summary>${t}</summary><div class="in">${c}</div></details>`).join("");
-  if (isPerfume) { $("#colorBlock").hidden = true; $("#sizeBlock").hidden = true; }
   if (p.colors.length < 2) $("#colorBlock").hidden = true;
-  if (p.id === "cozy" || p.cat === "parfum") $("#fitHint").hidden = true;
 
-  /* ---------- Galerie sticky ---------- */
-  const imgs = () => p.colors[ci].imgs;
-  const alt = (i) => `${p.name} ${p.type}${p.colors.length > 1 ? " " + p.colors[ci].name : ""}, photo ${i + 1} sur ${imgs().length}`;
+  /* ---------- Galerie : photos + vidéo intégrée au carrousel ---------- */
+  const media = () => {
+    const L = p.colors[ci].imgs.map(f => ({ t: "img", f }));
+    if (p.video && ci === 0) L.splice(1, 0, { t: "video", src: p.video.src, poster: p.video.poster });
+    return L;
+  };
+  let M = [];
+  const alt = i => `${p.name} ${p.type}${p.colors.length > 1 ? " " + p.colors[ci].name : ""}, ${M[i].t === "video" ? "vidéo" : "photo " + (i + 1)}`;
   function buildGallery() {
-    const L = imgs();
-    $("#track").innerHTML = L.map((f, i) => `<div class="pg-slide"><img src="${img(f, i ? 1200 : 1400)}" srcset="${img(f, 700)} 700w, ${img(f, 1200)} 1200w, ${img(f, 1800)} 1800w" sizes="(max-width:860px) 100vw, 50vw" alt="${alt(i)}" width="1000" height="1500" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} onerror="${ERR}"></div>`).join("");
-    $("#thumbs").innerHTML = L.map((f, i) => `<button role="tab" aria-label="Photo ${i + 1}" data-i="${i}"><img src="${img(f, 160)}" alt="" onerror="${ERR}"></button>`).join("");
-    $("#dots").innerHTML = L.map(() => "<i></i>").join("");
+    M = media();
+    $("#track").innerHTML = M.map((m, i) => m.t === "video"
+      ? `<div class="pg-slide is-video"><video src="${m.src}" poster="${m.poster}" muted loop playsinline preload="metadata" aria-label="${alt(i)}"></video><button class="vid-ctl" aria-label="Mettre la vidéo en pause">❚❚</button></div>`
+      : `<div class="pg-slide"><img src="${img(m.f, i ? 1200 : 1400)}" srcset="${img(m.f, 700)} 700w, ${img(m.f, 1200)} 1200w, ${img(m.f, 1800)} 1800w" sizes="(max-width:860px) 100vw, 50vw" alt="${alt(i)}" width="1000" height="1500" ${i ? 'loading="lazy"' : 'fetchpriority="high"'} onerror="${ERR}"></div>`).join("");
+    $("#thumbs").innerHTML = M.map((m, i) => `<button role="tab" aria-label="${m.t === "video" ? "Vidéo" : "Photo " + (i + 1)}" data-i="${i}" class="${m.t === "video" ? "is-video" : ""}"><img src="${m.t === "video" ? m.poster : img(m.f, 160)}" alt="" onerror="${ERR}"></button>`).join("");
+    $("#dots").innerHTML = M.map(() => "<i></i>").join("");
     idx = 0; go(0, true);
   }
+  function syncVideos() {
+    $$("#track video").forEach(v => {
+      const active = v.closest(".pg-slide") === $$("#track .pg-slide")[idx];
+      if (active) { const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); } else v.pause();
+    });
+  }
   function go(i, instant) {
-    const n = imgs().length; idx = (i + n) % n;
+    const n = M.length; idx = (i + n) % n;
     const t = $("#track"); if (instant) t.style.transition = "none";
     t.style.transform = `translateX(${-idx * 100}%)`;
     if (instant) { void t.offsetWidth; t.style.transition = ""; }
     $("#count").textContent = String(idx + 1).padStart(2, "0") + " / " + String(n).padStart(2, "0");
     $$("#thumbs button").forEach((b, k) => b.setAttribute("aria-current", k === idx));
     $$("#dots i").forEach((d, k) => d.classList.toggle("on", k === idx));
+    $("#zoomHint").textContent = M[idx].t === "video" ? "Vidéo" : "Cliquer pour zoomer";
     const tb = $$("#thumbs button")[idx]; if (tb) tb.scrollIntoView({ block: "nearest" });
+    syncVideos();
   }
   $("#thumbs").onclick = e => { const b = e.target.closest("[data-i]"); if (b) go(+b.dataset.i); };
   $("#thumbs").addEventListener("mouseover", e => { const b = e.target.closest("[data-i]"); if (b && matchMedia("(hover:hover)").matches) go(+b.dataset.i); });
   $("#prev").onclick = e => { e.stopPropagation(); go(idx - 1); };
   $("#next").onclick = e => { e.stopPropagation(); go(idx + 1); };
-  $("#stage").onclick = e => { if (e.target.closest(".pg-nav")) return; if (matchMedia("(min-width:861px)").matches) openLb(idx); };
-  // Swipe mobile
+  $("#track").addEventListener("click", e => {
+    const c = e.target.closest(".vid-ctl"); if (!c) return;
+    e.stopPropagation(); const v = c.parentNode.querySelector("video");
+    if (v.paused) { v.play(); c.textContent = "❚❚"; c.setAttribute("aria-label", "Mettre la vidéo en pause"); } else { v.pause(); c.textContent = "▶"; c.setAttribute("aria-label", "Lire la vidéo"); }
+  });
+  $("#stage").onclick = e => { if (e.target.closest(".pg-nav,.vid-ctl")) return; if (matchMedia("(min-width:861px)").matches) openLb(idx); };
   let x0 = null, y0 = null, moved = false;
   $("#stage").addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; moved = false; }, { passive: true });
   $("#stage").addEventListener("touchmove", e => { if (x0 === null) return; const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0; if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) { moved = true; $("#track").style.transition = "none"; $("#track").style.transform = `translateX(calc(${-idx * 100}% + ${dx}px))`; } }, { passive: true });
-  $("#stage").addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; $("#track").style.transition = ""; if (moved && Math.abs(dx) > 50) go(idx + (dx < 0 ? 1 : -1)); else if (!moved) openLb(idx); else go(idx); x0 = null; });
-  document.addEventListener("keydown", e => {
-    if ($("#lb").classList.contains("on")) { if (e.key === "ArrowRight") lbGo(lbI + 1); if (e.key === "ArrowLeft") lbGo(lbI - 1); if (e.key === "Escape") closeLb(); return; }
-    if (e.target.closest("input,textarea,select")) return;
-    if (e.key === "ArrowRight") go(idx + 1); if (e.key === "ArrowLeft") go(idx - 1);
-  });
+  $("#stage").addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; $("#track").style.transition = ""; if (moved && Math.abs(dx) > 50) go(idx + (dx < 0 ? 1 : -1)); else if (!moved && !e.target.closest(".vid-ctl")) openLb(idx); else go(idx); x0 = null; });
 
-  /* ---------- Zoom plein écran (galerie + visuels du bas) ---------- */
+  /* ---------- Zoom plein écran (photos et vidéo) ---------- */
   let lbList = [], lbI = 0;
   function openLb(i, list) {
-    lbList = list || imgs(); lbI = i;
-    $("#lbThumbs").innerHTML = lbList.map((f, k) => `<button data-k="${k}" aria-label="Photo ${k + 1}"><img src="${img(f, 120)}" alt="" onerror="${ERR}"></button>`).join("");
+    lbList = list || M; lbI = i;
+    $("#lbThumbs").innerHTML = lbList.map((m, k) => `<button data-k="${k}" aria-label="${m.t === "video" ? "Vidéo" : "Photo " + (k + 1)}"><img src="${m.t === "video" ? m.poster : img(m.f, 120)}" alt="" onerror="${ERR}"></button>`).join("");
     lbGo(i); $("#lb").classList.add("on"); $("#lb").setAttribute("aria-hidden", "false"); document.body.classList.add("lock"); $("#lbClose").focus();
   }
-  function lbGo(i) { const n = lbList.length; lbI = (i + n) % n; $("#lbImg").src = img(lbList[lbI], 2000); $("#lbImg").alt = `${p.name}, photo ${lbI + 1}`; $("#lbCount").textContent = `${lbI + 1} / ${n}`; $$("#lbThumbs button").forEach((b, k) => b.setAttribute("aria-current", k === lbI)); }
-  function closeLb() { $("#lb").classList.remove("on"); $("#lb").setAttribute("aria-hidden", "true"); document.body.classList.remove("lock"); }
+  function lbGo(i) {
+    const n = lbList.length; lbI = (i + n) % n; const m = lbList[lbI];
+    const v = $("#lbVid"), im = $("#lbImg");
+    if (m.t === "video") { im.hidden = true; v.hidden = false; if (v.getAttribute("src") !== m.src) v.src = m.src; v.play().catch(() => {}); }
+    else { v.pause(); v.hidden = true; im.hidden = false; im.src = img(m.f, 2000); im.alt = `${p.name}, photo ${lbI + 1}`; }
+    $("#lbCount").textContent = `${lbI + 1} / ${n}`;
+    $$("#lbThumbs button").forEach((b, k) => b.setAttribute("aria-current", k === lbI));
+  }
+  function closeLb() { $("#lbVid").pause(); $("#lb").classList.remove("on"); $("#lb").setAttribute("aria-hidden", "true"); document.body.classList.remove("lock"); syncVideos(); }
   $("#lbClose").onclick = closeLb; $("#lbPrev").onclick = () => lbGo(lbI - 1); $("#lbNext").onclick = () => lbGo(lbI + 1);
   $("#lbThumbs").onclick = e => { const b = e.target.closest("[data-k]"); if (b) lbGo(+b.dataset.k); };
 
-  /* ---------- Couleurs, tailles, CTA ---------- */
+  /* ---------- Couleurs ---------- */
   function renderColors() {
     $("#colors").innerHTML = p.colors.map((c, i) => `<button style="background:${c.hex}" aria-pressed="${i === ci}" aria-label="${c.name}${c.avail.length ? "" : " (épuisée)"}" title="${c.name}" class="${c.avail.length ? "" : "out"}" data-ci="${i}"></button>`).join("");
     $("#cName").textContent = p.colors[ci].name + (p.colors[ci].avail.length ? "" : " · épuisée");
     $("#cCount").textContent = p.colors.length + " couleurs";
   }
-  $("#colors").onclick = e => { const b = e.target.closest("[data-ci]"); if (!b || +b.dataset.ci === ci) return; ci = +b.dataset.ci; if (size && !p.colors[ci].avail.includes(size)) size = null; renderAll(); buildGallery(); };
-  function renderSizes() {
-    const c = p.colors[ci];
-    $("#psizes").style.gridTemplateColumns = `repeat(${Math.min(5, p.sizes.length)},1fr)`;
-    $("#psizes").innerHTML = p.sizes.map(s => { const ok = c.avail.includes(s), low = ok && c.avail.length <= 2; return `<button ${ok ? "" : "disabled"} aria-pressed="${s === size}" class="${low ? "low" : ""}" aria-label="Taille ${s}${ok ? "" : ", épuisée"}">${s}</button>`; }).join("");
-    $("#sName").textContent = size ? "· " + size : "";
-    const st = $("#stock");
-    if (!c.avail.length) { st.textContent = "Cette couleur est épuisée pour le moment."; st.className = "stock warn"; }
-    else if (size && c.avail.length <= 2) { st.textContent = "Plus que quelques pièces dans cette taille."; st.className = "stock warn"; }
-    else if (size) { st.textContent = "En stock · expédié sous 24h"; st.className = "stock"; }
-    else { st.textContent = c.avail.length < p.sizes.length ? "Les tailles barrées reviennent bientôt." : ""; st.className = "stock muted"; }
-  }
-  $("#psizes").onclick = e => { const b = e.target.closest("button"); if (!b || b.disabled) return; size = b.textContent; renderAll(); };
+  $("#colors").onclick = e => { const b = e.target.closest("[data-ci]"); if (!b || +b.dataset.ci === ci) return; ci = +b.dataset.ci; size = null; renderColors(); renderCta(); buildGallery(); };
+
+  /* ---------- CTA → pop-up de taille ---------- */
   function renderCta() {
     const c = p.colors[ci];
-    if (!c.avail.length) {
-      $("#ctaBlock").innerHTML = `<div class="alert"><b>Me prévenir du retour de la couleur ${c.name}</b><form id="alertF" novalidate><label class="sr" for="aMail">E-mail</label><input id="aMail" type="email" placeholder="votre@email.fr" autocomplete="email"><button class="btn" type="submit">M'alerter</button></form></div>`;
-      $("#alertF").onsubmit = e => { e.preventDefault(); toast(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test($("#aMail").value) ? "C'est noté, on vous prévient dès le retour." : "Vérifiez votre adresse e-mail."); };
+    const label = c.avail.length ? `Choisir ma taille · ${eur(p.price)}` : "Être prévenu du retour en stock";
+    $("#openSize").textContent = label;
+    $("#sbName").textContent = p.name; $("#sbMeta").textContent = eur(p.price) + (p.colors.length > 1 ? " · " + c.name : "");
+    $("#sbBtn").textContent = c.avail.length ? "Choisir ma taille" : "Me notifier";
+  }
+  const sheet = $("#sizeSheet");
+  let lastFocus = null;
+  function openSheet() {
+    lastFocus = document.activeElement;
+    const c = p.colors[ci];
+    $("#ssImg").src = img(c.imgs[0], 200);
+    $("#ssName").textContent = `${p.name} — ${p.type}`;
+    $("#ssMeta").textContent = `${eur(p.price)}${p.colors.length > 1 ? " · " + c.name : ""}`;
+    notifySize = null; $("#ssNotify").hidden = true; $("#ssMsg").textContent = "";
+    renderSheet();
+    sheet.classList.add("on"); sheet.setAttribute("aria-hidden", "false"); document.body.classList.add("lock");
+    setTimeout(() => { const f = $("#ssList button"); if (f) f.focus(); }, 60);
+  }
+  function closeSheet() { sheet.classList.remove("on"); sheet.setAttribute("aria-hidden", "true"); document.body.classList.remove("lock"); if (lastFocus) lastFocus.focus(); }
+  function renderSheet() {
+    const c = p.colors[ci];
+    $("#ssList").innerHTML = p.sizes.map(s => {
+      const ok = c.avail.includes(s), low = ok && c.avail.length <= 2;
+      const st = ok ? (low ? "Plus que quelques pièces" : "En stock") : "Épuisé · Me notifier";
+      const on = ok ? s === size : s === notifySize;
+      return `<button role="radio" aria-checked="${on}" data-s="${s}" class="ss-row${ok ? "" : " out"}${low ? " low" : ""}"><span class="ss-size">${s}</span><span class="ss-st">${st}</span><span class="ss-dot" aria-hidden="true"></span></button>`;
+    }).join("");
+    const btn = $("#ssAdd");
+    if (size) { btn.disabled = false; btn.textContent = `Ajouter au panier · ${eur(p.price)}`; }
+    else { btn.disabled = true; btn.textContent = c.avail.length ? "Sélectionnez une taille" : "Aucune taille disponible"; }
+  }
+  $("#ssList").onclick = e => {
+    const b = e.target.closest("[data-s]"); if (!b) return;
+    const s = b.dataset.s;
+    if (b.classList.contains("out")) {
+      size = null; notifySize = s;
+      $("#ssNotify").hidden = false; $("#ssMsg").textContent = "";
+      $("#ssNotifyT").textContent = `Me notifier dès le retour en stock du ${s}`;
+      renderSheet(); setTimeout(() => $("#ssMail").focus(), 30);
     } else {
-      $("#ctaBlock").innerHTML = `<button class="btn block" id="addBtn">${size ? `Ajouter au panier · ${eur(p.price)}` : "Choisissez votre taille"}</button>`;
-      $("#addBtn").onclick = doAdd;
+      size = s; notifySize = null; $("#ssNotify").hidden = true; renderSheet();
     }
-    $("#sbName").textContent = p.name; $("#sbMeta").textContent = `${eur(p.price)}${size && !isPerfume ? " · Taille " + size : ""}`;
-    $("#sbBtn").textContent = !c.avail.length ? "Épuisé" : size ? "Ajouter" : "Choisir la taille"; $("#sbBtn").disabled = !c.avail.length;
-  }
-  function doAdd() {
-    if (!size) { $("#sizeBlock").scrollIntoView({ behavior: "smooth", block: "center" }); $("#psizes").animate([{ transform: "translateX(0)" }, { transform: "translateX(-6px)" }, { transform: "translateX(6px)" }, { transform: "translateX(0)" }], { duration: 300 }); toast("Choisissez d'abord votre taille"); return; }
-    add(p.id, p.colors[ci].name, size); setTimeout(openCart, 450);
-  }
-  $("#sbBtn").onclick = doAdd;
-  function renderAll() { renderColors(); renderSizes(); renderCta(); }
-  renderAll(); buildGallery();
-  new IntersectionObserver(([en]) => $("#stickyBuy").classList.toggle("on", !en.isIntersecting && en.boundingClientRect.top < 0)).observe($("#ctaBlock"));
+  };
+  $("#ssNotifyF").onsubmit = e => {
+    e.preventDefault();
+    const v = $("#ssMail").value.trim();
+    if (!mailOk(v)) { $("#ssMsg").textContent = "Vérifiez votre adresse e-mail : il manque le @ ou le domaine."; return; }
+    $("#ssMsg").textContent = `C'est noté : on vous écrit dès que le ${notifySize} revient.`;
+    $("#ssMail").value = "";
+  };
+  $("#ssAdd").onclick = () => { if (!size) return; add(p.id, p.colors[ci].name, size); closeSheet(); setTimeout(openCart, 250); };
+  $("#ssClose").onclick = closeSheet;
+  sheet.addEventListener("click", e => { if (e.target === sheet) closeSheet(); });
+  $("#openSize").onclick = openSheet; $("#sbBtn").onclick = openSheet;
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && sheet.classList.contains("on") && !$("#sizeModal.on")) { closeSheet(); return; }
+    if ($("#lb").classList.contains("on")) { if (e.key === "ArrowRight") lbGo(lbI + 1); if (e.key === "ArrowLeft") lbGo(lbI - 1); if (e.key === "Escape") closeLb(); return; }
+    if (sheet.classList.contains("on") || e.target.closest("input,textarea,select")) return;
+    if (e.key === "ArrowRight") go(idx + 1); if (e.key === "ArrowLeft") go(idx - 1);
+  });
+
+  renderColors(); renderCta(); buildGallery();
+  new IntersectionObserver(([en]) => $("#stickyBuy").classList.toggle("on", !en.isIntersecting)).observe($("#openSize"));
+
+  /* ---------- Avis : carrousel ---------- */
+  const R = window.REVIEWS;
+  $("#rvTrack").innerHTML = R.map(r => `<article class="rvx-card"><span class="tp-stars sm" aria-label="${r.rating} sur 5"><i></i><i></i><i></i><i></i><i></i></span><h3>${r.title}</h3><p>${r.text}</p><span class="rvx-who"><b>${r.name}</b> · Avis vérifié</span></article>`).join("");
+  $("#rvDots").innerHTML = R.map(() => "<i></i>").join("");
+  const tr = $("#rvTrack");
+  const cardW = () => { const c = tr.querySelector(".rvx-card"); return c ? c.getBoundingClientRect().width + 12 : tr.clientWidth; };
+  const curRv = () => Math.round(tr.scrollLeft / cardW());
+  const toRv = i => { const n = R.length; tr.scrollTo({ left: ((i + n) % n) * cardW(), behavior: "smooth" }); };
+  const syncDots = () => $$("#rvDots i").forEach((d, k) => d.classList.toggle("on", k === curRv()));
+  tr.addEventListener("scroll", () => { clearTimeout(tr._t); tr._t = setTimeout(syncDots, 60); }, { passive: true });
+  $("#rvPrev").onclick = () => toRv(curRv() - 1); $("#rvNext").onclick = () => toRv(curRv() + 1);
+  syncDots();
+  let auto = setInterval(() => { if (!document.hidden && !matchMedia("(prefers-reduced-motion:reduce)").matches) toRv(curRv() + 1); }, 5500);
+  ["pointerenter", "focusin", "touchstart"].forEach(ev => $("#avisP").addEventListener(ev, () => { clearInterval(auto); auto = null; }, { passive: true }));
 
   /* ---------- En situation ---------- */
-  $("#lookIntro").textContent = isPerfume ? "Le flacon, l'écrin et les matières qui ont inspiré 22.09." : `${p.name} hors studio : en ville, en mouvement, de près. Pour s'asseoir longtemps sans tirer sur la couture.`;
-  if (isPerfume) $("#lookTitle").innerHTML = "Le flacon,<br>de près";
-  const L = p.look.map(l => l[0]);
+  $("#lookIntro").textContent = `${p.name} hors studio : en ville, en mouvement, de près. Pour s'asseoir longtemps sans tirer sur la couture.`;
+  const LK = p.look.map(l => ({ t: "img", f: l[0] }));
   $("#lookGrid").innerHTML = p.look.map(([f, t, d], i) => `<figure><div class="fr" data-l="${i}"><img src="${img(f, i ? 900 : 1200)}" alt="${p.name} — ${t}" loading="lazy" width="1000" height="1500" onerror="${ERR}"></div><figcaption><b>${t}</b><span>${d}</span></figcaption></figure>`).join("");
-  $("#lookGrid").onclick = e => { const f = e.target.closest("[data-l]"); if (f) openLb(+f.dataset.l, L); };
-
-  /* ---------- Avis ---------- */
-  const R = window.REVIEWS.map((r, i) => ({ ...r, i })), split = window.RATING_SPLIT;
-  let starF = 0;
-  $("#rvCountTop").textContent = "25 000+";
-  $("#dist").innerHTML = split.map((v, k) => `<button data-s="${5 - k}" aria-pressed="false"><span>${5 - k} ★</span><span class="db"><i style="width:${v}%"></i></span><span>${v} %</span></button>`).join("");
-  $("#dist").onclick = e => { const b = e.target.closest("[data-s]"); if (!b) return; starF = starF === +b.dataset.s ? 0 : +b.dataset.s; $$("#dist button").forEach(x => x.setAttribute("aria-pressed", +x.dataset.s === starF)); renderRv(); };
-  $("#rvSort").onchange = () => renderRv();
-  const voted = new Set();
-  function renderRv() {
-    let list = R.filter(r => !starF || r.rating === starF);
-    if ($("#rvSort").value === "help") list.sort((a, b) => b.helpful - a.helpful); else list.sort((a, b) => a.i - b.i);
-    $("#rvLbl").textContent = starF ? `${list.length} avis à ${starF} étoiles` : `${list.length} avis affichés`;
-    $("#rvList").innerHTML = list.length ? list.map(r => `<article class="rvc">
-      <div class="who"><b>${r.name}</b><span class="ver">Achat vérifié</span>${r.size ? `<span class="muted">Taille ${r.size}</span>` : ""}</div>
-      <div><div class="stars" aria-label="${r.rating} sur 5">${"★".repeat(r.rating)}<span style="color:var(--concrete)">${"★".repeat(5 - r.rating)}</span></div>
-        <h3>${r.title}</h3><p>${r.text}</p>
-        <div class="foot"><button data-h="${r.i}" aria-pressed="${voted.has(r.i)}">Utile · ${r.helpful + (voted.has(r.i) ? 1 : 0)}</button>${r.mine ? '<span class="label">En attente de vérification</span>' : ""}</div></div>
-    </article>`).join("") : `<p class="muted" style="padding:40px 0">Aucun avis avec ce filtre pour l'instant.</p>`;
-  }
-  $("#rvList").onclick = e => { const b = e.target.closest("[data-h]"); if (!b) return; const i = +b.dataset.h; voted.has(i) ? voted.delete(i) : voted.add(i); renderRv(); };
-  renderRv();
-
-  /* Écrire un avis */
-  $(".stars-in").innerHTML = [5, 4, 3, 2, 1].map(n => `<input type="radio" name="note" id="n${n}" value="${n}"><label for="n${n}" title="${n} sur 5">★</label>`).join("");
-  $("#rvSize").innerHTML = p.sizes.map(s => `<option>${s}</option>`).join("");
-  $("#rvmP").textContent = `${p.name} · ${p.type}`;
-  $("#writeBtn").onclick = () => { $("#rvModal").classList.add("on"); document.body.classList.add("lock"); };
-  $("#rvForm").onsubmit = e => {
-    e.preventDefault();
-    const note = +(($("input[name=note]:checked") || {}).value || 0), t = $("#rvText").value.trim(), n = $("#rvName").value.trim();
-    if (!note) return $("#rvErr").textContent = "Choisissez une note de 1 à 5 étoiles.";
-    if (t.length < 15) return $("#rvErr").textContent = "Écrivez au moins une phrase sur la coupe ou la matière.";
-    if (!n) return $("#rvErr").textContent = "Indiquez votre prénom.";
-    $("#rvErr").textContent = "";
-    R.unshift({ name: n, rating: note, title: $("#rvTitle").value.trim() || "Mon avis", text: t, size: isPerfume ? "" : $("#rvSize").value, helpful: 0, i: -1, mine: true });
-    R.forEach((r, k) => r.i = k);
-    $("#rvSort").value = "recent"; starF = 0; $$("#dist button").forEach(x => x.setAttribute("aria-pressed", "false")); renderRv();
-    $("#rvModal").classList.remove("on"); document.body.classList.remove("lock"); e.target.reset();
-    toast("Merci ! Votre avis apparaîtra après vérification de votre commande.");
-  };
+  $("#lookGrid").onclick = e => { const f = e.target.closest("[data-l]"); if (f) openLb(+f.dataset.l, LK); };
 
   /* ---------- Ventes croisées ---------- */
-  const pairs = { jogpants: ["built", "blevo", "parfum-22-09", "elvi"], "pantalons-7-8": ["built", "lom", "parfum-22-09", "nuby"], "bermudas-longs": ["built", "axis", "miro", "parfum-22-09"], hauts: ["lom", "elvi", "nuby", "blevo"], parfum: ["nuby", "lom", "elvi", "built"] };
+  const pairs = { jogpants: ["built", "blevo", "parfum-22-09", "elvi"], "pantalons-7-8": ["built", "lom", "parfum-22-09", "nuby"], "bermudas-longs": ["built", "axis", "miro", "parfum-22-09"], hauts: ["lom", "elvi", "nuby", "blevo"] };
   const xs = [...new Set([...(pairs[p.cat] || pairs.jogpants), "nuby", "lom"])].filter(id => id !== p.id).slice(0, 4);
-  if (isPerfume) $("#xTitle").innerHTML = "À porter<br>avec 22.09";
   $("#xGrid").innerHTML = xs.map(id => card(byId(id))).join("");
 
   /* ---------- SEO ---------- */
@@ -345,7 +357,8 @@
   seo(`${p.name} — ${p.type} | Timssan`, `${p.name}, ${p.type.toLowerCase()} Timssan à ${eur(p.price)}. ${p.desc.slice(0, 110)}… Livraison offerte 24/48h.`, {
     "@context": "https://schema.org", "@type": "Product", "name": `${p.name} – ${p.type}`, "sku": p.sku, "brand": { "@type": "Brand", "name": "Timssan" },
     "description": p.desc, "image": p.colors[0].imgs.slice(0, 4).map(f => img(f, 1500)),
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "bestRating": "5", "reviewCount": String(window.REVIEWS.length) },
+    ...(p.video ? { "subjectOf": { "@type": "VideoObject", "name": `${p.name} — vidéo`, "contentUrl": p.video.src, "thumbnailUrl": p.video.poster, "description": p.desc, "uploadDate": "2026-10-01" } } : {}),
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.8", "bestRating": "5", "reviewCount": String(R.length) },
     "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": p.price.toFixed(2), "availability": allAvail ? "https://schema.org/InStock" : "https://schema.org/OutOfStock", "url": `https://www.timssan.com/products/${p.id}` }
   });
   document.head.insertAdjacentHTML("beforeend", `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{ "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://www.timssan.com/" }, { "@type": "ListItem", "position": 2, "name": col[1].title, "item": "https://www.timssan.com/collections/" + col[0] }, { "@type": "ListItem", "position": 3, "name": p.name }] })}<\/script>`);

@@ -8,9 +8,22 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.shopify.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Yellowtail&family=Barlow+Condensed:wght@200;300;400;500;600&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 <style>
-/* Univers fragrance : typographie fine et condensée (étiquettes du brand book), filets pleins, bandeau bleu. */
+/* Univers 22.09 : palette tirée du flacon — jus ambré, pêche, safran, pistache, écrin ivoire. Header et footer restent Timssan. */
+.fx main,.fx .sticky-buy,.fx #lb{--bg:#FBF5EC;--ink:#3A2214;--amber:#C8862E;--peach:#EFA77A;--saffron:#B23A1E;--pista:#8E9A5A;
+  --ink-80:color-mix(in srgb,var(--ink) 88%,var(--bg));--ink-60:color-mix(in srgb,var(--ink) 72%,var(--bg));--line:color-mix(in srgb,var(--amber) 38%,var(--bg));--tint:color-mix(in srgb,var(--peach) 14%,var(--bg));--tint-2:color-mix(in srgb,var(--peach) 24%,var(--bg));
+  background:var(--bg);color:var(--ink)}
+.fx main .inv{background:linear-gradient(160deg,#4A2A15 0%,#3A2214 55%,#2E1A0F 100%);color:#FBF0E2}
+.fx main .inv .muted,.fx main .inv .label{color:color-mix(in srgb,#FBF0E2 75%,#4A2A15)}
+.fx .f-label .band{background:linear-gradient(90deg,var(--peach) 0%,var(--amber) 55%,var(--saffron) 100%)}
+.fx .f-label{box-shadow:0 0 0 1.5px var(--line),0 30px 60px -40px color-mix(in srgb,var(--amber) 70%,transparent)}
+.fx main .btn:not(.ghost){background:var(--ink);color:var(--bg)}
+.fx main .badge{background:var(--saffron);color:#fff}
+.fx .swatches{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.fx .swatches span{display:inline-flex;align-items:center;gap:8px;font-family:var(--thin);font-size:15px;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px 6px 6px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.fx .swatches i{width:20px;height:20px;border-radius:50%}
+/* Univers fragrance : typographie fine et condensée (étiquettes du brand book), filets pleins. */
 .fx{--thin:"Barlow Condensed","DIN Condensed","Arial Narrow",sans-serif}
 .thin{font-family:var(--thin);font-weight:300;letter-spacing:.02em;line-height:.9;margin:0}
 .rule{height:0;border:0;border-top:3px solid currentColor;margin:0}
@@ -95,6 +108,7 @@
             <hr class="rule" style="width:min(360px,70%)">
             <span class="kind">Eau de parfum</span>
             <div class="meta">100 ml · 3.4 fl.oz<br><br>Pêche, safran, bois,<br>ambre et pistache.<br>Composé en France.</div>
+            <div class="swatches" aria-label="Les couleurs de 22.09"><span><i style="background:#EFA77A"></i>Pêche</span><span><i style="background:#B23A1E"></i>Safran</span><span><i style="background:#C8862E"></i>Ambre</span><span><i style="background:#8E9A5A"></i>Pistache</span></div>
           </div>
           <div class="band" aria-hidden="true"></div>
         </article>
@@ -144,10 +158,10 @@
             <g font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="15" fill="var(--ink)" letter-spacing="1">
               <text x="40" y="244" text-anchor="middle">0 h</text><text x="175" y="244" text-anchor="middle">2 h</text><text x="310" y="244" text-anchor="middle">4 h</text><text x="445" y="244" text-anchor="middle">6 h</text><text x="580" y="244" text-anchor="middle">8 h</text>
             </g>
-            <path id="cTop" d="" fill="var(--ink)" fill-opacity=".18" stroke="var(--ink)" stroke-width="2.5"/>
-            <path id="cMid" d="" fill="var(--ink)" fill-opacity=".1" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="7 5"/>
-            <path id="cBase" d="" fill="var(--ink)" fill-opacity=".06" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="2 5"/>
-            <g font-family="Yellowtail, cursive" font-size="24" fill="var(--ink)"><text id="tTop" x="62" y="44">Pêche</text><text id="tMid" x="160" y="74">Safran</text><text id="tBase" x="430" y="128">Ambre</text></g>
+            <path id="cTop" d="" fill="var(--peach)" fill-opacity=".35" stroke="#D9824F" stroke-width="2.5"/>
+            <path id="cMid" d="" fill="var(--saffron)" fill-opacity=".14" stroke="var(--saffron)" stroke-width="2.5" stroke-dasharray="7 5"/>
+            <path id="cBase" d="" fill="var(--amber)" fill-opacity=".16" stroke="var(--amber)" stroke-width="2.5" stroke-dasharray="2 5"/>
+            <g font-family="Yellowtail, cursive" font-size="24" fill="var(--ink)"><text id="tTop" x="62" y="44" fill="#C9683A">Pêche</text><text id="tMid" x="160" y="74" fill="var(--saffron)">Safran</text><text id="tBase" x="430" y="128" fill="var(--amber)">Ambre</text></g>
             <line id="cur" x1="57" x2="57" y1="14" y2="220" stroke="var(--ink)" stroke-width="2"/>
             <circle id="curDot" cx="57" cy="14" r="6" fill="var(--ink)"/>
           </svg>
@@ -218,8 +232,8 @@
   <div class="lb-thumbs"></div>
 </div>
 
-<script src="data.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="data.js?v=4"></script>
+<script src="app.js?v=4"></script>
 <script>
 (() => {
   const { $, $$, eur, priceHTML, byId, card, add, openCart, seo } = window.TIMSSAN;

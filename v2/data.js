@@ -197,3 +197,17 @@ window.MENU = [
   { label: "Le Parfum", href: "parfum.html?p=parfum-22-09" },
   { label: "Le Dernier Passage", href: "collection.html?c=pantalons", tag: "Outlet" }
 ];
+
+/* Vidéos produits (médias Shopify existants de timssan.com) — insérées en 2e position du carrousel */
+(() => {
+  const V = (id, file) => ({ src: "https://cdn.shopify.com/videos/c/vp/" + id + "/" + id + "." + file + ".mp4", poster: window.CDN + "preview_images/" + id + ".thumbnail.0000000000.jpg" });
+  const map = {
+    nuby: V("e7c3cf00f00341238f4d849ebb456627", "HD-720p-1.6Mbps-97752433"),
+    lom: V("50a9f637b6aa41848689e3cccacf11cb", "HD-720p-1.6Mbps-97332582"),
+    elvi: V("983a31618f96446191226a3f67c5c2b4", "HD-1080p-7.2Mbps-92596081"),
+    mist: V("5221494eff394fc6a79750d4b6e5cbac", "HD-720p-1.6Mbps-85610973"),
+    blevo: V("384419ff57214a1aa14929fdc7032d26", "HD-720p-2.1Mbps-85462911"),
+    miro: V("0ea3af9f27ff47209e0163e392cda91c", "HD-1080p-3.3Mbps-85714543")
+  };
+  window.PRODUCTS.forEach(p => { if (map[p.id]) p.video = map[p.id]; });
+})();
