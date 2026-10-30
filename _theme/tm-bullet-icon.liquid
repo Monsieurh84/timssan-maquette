@@ -1,0 +1,18 @@
+{%- comment -%} Icône d'une puce produit (métaobjet up_product_bulletpoints, champ « icon »). Paramètre : name {%- endcomment -%}
+{%- assign n = name | remove: '⁠' | strip -%}
+<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" class="t-bi">
+  {%- case n -%}
+    {%- when 'maroc' -%}<path d="M12 3.5l2.3 6.6h7l-5.6 4.1 2.1 6.6L12 16.7l-5.8 4.1 2.1-6.6-5.6-4.1h7z"/>
+    {%- when 'leaf', 'plant', 'tree', 'flower' -%}<path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19l8-8"/>
+    {%- when 'sun' -%}<circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/>
+    {%- when 'time', 'clock', 'calendar' -%}<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>
+    {%- when 'recycle' -%}<path d="M7 9l-3 5h6M17 15l3-5h-6M10 4l2 3 2-3"/><path d="M4 14l3 5h10l3-5"/>
+    {%- when 'truck', 'package' -%}<path d="M2 6h12v10H2zM14 9h4l4 4v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>
+    {%- when 'shield-check', 'lock-key' -%}<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>
+    {%- when 'heart' -%}<path d="M12 20s-8-4.6-8-10.2A4.3 4.3 0 0112 7a4.3 4.3 0 018 2.8C20 15.4 12 20 12 20z"/>
+    {%- when 'star', 'medal', 'pantalon-etoile', 'bermuda-etoile', 'sketch-logo' -%}<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8L3.5 9.7l5.9-.8z"/>
+    {%- when 'plume-nuage', 'plume-tissu' -%}<path d="M20 4C10 4 6 10 6 18M20 4c0 8-5 12-12 12M6 18l-2 2"/>
+    {%- when 'stretch', 'tissu-etire' -%}<path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/>
+    {%- else -%}<path d="M5 12.5l4.5 4.5L19 7.5"/>
+  {%- endcase -%}
+</svg>

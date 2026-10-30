@@ -153,6 +153,33 @@
               "
             >
               {% assign skip_card_product_styles = false %}
+              {%- liquid
+                comment
+                  Cartes par couleur (liste « _up.variant_cards » gérée par le client sur la collection).
+                  Utilisée quand aucun filtre ni tri n'est actif ; sinon, grille produit classique.
+                endcomment
+                assign vcards = blank
+                assign f_on = false
+                for f in collection.filters
+                  if f.active_values.size > 0 or f.min_value.value != blank or f.max_value.value != blank
+                    assign f_on = true
+                  endif
+                endfor
+                if collection.sort_by != blank and collection.sort_by != collection.default_sort_by
+                  assign f_on = true
+                endif
+                if collection.metafields._up.variant_cards_enable.value and collection.metafields._up.variant_cards.value.size > 0 and f_on == false and current_tags == blank
+                  assign vcards = collection.metafields._up.variant_cards.value
+                endif
+              -%}
+              {%- if vcards != blank -%}
+                {%- for v in vcards -%}
+                  {%- if v.product == blank -%}{%- continue -%}{%- endif -%}
+                  <li class="grid__item">
+                    <div class="tm">{% render 'tm-card', product: v.product, variant: v, eager: forloop.first %}</div>
+                  </li>
+                {%- endfor -%}
+              {%- else -%}
               {%- for product in collection.products -%}
                 {% assign lazy_load = false %}
                 {%- if forloop.index > 2 -%}
@@ -169,9 +196,10 @@
                 </li>
                 {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
+              {%- endif -%}
             </ul>
 
-            {%- if paginate.pages > 1 -%}
+            {%- if paginate.pages > 1 and vcards == blank -%}
               {% render 'pagination', paginate: paginate, anchor: '' %}
             {%- endif -%}
           </div>

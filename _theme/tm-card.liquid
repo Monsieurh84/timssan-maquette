@@ -1,0 +1,152 @@
+{%- comment -%}
+  Carte produit Timssan (grille). Paramètres : product, variant (facultatif : carte « une couleur »), eager.
+  Les photos défilent au doigt (mobile) ou avec les flèches au survol (ordinateur).
+  Photos d'une couleur : celles dont le texte alt contient le nom de la couleur (ex. « #Kaki »).
+{%- endcomment -%}
+{%- liquid
+  assign color_opt = nil
+  assign size_opt = nil
+  for o in product.options_with_values
+    assign on = o.name | downcase
+    if on contains 'couleur' or on contains 'color' or on contains 'coloris'
+      assign color_opt = o
+    elsif on contains 'taille' or on contains 'size' or on contains 'pointure'
+      assign size_opt = o
+    endif
+  endfor
+  assign v0 = variant | default: product.selected_or_first_available_variant
+  assign cidx = 0
+  assign sidx = 0
+  if color_opt
+    assign cidx = color_opt.position | minus: 1
+  endif
+  if size_opt
+    assign sidx = size_opt.position | minus: 1
+  endif
+  assign cval = ''
+  if color_opt
+    assign cval = v0.options[cidx] | downcase
+  endif
+
+  assign url = product.url
+  if variant
+    assign url = variant.url
+  endif
+
+  comment
+    Liste des photos : d'abord celles de la couleur (alt), sinon la photo de la variante puis les suivantes
+  endcomment
+  assign ids = ''
+  assign n = 0
+  if cval != ''
+    for m in product.media
+      if m.media_type == 'image'
+        assign a = m.alt | downcase
+        if a contains cval
+          assign ids = ids | append: m.id | append: ','
+          assign n = n | plus: 1
+          if n >= 5
+            break
+          endif
+        endif
+      endif
+    endfor
+  endif
+  if n == 0
+    assign fm = v0.featured_media | default: product.featured_media
+    if fm
+      assign ids = fm.id | append: ','
+      assign n = 1
+    endif
+    for m in product.media
+      if m.media_type == 'image' and m.id != fm.id
+        assign a = m.alt | downcase
+        if a == blank or a contains cval or color_opt == nil
+          assign ids = ids | append: m.id | append: ','
+          assign n = n | plus: 1
+          if n >= 4
+            break
+          endif
+        endif
+      endif
+    endfor
+  endif
+  assign id_list = ids | split: ','
+
+  assign loading = 'lazy'
+  if eager
+    assign loading = 'eager'
+  endif
+  capture nm
+    render 'tm-name', product: product, part: 'name'
+  endcapture
+  capture tp
+    render 'tm-name', product: product, part: 'type'
+  endcapture
+  assign tp = tp | strip
+  if variant and color_opt
+    assign cshow = v0.options[cidx]
+    unless tp contains cshow
+      assign tp = tp | append: ' · ' | append: cshow
+    endunless
+  endif
+-%}
+<article class="t-card">
+  <div class="t-ph" data-tm-ph>
+    <a class="t-ph-link" href="{{ url }}" aria-label="{{ nm | strip | escape }}, {{ tp | escape }}">
+      <span class="t-ph-track" data-tm-track>
+        {%- assign k = 0 -%}
+        {%- for m in product.media -%}
+          {%- assign mid = m.id | append: '' -%}
+          {%- if id_list contains mid -%}
+            {%- assign k = k | plus: 1 -%}
+            <span class="t-ph-sl">
+              {%- if k == 1 -%}
+                {{ m | image_url: width: 900 | image_tag: loading: loading, widths: '360,540,720,900', sizes: '(max-width: 860px) 50vw, 25vw', alt: product.title }}
+              {%- else -%}
+                {{ m | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360,540,720,900', sizes: '(max-width: 860px) 50vw, 25vw', alt: '' }}
+              {%- endif -%}
+            </span>
+          {%- endif -%}
+        {%- endfor -%}
+      </span>
+    </a>
+    {%- if k > 1 -%}
+      <button type="button" class="t-ph-nav t-prev" data-tm-ph-prev aria-label="Photo précédente" tabindex="-1">‹</button>
+      <button type="button" class="t-ph-nav t-next" data-tm-ph-next aria-label="Photo suivante" tabindex="-1">›</button>
+      <span class="t-ph-dots" aria-hidden="true">{%- for i in (1..k) -%}<i{% if forloop.first %} class="t-on"{% endif %}></i>{%- endfor -%}</span>
+    {%- endif -%}
+    {%- if v0.available == false and product.available == false -%}
+      <span class="t-oos t-mono">Épuisé</span>
+    {%- elsif v0.compare_at_price > v0.price -%}
+      {%- assign pct = v0.compare_at_price | minus: v0.price | times: 100.0 | divided_by: v0.compare_at_price | round -%}
+      <span class="t-badge t-mono">-{{ pct }} %</span>
+    {%- elsif product.tags contains 'best-seller' or product.tags contains 'Best-seller' -%}
+      <span class="t-badge t-dk t-mono">Best-seller</span>
+    {%- endif -%}
+    {%- if product.available and size_opt and product.has_only_default_variant == false -%}
+      <div class="t-qadd">
+        <span class="t-mono t-muted">Ajout rapide{% if color_opt %} · {{ v0.options[cidx] }}{% endif %}</span>
+        <div class="t-s">
+          {%- for v in product.variants -%}
+            {%- if color_opt == nil or v.options[cidx] == v0.options[cidx] -%}
+              <button type="button" data-tm-add="{{ v.id }}"{% unless v.available %} disabled{% endunless %} aria-label="Ajouter {{ product.title | escape }} taille {{ v.options[sidx] }}">{{ v.options[sidx] }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="t-info">
+    <a class="t-row" href="{{ url }}"><h3>{{ nm | strip }}<span>{{ tp | escape }}</span></h3>{%- render 'tm-price', product: product, variant: variant -%}</a>
+    {%- if color_opt and color_opt.values.size > 1 and product.type != 'Parfum' -%}
+      <div class="t-swatches" role="list" aria-label="Couleurs disponibles">
+        {%- for val in color_opt.values -%}
+          {%- assign tv = nil -%}
+          {%- for v in product.variants -%}{%- if v.options[cidx] == val -%}{%- assign tv = v -%}{%- if v.available -%}{%- break -%}{%- endif -%}{%- endif -%}{%- endfor -%}
+          <a role="listitem" href="{{ tv.url | default: product.url }}" style="background:{% render 'tm-swatch-color', value: val %}" title="{{ val | escape }}" aria-label="{{ nm | strip | escape }} {{ val | escape }}"{% if val == v0.options[cidx] %} aria-current="true"{% endif %}></a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</article>

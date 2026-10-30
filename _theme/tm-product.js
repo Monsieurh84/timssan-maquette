@@ -86,6 +86,25 @@
       $$('[data-color]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.color === color())));
       const meta = $('[data-sb-meta]'); if (meta) meta.textContent = money(v.price) + (CI !== null ? ' · ' + v.options[CI] : '');
       try { const u = new URL(location.href); u.searchParams.set('variant', v.id); history.replaceState(null, '', u); } catch (e) {}
+      const idp = $('[data-idcard-img] img'); if (idp && v.img) { idp.src = v.img; idp.removeAttribute('srcset'); }
+      const sk = $('[data-stock]'); if (sk) sk.hidden = !v.available;
+    }
+    /* ---------- En stock : date de livraison estimée (règles de l'ancien site) ---------- */
+    const sk = $('[data-stock]');
+    if (sk) {
+      const cutoff = +sk.dataset.cutoff || 12;
+      const hol = (sk.dataset.holidays || '').split(',').map(x => x.trim()).filter(Boolean);
+      const key = d => `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+      const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Paris' }));
+      const am = now.getHours() < cutoff;
+      /* lun→mer/jeu, mar→jeu/ven, mer→ven/sam, jeu→sam/lun, ven→lun/mar, sam & dim→mar */
+      const add = { 1: am ? 2 : 3, 2: am ? 2 : 3, 3: am ? 2 : 3, 4: am ? 2 : 4, 5: am ? 3 : 4, 6: 3, 0: 2 }[now.getDay()];
+      const d = new Date(now); d.setDate(d.getDate() + add);
+      /* un jour férié sur le trajet décale d'un jour (jamais un dimanche) */
+      for (let i = 0, t = new Date(now); i < add; i++) { t.setDate(t.getDate() + 1); if (t.getDay() !== 0 && t.getDay() !== 6 && hol.includes(key(t))) d.setDate(d.getDate() + 1); }
+      while (d.getDay() === 0 || hol.includes(key(d))) d.setDate(d.getDate() + 1);
+      const out = sk.querySelector('[data-stock-date]');
+      if (out) out.textContent = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
     }
     root.addEventListener('click', e => {
       const b = e.target.closest('[data-color]'); if (!b) return;
@@ -104,9 +123,9 @@
       list.innerHTML = sizesFor().map(v => {
         const s = SI === null ? v.options.join(' / ') : v.options[SI];
         const ok = v.available, low = ok && v.qty !== null && v.qty > 0 && v.qty <= P.low;
-        const st = ok ? (low ? 'Plus que quelques pièces' : 'En stock') : 'Épuisé · Me notifier';
+        const st = ok ? `<i class="t-ss-ok"></i>${low ? 'Plus que quelques pièces' : 'En stock'}` : 'Épuisé';
         const isRec = rec && String(s) === String(rec);
-        return `<button type="button" data-v="${v.id}" class="t-ss-row${ok ? '' : ' t-out'}${low ? ' t-low' : ''}${notifyV === v.id ? ' t-on' : ''}${isRec ? ' t-rec' : ''}" aria-label="${ok ? `Ajouter la taille ${s} au panier` : `Taille ${s} épuisée, être prévenu du retour`}"><span class="t-ss-size">${s}</span><span class="t-ss-st">${st}${isRec ? ' <em>Conseillé pour vous</em>' : ''}</span><span class="t-ss-go" aria-hidden="true">${ok ? 'Ajouter +' : '🔔'}</span></button>`;
+        return `<button type="button" data-v="${v.id}" class="t-ss-row${ok ? '' : ' t-out'}${low ? ' t-low' : ''}${notifyV === v.id ? ' t-on' : ''}${isRec ? ' t-rec' : ''}" aria-label="${ok ? `Choisir la taille ${s} et l'ajouter au panier` : `Taille ${s} épuisée, être prévenu du retour`}"><span class="t-ss-size">${s}</span><span class="t-ss-st">${st}${isRec ? ' <em>Conseillé pour vous</em>' : ''}</span><span class="t-ss-go" aria-hidden="true">${ok ? 'Choisir' : 'Me prévenir'}</span></button>`;
       }).join('');
     }
     function openSheet() {

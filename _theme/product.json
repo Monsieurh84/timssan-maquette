@@ -22,7 +22,14 @@
         },
         "perks": {
           "type": "perks",
-          "settings": {}
+          "settings": {
+            "t1": "4,8/5 sur Trustpilot",
+            "s1": "Excellent",
+            "t2": "Échanges gratuits",
+            "s2": "Sous 14 jours",
+            "t3": "Livraison gratuite & express",
+            "s3": "En 24/48h"
+          }
         },
         "reviews": {
           "type": "reviews_anchor",
@@ -83,16 +90,28 @@
             "autoplay_duration": 5,
             "productIds": ""
           }
+        },
+        "bullets": {
+          "type": "bullets",
+          "settings": {}
+        },
+        "stock": {
+          "type": "stock",
+          "settings": {
+            "cutoff": 12
+          }
         }
       },
       "block_order": [
         "title",
         "loox_rating",
         "price",
-        "alma",
+        "bullets",
         "variant",
         "buy",
+        "stock",
         "perks",
+        "alma",
         "reviews",
         "loox_carousel",
         "acc",
@@ -201,6 +220,52 @@
       "settings": {
         "include_margins": true
       }
+    },
+    "faq": {
+      "type": "tm-faq",
+      "blocks": {
+        "qa1": {
+          "type": "qa",
+          "settings": {
+            "q": "Comment garantissez-vous la sécurité des transactions en ligne ?",
+            "a": "<p>Nous garantissons la sécurité des paiements en ligne en utilisant Stripe et PayPal, des services reconnus pour leur sécurité à 100%.</p>"
+          }
+        },
+        "qa2": {
+          "type": "qa",
+          "settings": {
+            "q": "Combien de temps faut-il pour la livraison ?",
+            "a": "<p>Nous expédions les commandes dans les 24/48 heures, sauf les week-ends et jours fériés. Le délai de livraison dépend de votre adresse et du mode de livraison choisi. Lors de votre commande, nous vous fournirons une estimation du délai de livraison pour une livraison à domicile.</p>"
+          }
+        },
+        "qa3": {
+          "type": "qa",
+          "settings": {
+            "q": "Quelle est votre politique de retour et d'échange ?",
+            "a": "<p>Vous pouvez retourner les pantalons dans les 14 jours, à condition qu'ils soient dans leur emballage d'origine, avec étiquettes et sans taches. Pour initier un retour : <a href=\"https://go.ifreturns.com/fr/timssan\" title=\"Commencer le retour\">commencer le retour</a>.</p>"
+          }
+        },
+        "qa4": {
+          "type": "qa",
+          "settings": {
+            "q": "Que faire si j'ai reçu un article défectueux ou endommagé ?",
+            "a": "<p>Contactez immédiatement notre service client à <a href=\"mailto:serviceclient@timssan.com\" title=\"serviceclient@timssan.com\">serviceclient@timssan.com</a>. Nous nous engageons à résoudre rapidement votre problème.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "qa1",
+        "qa2",
+        "qa3",
+        "qa4"
+      ],
+      "settings": {
+        "label": "Questions fréquentes",
+        "heading": "FAQ",
+        "link_label": "Toutes les questions",
+        "link": "/pages/faqs",
+        "open_first": false
+      }
     }
   },
   "order": [
@@ -208,6 +273,7 @@
     "bloc1",
     "bloc2",
     "reviews",
+    "faq",
     "related",
     "reass"
   ]
