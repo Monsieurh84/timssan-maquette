@@ -1,0 +1,87 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 12
+      }
+    },
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "full_width": false,
+        "padding_top": 12,
+        "padding_bottom": 24
+      },
+      "blocks": {
+        "t": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Vous êtes déjà <strong>+25 000 clients</strong> à faire confiance à <strong>Timssan</strong> pour accompagner votre quotidien avec style et confort.</p><p>Ces avis reflètent des expériences réelles. Timssan conçoit des pièces pensées pour durer, offrir une liberté de mouvement naturelle et mettre la silhouette en valeur, du matin au soir.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "t"
+      ]
+    },
+    "apps": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      },
+      "blocks": {
+        "badge": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-trust-badge/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "layout": "horizontal-slim",
+            "alignment": "center",
+            "scheme-type": "default",
+            "review-title": "Avis vérifiés",
+            "rating-icon": true,
+            "average-rating": true,
+            "loox-branding": false,
+            "review-count": true,
+            "open-reviews": false,
+            "show-border": true,
+            "border-radius": 0,
+            "font-size": 20,
+            "background-color": "",
+            "secondary-background-color": "",
+            "text-color": "",
+            "rating-icon-color": "",
+            "border-color": ""
+          }
+        },
+        "agg": {
+          "type": "shopify://apps/loox-reviews/blocks/loox-agg-section/5c3b337f-fd14-4df5-b1d6-80ec13e6e28e",
+          "settings": {
+            "reviews_to_display": "",
+            "default_tab": "automatic",
+            "only_photos": false,
+            "hide_thumbnails": false,
+            "product_handle": "",
+            "aggregated": true,
+            "data-limit": 40,
+            "maxwidth": 1080,
+            "is_sample": false
+          }
+        }
+      },
+      "block_order": [
+        "badge",
+        "agg"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "intro",
+    "apps"
+  ]
+}

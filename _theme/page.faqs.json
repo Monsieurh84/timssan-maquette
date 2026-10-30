@@ -1,0 +1,99 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 12
+      }
+    },
+    "faq": {
+      "type": "collapsible-content",
+      "settings": {
+        "caption": "",
+        "heading": "",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "container_color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
+        "open_first_collapsible_row": true,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 12,
+        "padding_bottom": 48
+      },
+      "blocks": {
+        "q0": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Quels sont les temps d’expédition pour vos produits ?",
+            "icon": "none",
+            "row_content": "<p>Nous prenons 1-2 jours pour traiter votre commande puis 2-3 jours pour vous la livrer.</p>"
+          }
+        },
+        "q1": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Expédiez-vous partout dans le monde ?",
+            "icon": "none",
+            "row_content": "<p>Oui, absolument. Nous livrons dans le monde entier.</p>"
+          }
+        },
+        "q2": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "D’où expédions-nous nos produits ?",
+            "icon": "none",
+            "row_content": "<p>Depuis nos locaux situés à Bollène, en France.</p>"
+          }
+        },
+        "q3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Fournissez-vous des informations de suivi du produit ?",
+            "icon": "none",
+            "row_content": "<p>Oui, attendez 3 jours après votre commande et demandez-nous par e-mail à serviceclient@timssan.com</p>"
+          }
+        },
+        "q4": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "J’ai reçu un article endommagé. Que puis-je faire ?",
+            "icon": "none",
+            "row_content": "<p>Nous sommes navrés d’entendre cela. Envoyez-nous simplement une image de l’article endommagé à serviceclient@timssan.com et nous vous enverrons un article de remplacement aussi vite que possible.</p>"
+          }
+        },
+        "q5": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Où êtes-vous situés ?",
+            "icon": "none",
+            "row_content": "<p>Nous sommes situés à Bollène en France.</p>"
+          }
+        },
+        "q6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Avez-vous une politique de remboursement ?",
+            "icon": "none",
+            "row_content": "<p>Nous faisons de notre mieux pour résoudre tous les problèmes que nos clients pourraient rencontrer. Si vous désirez tout de même un remboursement, nous pouvons l’effectuer si la demande est faite dans les 15 jours suivant la commande et que le ou les produits concernés ne sont pas soldés. Pour plus d’informations, consultez notre politique de remboursement.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "faq"
+  ]
+}
