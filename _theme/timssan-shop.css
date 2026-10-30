@@ -63,3 +63,10 @@ body,body.gradient{background:var(--bg)!important}
 .t-story-media img{width:100%;height:100%;object-fit:cover}
 .t-story.t-flip .t-story-media{order:2}
 .t-rte p{margin:0 0 12px}
+@media (max-width:480px){.t-tools .t-hide-xs{display:none}.t-lockup sup{right:-9px}}
+/* Fiche parfum : couleurs de l'étui */
+.t-parfum{background:var(--bg);color:var(--ink);--ink-80:color-mix(in srgb,var(--ink) 88%,var(--bg));--ink-60:color-mix(in srgb,var(--ink) 72%,var(--bg));--line:color-mix(in srgb,var(--acc) 34%,var(--bg));--tint:color-mix(in srgb,var(--acc) 8%,var(--bg))}
+.t-parfum .t-btn:not(.t-ghost){background:var(--ink);color:var(--bg)}
+.t-parfum .t-badge{background:var(--acc);color:var(--bg)}
+.t-parfum .t-buy-head h1{font-family:"Barlow Condensed",sans-serif;font-weight:300;font-stretch:100%;letter-spacing:.01em;font-size:clamp(72px,8vw,140px)}
+.t-parfum .t-pg-stage{border-bottom:14px solid var(--acc)}

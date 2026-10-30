@@ -1,0 +1,19 @@
+{%- comment -%} Timssan · en-tête de collection {%- endcomment -%}
+<div class="tm">
+  <div class="t-wrap">
+    <nav class="t-crumbs t-label" aria-label="Fil d'Ariane"><a href="{{ routes.root_url }}">Accueil</a><span>/</span><span aria-current="page">{{ collection.title | escape }}</span></nav>
+    <div class="t-col-hero">
+      <div>
+        <div class="t-label t-muted" style="margin-bottom:10px">[ {{ collection.products_count }} modèle{% if collection.products_count > 1 %}s{% endif %} ]</div>
+        <h1 class="t-disp">{{ collection.title | escape }}</h1>
+      </div>
+      {%- if collection.description != blank and section.settings.show_desc -%}<div class="t-lead t-rte">{{ collection.description | strip_html | truncatewords: 40 }}</div>{%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "T · En-tête collection",
+  "settings": [{ "type": "checkbox", "id": "show_desc", "label": "Afficher la description", "default": true }]
+}
+{% endschema %}

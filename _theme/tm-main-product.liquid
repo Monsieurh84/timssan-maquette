@@ -22,14 +22,31 @@
   endcapture
   assign low = section.settings.low_stock | default: 3
   assign extra_video = product.metafields.custom.video_product_page.value
-  assign coll = collection | default: product.collections.first
+  assign coll = collection
+  if coll == blank
+    for c in product.collections
+      unless c.handle contains 'bientot' or c.handle contains 'home-page' or c.handle contains 'meilleures' or c.handle contains 'dernier'
+        assign coll = c
+        break
+      endunless
+    endfor
+  endif
+  assign is_parfum = false
+  assign ptype = product.type | downcase
+  if ptype contains 'parfum'
+    assign is_parfum = true
+  endif
+  assign single = false
+  if product.variants.size == 1
+    assign single = true
+  endif
   assign cidx = 0
   if color_opt
     assign cidx = color_opt.position | minus: 1
   endif
 -%}
 
-<div class="tm t-pdp-wrap" data-tm-product="{{ section.id }}">
+<div class="tm t-pdp-wrap{% if is_parfum %} t-parfum{% endif %}" data-tm-product="{{ section.id }}"{% if is_parfum %} style="--bg:{{ section.settings.p_bg }};--ink:{{ section.settings.p_ink }};--acc:{{ section.settings.p_acc }}"{% endif %}>
   <div class="t-wrap">
     <nav class="t-crumbs t-label" aria-label="Fil d'Ariane">
       <a href="{{ routes.root_url }}">Accueil</a><span>/</span>
@@ -129,9 +146,9 @@
 
             {%- when 'buy' -%}
               <div class="t-cta" {{ block.shopify_attributes }}>
-                <button class="t-btn t-block" type="button" data-open-size aria-haspopup="dialog">{{ block.settings.label }}</button>
+                <button class="t-btn t-block" type="button" data-open-size aria-haspopup="dialog">{% if single %}Ajouter au panier · {{ current.price | money }}{% else %}{{ block.settings.label }}{% endif %}</button>
                 <div class="t-cta-sub">
-                  {%- if block.settings.fit != blank -%}<p class="t-fit-hint"><i></i>{{ block.settings.fit | escape }}</p>{%- endif -%}
+                  {%- if block.settings.fit != blank and size_opt and is_parfum == false -%}<p class="t-fit-hint"><i></i>{{ block.settings.fit | escape }}</p>{%- endif -%}
                   {%- if size_opt -%}<button class="t-lnk" type="button" data-tm-sizes>Guide des tailles</button>{%- endif -%}
                 </div>
               </div>
@@ -166,6 +183,7 @@
               </div>
 
             {%- when 'idcard' -%}
+              {%- if is_parfum -%}{%- continue -%}{%- endif -%}
               <div class="t-idcard" aria-label="Carte d'identité du produit" {{ block.shopify_attributes }}>
                 <div class="t-top">
                   {%- if product.featured_image -%}{{ product.featured_image | image_url: width: 300 | image_tag: alt: '', loading: 'lazy' }}{%- endif -%}
@@ -201,7 +219,7 @@
   {%- comment -%} Barre d'achat mobile {%- endcomment -%}
   <div class="t-sticky-buy" data-sticky>
     <div class="t-nm"><b>{{ name | strip | escape }}</b><span class="t-muted" data-sb-meta>{{ current.price | money }}{% if color_opt %} · {{ current.options[cidx] }}{% endif %}</span></div>
-    <button class="t-btn" type="button" data-open-size aria-haspopup="dialog">{% if product.has_only_default_variant %}Ajouter{% else %}Choisir ma taille{% endif %}</button>
+    <button class="t-btn" type="button" data-open-size aria-haspopup="dialog">{% if single %}Ajouter{% else %}Choisir ma taille{% endif %}</button>
   </div>
 
   {%- comment -%} Pop-up de taille {%- endcomment -%}
@@ -266,7 +284,11 @@
   "settings": [
     { "type": "range", "id": "low_stock", "label": "« Plus que quelques pièces » sous", "min": 1, "max": 10, "step": 1, "default": 3 },
     { "type": "checkbox", "id": "finder", "label": "Calculateur de taille dans la pop-up", "default": true },
-    { "type": "text", "id": "sheet_note", "label": "Note sous les tailles", "default": "Livraison offerte 24/48h · Échange offert" }
+    { "type": "text", "id": "sheet_note", "label": "Note sous les tailles", "default": "Livraison offerte 24/48h · Échange offert" },
+    { "type": "header", "content": "Parfums (type de produit « Parfum »)" },
+    { "type": "color", "id": "p_bg", "label": "Fond (étui)", "default": "#F5F1E4" },
+    { "type": "color", "id": "p_ink", "label": "Texte", "default": "#2C463E" },
+    { "type": "color", "id": "p_acc", "label": "Accent (bande de l'étui)", "default": "#557067" }
   ],
   "blocks": [
     { "type": "@app" },
