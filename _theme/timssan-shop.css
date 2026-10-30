@@ -1,0 +1,65 @@
+/* Timssan — raccords Shopify / Dawn (polices, en-tête collant, tiroir panier, pages système) */
+:root{
+  --font-body-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",Arial,sans-serif;
+  --font-heading-family:"Bricolage Grotesque","Arial Black",sans-serif;
+  --font-heading-weight:800;
+  --font-body-weight:400;
+}
+body{letter-spacing:0}
+h1,h2,h3,.h0,.h1,.h2,.h3{font-stretch:75%;text-transform:uppercase;letter-spacing:-.005em;line-height:.95}
+.tm h1,.tm h2,.tm h3,.tm h4,.tm h5,.tm h6{letter-spacing:inherit}
+.tm p{letter-spacing:0}
+.tm a{text-decoration:none}
+.tm .t-lead a,.tm p a{text-decoration:underline;text-underline-offset:3px}
+
+/* En-tête collant (la section Shopify porte le sticky) */
+.shopify-section.tm-header-section{position:sticky;top:0;z-index:40}
+.t-site{position:relative}
+.t-logo-img{height:44px;width:auto}
+.t-acc{display:grid;place-items:center;padding:8px}
+.t-acc svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6}
+#cart-icon-bubble.t-cart-btn{color:var(--bg)}
+#cart-icon-bubble.t-bump{animation:t-bump .5s}
+@keyframes t-bump{40%{transform:scale(1.08)}}
+.t-mega h6 a{color:inherit}
+.t-mega-feat .t-price{font-size:15px}
+.t-search-res span{display:block}
+.t-mnav,.t-search{visibility:hidden}
+.t-mnav.t-on,.t-search.t-on{visibility:visible}
+.t-modal[aria-hidden="true"]{visibility:hidden}
+.t-modal.t-on{visibility:visible}
+
+/* Pied de page : logos de paiement officiels */
+.t-pay svg{width:44px;height:28px;display:block;border-radius:4px;background:#fff}
+.t-credit p{margin:0;display:inline}
+.t-footer a{color:inherit}
+
+/* Sections : pas de marge Dawn parasite */
+.shopify-section .t-sec + .t-sec{margin-top:0}
+.t-app{margin-top:40px}
+.t-hero-vid{width:100%;height:100%;object-fit:cover;display:block}
+.t-hero-img .t-hero-vid video{width:100%;height:100%;object-fit:cover}
+#tmNewsletter{display:flex;border-bottom:2px solid currentColor}
+
+/* Tiroir panier Dawn aux couleurs Timssan */
+cart-drawer .drawer__inner{background:var(--bg);color:var(--ink);border-left:2px dashed var(--line)}
+cart-drawer .drawer__heading{font-family:"Bricolage Grotesque",sans-serif;font-stretch:75%;font-weight:800;text-transform:uppercase;font-size:32px;letter-spacing:0}
+cart-drawer .drawer__header{border-bottom:2px dashed var(--line)}
+cart-drawer .drawer__footer{border-top:2px dashed var(--line)}
+cart-drawer .cart-item__name{font-family:"Bricolage Grotesque",sans-serif;font-stretch:75%;font-weight:800;text-transform:uppercase;font-size:18px;text-decoration:none;letter-spacing:0}
+cart-drawer .button,.button{border-radius:0;font-weight:600;letter-spacing:.02em}
+cart-drawer .totals__total,cart-drawer .totals__total-value{font-weight:600}
+.button,.shopify-challenge__button,.customer button{background:var(--ink);color:var(--bg)}
+.button--secondary{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+
+/* Pages système Dawn (compte, recherche, panier) : titres de marque */
+.main-page-title,.customer h1,.title--primary,.collection-hero__title,.cart__title,.template-search__header h1{font-family:"Bricolage Grotesque",sans-serif;font-stretch:75%;font-weight:800;text-transform:uppercase}
+.field__input,.select__select,.customer .field input{border-radius:0}
+/* correctifs v1.1 */
+body,body.gradient{background:var(--bg)!important}
+.t-tools .t-cart-btn{background:var(--ink);color:var(--bg);padding:9px 16px}
+.t-tools .t-cart-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8}
+.t-story-media{aspect-ratio:4/5;overflow:hidden;background:var(--tint)}
+.t-story-media img{width:100%;height:100%;object-fit:cover}
+.t-story.t-flip .t-story-media{order:2}
+.t-rte p{margin:0 0 12px}

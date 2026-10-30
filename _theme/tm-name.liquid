@@ -1,0 +1,18 @@
+{%- comment -%} Sort le nom court (ex. LOM) ou le sous-titre (ex. Jogpant Denim · 2 Stone) d'un produit. part: 'name' | 'type' {%- endcomment -%}
+{%- liquid
+  assign t = product.title | replace: ' – ', '|' | replace: ' - ', '|' | replace: ' — ', '|'
+  assign bits = t | split: '|'
+  if part == 'name'
+    assign src = product.metafields._up.short_title.value | default: product.title
+    assign src = src | replace: ' – ', '|' | replace: ' - ', '|' | replace: ' — ', '|'
+    assign out = src | split: '|' | first
+    echo out | strip
+  else
+    assign sub = product.metafields._up.subtitle.value
+    if sub == blank
+      assign rest = bits | slice: 1, 9 | join: ' · '
+      assign sub = rest | default: product.type
+    endif
+    echo sub | strip
+  endif
+-%}

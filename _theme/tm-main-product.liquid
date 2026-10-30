@@ -1,0 +1,302 @@
+{%- comment -%}
+  Timssan · fiche produit : galerie sticky (photos + vidéos), couleurs, pop-up de taille (ajout direct au panier,
+  alerte retour en stock Klaviyo), blocs d'applis (Loox, Alma…), réassurance, accordéons, carte d'identité.
+{%- endcomment -%}
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign color_opt = nil
+  assign size_opt = nil
+  for o in product.options_with_values
+    assign on = o.name | downcase
+    if on contains 'couleur' or on contains 'color' or on contains 'coloris'
+      assign color_opt = o
+    elsif on contains 'taille' or on contains 'size' or on contains 'contenance' or on contains 'pointure'
+      assign size_opt = o
+    endif
+  endfor
+  capture name
+    render 'tm-name', product: product, part: 'name'
+  endcapture
+  capture sub
+    render 'tm-name', product: product, part: 'type'
+  endcapture
+  assign low = section.settings.low_stock | default: 3
+  assign extra_video = product.metafields.custom.video_product_page.value
+  assign coll = collection | default: product.collections.first
+  assign cidx = 0
+  if color_opt
+    assign cidx = color_opt.position | minus: 1
+  endif
+-%}
+
+<div class="tm t-pdp-wrap" data-tm-product="{{ section.id }}">
+  <div class="t-wrap">
+    <nav class="t-crumbs t-label" aria-label="Fil d'Ariane">
+      <a href="{{ routes.root_url }}">Accueil</a><span>/</span>
+      {%- if coll -%}<a href="{{ coll.url }}">{{ coll.title | escape }}</a><span>/</span>{%- endif -%}
+      <span aria-current="page">{{ name | strip | escape }}</span>
+    </nav>
+
+    <div class="t-pdp">
+      {%- comment -%} Galerie : toutes les photos + vidéos du produit, filtrées par couleur si le texte alt = nom de la couleur {%- endcomment -%}
+      <div class="t-pg" aria-roledescription="carrousel" aria-label="Photos et vidéo du produit">
+        <div class="t-pg-thumbs" data-thumbs role="tablist" aria-label="Choisir une photo">
+          {%- for m in product.media -%}
+            {%- assign prev = m.preview_image -%}
+            <button type="button" role="tab" data-i="{{ forloop.index0 }}" data-alt="{{ m.alt | escape }}" class="{% if m.media_type == 'video' or m.media_type == 'external_video' %}t-is-video{% endif %}" aria-label="{% if m.media_type == 'video' %}Vidéo{% else %}Photo {{ forloop.index }}{% endif %}">
+              {%- if prev -%}{{ prev | image_url: width: 240 | image_tag: alt: '', loading: 'lazy', width: 160, height: 240 }}{%- endif -%}
+            </button>
+          {%- endfor -%}
+          {%- if extra_video -%}
+            <button type="button" role="tab" data-i="{{ product.media.size }}" data-alt="" class="t-is-video" aria-label="Vidéo">{%- if extra_video.preview_image -%}{{ extra_video.preview_image | image_url: width: 240 | image_tag: alt: '', loading: 'lazy' }}{%- endif -%}</button>
+          {%- endif -%}
+        </div>
+        <div class="t-pg-stage" data-stage>
+          <div class="t-pg-track" data-track>
+            {%- for m in product.media -%}
+              <div class="t-pg-slide{% if m.media_type == 'video' or m.media_type == 'external_video' %} t-is-video{% endif %}" data-alt="{{ m.alt | escape }}" data-media-id="{{ m.id }}">
+                {%- case m.media_type -%}
+                  {%- when 'image' -%}
+                    {%- if forloop.first -%}
+                      {{ m | image_url: width: 1800 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600,900,1200,1500,1800', sizes: '(max-width: 860px) 100vw, 50vw', alt: m.alt | default: product.title }}
+                    {%- else -%}
+                      {{ m | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '600,900,1200,1500,1800', sizes: '(max-width: 860px) 100vw, 50vw', alt: m.alt | default: product.title }}
+                    {%- endif -%}
+                  {%- when 'video' -%}
+                    {{ m | video_tag: muted: true, loop: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1200x' }}
+                  {%- when 'external_video' -%}
+                    {{ m | external_video_tag }}
+                  {%- else -%}
+                    {{ m | media_tag }}
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+            {%- if extra_video -%}
+              <div class="t-pg-slide t-is-video" data-alt="">{{ extra_video | video_tag: muted: true, loop: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1200x' }}</div>
+            {%- endif -%}
+          </div>
+          <button class="t-pg-nav t-prev" type="button" data-prev aria-label="Photo précédente">←</button>
+          <button class="t-pg-nav t-next" type="button" data-next aria-label="Photo suivante">→</button>
+          {%- if current.compare_at_price > current.price -%}
+            {%- assign pct = current.compare_at_price | minus: current.price | times: 100.0 | divided_by: current.compare_at_price | round -%}
+            <span class="t-badge t-label">-{{ pct }} %</span>
+          {%- endif -%}
+          <div class="t-pg-meta"><span class="t-label" data-count></span></div>
+        </div>
+        <div class="t-pg-dots" data-dots aria-hidden="true"></div>
+      </div>
+
+      {%- comment -%} Colonne d'achat {%- endcomment -%}
+      <div class="t-buy">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              <div class="t-app-slot">{% render block %}</div>
+
+            {%- when 'title' -%}
+              <div class="t-buy-head" {{ block.shopify_attributes }}>
+                <h1>{{ name | strip | escape }}</h1>
+                <p class="t-sub">{{ sub | strip | escape }}</p>
+              </div>
+
+            {%- when 'price' -%}
+              <div class="t-pr" data-price {{ block.shopify_attributes }}>
+                {%- render 'tm-price', product: product, variant: current -%}
+                {%- if current.compare_at_price > current.price -%}<span class="t-badge t-label" style="position:static">-{{ pct }} %</span>{%- endif -%}
+              </div>
+
+            {%- when 'rating' -%}
+              {%- assign r = product.metafields.reviews.rating.value -%}
+              {%- assign rc = product.metafields.reviews.rating_count -%}
+              <a class="t-rating" href="#{{ block.settings.anchor | default: 'avis' }}" {{ block.shopify_attributes }}>
+                <span class="t-lx-stars" aria-hidden="true">★★★★★</span>
+                <span>{% if r %}{{ r.rating | round: 1 | replace: '.', ',' }}/5{% if rc > 0 %} · {{ rc }} avis{% endif %}{% else %}{{ settings.tm_rating }}/5 · Lire les avis clients{% endif %}</span>
+              </a>
+
+            {%- when 'variant' -%}
+              {%- if color_opt and color_opt.values.size > 1 -%}
+                <div {{ block.shopify_attributes }}>
+                  <div class="t-opt-h"><span>{{ color_opt.name | escape }} · <b data-cname>{{ current.options[cidx] }}</b></span></div>
+                  <div class="t-colors" role="group" aria-label="{{ color_opt.name | escape }}">
+                    {%- for val in color_opt.values -%}
+                      <button type="button" data-color="{{ val | escape }}" style="background:{% render 'tm-swatch-color', value: val %}" aria-pressed="{% if val == current.options[cidx] %}true{% else %}false{% endif %}" aria-label="{{ val | escape }}" title="{{ val | escape }}"></button>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- elsif color_opt -%}
+                <div class="t-opt-h" {{ block.shopify_attributes }}><span>{{ color_opt.name | escape }} · <b>{{ current.options[cidx] }}</b></span></div>
+              {%- endif -%}
+
+            {%- when 'buy' -%}
+              <div class="t-cta" {{ block.shopify_attributes }}>
+                <button class="t-btn t-block" type="button" data-open-size aria-haspopup="dialog">{{ block.settings.label }}</button>
+                <div class="t-cta-sub">
+                  {%- if block.settings.fit != blank -%}<p class="t-fit-hint"><i></i>{{ block.settings.fit | escape }}</p>{%- endif -%}
+                  {%- if size_opt -%}<button class="t-lnk" type="button" data-tm-sizes>Guide des tailles</button>{%- endif -%}
+                </div>
+              </div>
+
+            {%- when 'perks' -%}
+              <div class="t-perks-p" {{ block.shopify_attributes }}>
+                {%- for i in (1..3) -%}
+                  {%- capture kt -%}t{{ i }}{%- endcapture -%}{%- capture ks -%}s{{ i }}{%- endcapture -%}
+                  {%- if block.settings[kt] != blank -%}<div><b>{{ block.settings[kt] | escape }}</b><span class="t-muted">{{ block.settings[ks] | escape }}</span></div>{%- endif -%}
+                {%- endfor -%}
+              </div>
+
+            {%- when 'reviews_anchor' -%}
+              <div id="avis" class="t-rv-anchor" {{ block.shopify_attributes }}>
+                {%- if block.settings.heading != blank -%}<div class="t-lx-head"><h2>{{ block.settings.heading | escape }}</h2></div>{%- endif -%}
+              </div>
+
+            {%- when 'accordion' -%}
+              <div class="t-acc" {{ block.shopify_attributes }}>
+                {%- assign desc = product.metafields.custom.description_produit.value | default: product.description -%}
+                {%- if desc != blank -%}<details open><summary>Description</summary><div class="t-in">{{ desc | newline_to_br }}</div></details>{%- endif -%}
+                {%- if product.metafields.custom.guide_des_tailles.value != blank -%}
+                  <details><summary>Coupe &amp; taille</summary><div class="t-in"><p>{{ product.metafields.custom.guide_des_tailles.value | newline_to_br }}</p>{%- if size_opt -%}<p><a href="#" data-tm-sizes>Ouvrir le guide des tailles</a></p>{%- endif -%}</div></details>
+                {%- endif -%}
+                {%- if product.metafields.custom.fabrication.value != blank -%}
+                  <details><summary>Fabrication &amp; entretien</summary><div class="t-in"><p>{{ product.metafields.custom.fabrication.value | newline_to_br }}</p></div></details>
+                {%- endif -%}
+                {%- if product.metafields.custom.notes_olfactives.value != blank -%}
+                  <details><summary>Notes olfactives</summary><div class="t-in">{{ product.metafields.custom.notes_olfactives | metafield_tag }}</div></details>
+                {%- endif -%}
+                {%- if block.settings.shipping != blank -%}<details><summary>Livraison &amp; retours</summary><div class="t-in">{{ block.settings.shipping }}</div></details>{%- endif -%}
+              </div>
+
+            {%- when 'idcard' -%}
+              <div class="t-idcard" aria-label="Carte d'identité du produit" {{ block.shopify_attributes }}>
+                <div class="t-top">
+                  {%- if product.featured_image -%}{{ product.featured_image | image_url: width: 300 | image_tag: alt: '', loading: 'lazy' }}{%- endif -%}
+                  <dl>
+                    <dt>Nom</dt><dd class="t-sep">:</dd><dd>{{ name | strip | escape }} – {{ sub | strip | escape }}</dd>
+                    <dt>Né à</dt><dd class="t-sep">:</dd><dd>{{ block.settings.born | escape }}</dd>
+                    <dt>Âge à la sortie</dt><dd class="t-sep">:</dd><dd>{{ block.settings.age | escape }}</dd>
+                    <dt>Taille</dt><dd class="t-sep">:</dd><dd>La vôtre</dd>
+                    <dt>Caractère</dt><dd class="t-sep">:</dd><dd>{{ block.settings.character | escape }}</dd>
+                    <dt>Destination</dt><dd class="t-sep">:</dd><dd>Vous.</dd>
+                  </dl>
+                </div>
+                <h3>Carte d'identité</h3>
+                <div class="t-back">Prenez-en soin.<br>Il le rendra.</div>
+              </div>
+              {%- if block.settings.care != blank -%}
+                <div class="t-care">
+                  <div class="t-care-l"><span>{{ block.settings.composition | escape | newline_to_br }}</span><span>{{ block.settings.care | escape }}</span>{%- render 'tm-care-icons' -%}</div>
+                  <div class="t-care-l"><span class="t-script">Built for everyday</span>{%- render 'tm-care-icons' -%}</div>
+                </div>
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+
+        {%- comment -%} Formulaire Shopify (ajout au panier) {%- endcomment -%}
+        {%- form 'product', product, id: 'tmProductForm', class: 't-sr', novalidate: 'novalidate' -%}
+          <input type="hidden" name="id" value="{{ current.id }}" data-variant-input>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} Barre d'achat mobile {%- endcomment -%}
+  <div class="t-sticky-buy" data-sticky>
+    <div class="t-nm"><b>{{ name | strip | escape }}</b><span class="t-muted" data-sb-meta>{{ current.price | money }}{% if color_opt %} · {{ current.options[cidx] }}{% endif %}</span></div>
+    <button class="t-btn" type="button" data-open-size aria-haspopup="dialog">{% if product.has_only_default_variant %}Ajouter{% else %}Choisir ma taille{% endif %}</button>
+  </div>
+
+  {%- comment -%} Pop-up de taille {%- endcomment -%}
+  <div class="t-sheet" data-sheet role="dialog" aria-modal="true" aria-labelledby="tmSsT-{{ section.id }}" aria-hidden="true">
+    <div class="t-sheet-in">
+      <div class="t-sheet-head">
+        <img data-ss-img alt="" src="{%- if product.featured_image -%}{{ product.featured_image | image_url: width: 200 }}{%- endif -%}" width="56" height="70">
+        <div><b>{{ name | strip | escape }} — {{ sub | strip | escape }}</b><span class="t-muted" data-ss-meta></span></div>
+        <button class="t-icon-btn" type="button" data-ss-close aria-label="Fermer">Fermer ✕</button>
+      </div>
+      <div class="t-sheet-body">
+        <div class="t-opt-h"><span id="tmSsT-{{ section.id }}">Touchez votre taille pour l'ajouter au panier</span>{%- if size_opt -%}<button class="t-lnk" type="button" data-tm-sizes>Guide</button>{%- endif -%}</div>
+        {%- if size_opt and section.settings.finder -%}
+          <details class="t-ss-find" data-ss-find><summary>Je ne connais pas ma taille</summary>{%- render 'tm-finder', id: section.id -%}</details>
+        {%- endif -%}
+        <div class="t-ss-list" data-ss-list></div>
+        <div class="t-ss-notify" data-ss-notify hidden>
+          <b data-ss-notify-t></b>
+          <form data-ss-notify-f novalidate><label class="t-sr" for="tmSsMail-{{ section.id }}">Adresse e-mail</label><input id="tmSsMail-{{ section.id }}" type="email" placeholder="votre@email.fr" autocomplete="email"><button class="t-btn" type="submit">Me notifier</button></form>
+          <p class="t-ss-msg" data-ss-msg role="status"></p>
+        </div>
+      </div>
+      <div class="t-sheet-foot"><small class="t-muted">{{ section.settings.sheet_note | escape }}</small></div>
+    </div>
+  </div>
+
+  <script type="application/json" data-tm-product-json>
+    {
+      "id": {{ product.id }},
+      "colorIndex": {% if color_opt %}{{ color_opt.position | minus: 1 }}{% else %}null{% endif %},
+      "sizeIndex": {% if size_opt %}{{ size_opt.position | minus: 1 }}{% else %}null{% endif %},
+      "low": {{ low }},
+      "klaviyo": {{ settings.tm_klaviyo_key | json }},
+      "current": {{ current.id }},
+      "variants": [
+        {%- for v in product.variants -%}
+          {"id": {{ v.id }}, "options": {{ v.options | json }}, "available": {{ v.available }}, "price": {{ v.price }}, "compare": {{ v.compare_at_price | default: 0 }}, "qty": {% if v.inventory_management == 'shopify' and v.inventory_policy == 'deny' %}{{ v.inventory_quantity }}{% else %}null{% endif %}, "media": {% if v.featured_media %}{{ v.featured_media.id }}{% else %}null{% endif %}}{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+</div>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Accueil", "item": {{ shop.url | json }} }
+      {%- if coll -%},{ "@type": "ListItem", "position": 2, "name": {{ coll.title | json }}, "item": {{ shop.url | append: coll.url | json }} }{%- endif -%},
+      { "@type": "ListItem", "position": {% if coll %}3{% else %}2{% endif %}, "name": {{ product.title | json }} }
+    ]
+  }
+</script>
+<script type="application/ld+json">{{ product | structured_data }}</script>
+<script src="{{ 'tm-product.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "T · Fiche produit",
+  "class": "tm-main-product",
+  "settings": [
+    { "type": "range", "id": "low_stock", "label": "« Plus que quelques pièces » sous", "min": 1, "max": 10, "step": 1, "default": 3 },
+    { "type": "checkbox", "id": "finder", "label": "Calculateur de taille dans la pop-up", "default": true },
+    { "type": "text", "id": "sheet_note", "label": "Note sous les tailles", "default": "Livraison offerte 24/48h · Échange offert" }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    { "type": "title", "name": "Titre", "limit": 1 },
+    { "type": "price", "name": "Prix", "limit": 1 },
+    { "type": "rating", "name": "Note", "limit": 1, "settings": [{ "type": "text", "id": "anchor", "label": "Ancre", "default": "avis" }] },
+    { "type": "variant", "name": "Couleurs", "limit": 1 },
+    { "type": "buy", "name": "Bouton taille", "limit": 1, "settings": [
+      { "type": "text", "id": "label", "label": "Libellé", "default": "Choisir ma taille" },
+      { "type": "text", "id": "fit", "label": "Conseil de coupe", "default": "Taille normalement" }
+    ] },
+    { "type": "perks", "name": "Réassurance", "limit": 1, "settings": [
+      { "type": "text", "id": "t1", "label": "Titre 1", "default": "Livré en 24/48h" },
+      { "type": "text", "id": "s1", "label": "Texte 1", "default": "Offert en France métropolitaine" },
+      { "type": "text", "id": "t2", "label": "Titre 2", "default": "Échange offert" },
+      { "type": "text", "id": "s2", "label": "Texte 2", "default": "14 jours pour changer d'avis" },
+      { "type": "text", "id": "t3", "label": "Titre 3", "default": "3 ou 4 fois" },
+      { "type": "text", "id": "s3", "label": "Texte 3", "default": "Sans frais, paiement sécurisé" }
+    ] },
+    { "type": "reviews_anchor", "name": "Titre avis", "limit": 1, "settings": [{ "type": "text", "id": "heading", "label": "Titre", "default": "Avis clients" }] },
+    { "type": "accordion", "name": "Accordéons", "limit": 1, "settings": [
+      { "type": "richtext", "id": "shipping", "label": "Livraison & retours", "default": "<p>Expédition sous 24h, livraison offerte en 24/48h en France métropolitaine. Échange offert et 14 jours pour changer d'avis.</p>" }
+    ] },
+    { "type": "idcard", "name": "Carte d'identité", "limit": 1, "settings": [
+      { "type": "text", "id": "born", "label": "Né à", "default": "Atelier TIMSSAN, Casablanca" },
+      { "type": "text", "id": "age", "label": "Âge à la sortie", "default": "15 heures de travail" },
+      { "type": "text", "id": "character", "label": "Caractère", "default": "Discret, fiable, constant" },
+      { "type": "textarea", "id": "composition", "label": "Composition (étiquette)", "default": "COMPOSITION\n98 % Coton — 2 % Élasthanne" },
+      { "type": "text", "id": "care", "label": "Entretien (étiquette)", "default": "Lavage 30 °C à l'envers, séchage à l'air libre." }
+    ] }
+  ]
+}
+{% endschema %}

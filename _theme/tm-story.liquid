@@ -1,0 +1,28 @@
+{%- comment -%} Timssan · image + texte (champs méta produit) — masqué automatiquement s'il est vide {%- endcomment -%}
+{%- if section.settings.image != blank or section.settings.title != blank -%}
+<section class="t-sec tm t-story{% if section.settings.flip %} t-flip{% endif %}">
+  <div class="t-wrap t-gift">
+    {%- if section.settings.image != blank -%}
+      <div class="t-story-media">{{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600,900,1200,1400', sizes: '(max-width: 860px) 100vw, 50vw' }}</div>
+    {%- endif -%}
+    <div style="display:grid;gap:22px">
+      {%- if section.settings.label != blank -%}<div class="t-label t-muted">{{ section.settings.label | escape }}</div>{%- endif -%}
+      {%- if section.settings.title != blank -%}<h2 class="t-disp" style="font-size:clamp(40px,4.6vw,76px)">{{ section.settings.title }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<div class="t-lead t-rte">{{ section.settings.text }}</div>{%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+{% schema %}
+{
+  "name": "T · Image + texte",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "label", "label": "Étiquette" },
+    { "type": "text", "id": "title", "label": "Titre" },
+    { "type": "richtext", "id": "text", "label": "Texte" },
+    { "type": "checkbox", "id": "flip", "label": "Image à droite", "default": false }
+  ],
+  "presets": [{ "name": "T · Image + texte" }]
+}
+{% endschema %}
