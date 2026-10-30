@@ -1,0 +1,156 @@
+{%- comment -%}
+  Timssan · en-tête : menu (méga-menu depuis le menu Shopify), logo, recherche, espace membres, compte, panier.
+  Le panier ouvre le tiroir panier de Dawn (id cart-icon-bubble).
+{%- endcomment -%}
+{%- liquid
+  assign menu = section.settings.menu
+  assign members_url = settings.tm_members_url | default: '/pages/fidelite-parrainage'
+  assign outlet = section.settings.outlet_title | downcase
+-%}
+<div class="tm">
+  <header class="t-site">
+    <div class="t-wrap t-hd">
+      <ul class="t-nav" role="list">
+        {%- for link in menu.links -%}
+          {%- liquid
+            assign t = link.title | downcase
+            assign is_outlet = false
+            if outlet != blank and t contains outlet
+              assign is_outlet = true
+            endif
+          -%}
+          <li>
+            <a href="{{ link.url }}"{% if link.current or link.child_active %} aria-current="page"{% endif %}{% if link.links.size > 0 %} aria-haspopup="true"{% endif %}>
+              {{- link.title | escape -}}
+              {%- if is_outlet -%}<span class="t-tag t-mono">{{ section.settings.outlet_tag | escape }}</span>{%- endif -%}
+            </a>
+            {%- if link.links.size > 0 -%}
+              <div class="t-mega">
+                <div class="t-wrap t-mega-in">
+                  {%- assign has_grand = false -%}
+                  {%- for child in link.links -%}{%- if child.links.size > 0 -%}{%- assign has_grand = true -%}{%- endif -%}{%- endfor -%}
+                  {%- if has_grand -%}
+                    {%- for child in link.links limit: 3 -%}
+                      <div>
+                        <h6><a href="{{ child.url }}">{{ child.title | escape }}</a></h6>
+                        <ul>{%- for g in child.links -%}<li><a href="{{ g.url }}">{{ g.title | escape }}</a></li>{%- endfor -%}</ul>
+                      </div>
+                    {%- endfor -%}
+                  {%- else -%}
+                    <div class="t-mega-tiles">
+                      {%- for child in link.links limit: 4 -%}
+                        {%- liquid
+                          assign im = blank
+                          if child.type == 'collection_link'
+                            assign im = child.object.featured_image | default: child.object.products.first.featured_image
+                          elsif child.type == 'product_link'
+                            assign im = child.object.featured_image
+                          endif
+                        -%}
+                        <a class="t-mega-tile" href="{{ child.url }}">
+                          <span class="t-mt-img">{%- if im -%}{{ im | image_url: width: 500 | image_tag: loading: 'lazy', alt: '', widths: '300,500', sizes: '220px' }}{%- endif -%}</span>
+                          <span class="t-mt-t">{{ child.title | escape }}</span>
+                        </a>
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+                  {%- assign f = section.settings.feature_product -%}
+                  {%- if f != blank -%}
+                    <a class="t-mega-feat" href="{{ f.url }}">
+                      {%- if f.featured_image -%}{{ f.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: f.title, widths: '200,400', sizes: '140px' }}{%- endif -%}
+                      <div><span class="t-mono t-muted">{{ section.settings.feature_label | escape }}</span><b>{{ f.title | split: '–' | first | split: ' - ' | first | strip }}</b><br>{%- render 'tm-price', product: f -%}</div>
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <button class="t-burger t-icon-btn t-mono" type="button" id="tmBurger" aria-expanded="false" aria-controls="tmNav">Menu</button>
+
+      <a class="t-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }}, accueil">
+        {%- if section.settings.logo != blank -%}
+          {{ section.settings.logo | image_url: width: 400 | image_tag: alt: shop.name, class: 't-logo-img', widths: '200,400', sizes: '160px' }}
+        {%- else -%}
+          {%- render 'tm-lockup' -%}
+        {%- endif -%}
+      </a>
+
+      <div class="t-tools">
+        <button class="t-icon-btn t-hide-xs" type="button" data-tm-search aria-controls="tmSearch">Rechercher</button>
+        <a class="t-hide-s" href="{{ members_url }}">{{ settings.tm_members_label | escape }}</a>
+        {%- if shop.customer_accounts_enabled -%}
+          <a class="t-acc t-hide-xs" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" aria-label="{% if customer %}Mon compte{% else %}Se connecter{% endif %}">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+          </a>
+        {%- endif -%}
+        <a href="{{ routes.cart_url }}" class="t-cart-btn" id="cart-icon-bubble" aria-label="Ouvrir le panier">{%- render 'tm-cart-count' -%}</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="t-mnav" id="tmNav" aria-label="Menu mobile" aria-hidden="true" inert>
+    <div class="t-wrap t-mnav-top"><span class="t-mono">Menu</span><button class="t-icon-btn" type="button" data-tm-close>Fermer ✕</button></div>
+    <div class="t-wrap t-mnav-body">
+      {%- for link in menu.links -%}
+        {%- if link.links.size > 0 -%}
+          <details>
+            <summary>{{ link.title | escape }}</summary>
+            <ul>
+              {%- for child in link.links -%}
+                <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
+                {%- for g in child.links -%}<li><a href="{{ g.url }}">· {{ g.title | escape }}</a></li>{%- endfor -%}
+              {%- endfor -%}
+            </ul>
+          </details>
+        {%- else -%}
+          <a class="t-solo" href="{{ link.url }}">{{ link.title | escape }}</a>
+        {%- endif -%}
+      {%- endfor -%}
+      <div class="t-mnav-foot">
+        <span class="t-script">Built for everyday</span>
+        <a href="#" data-tm-search>Rechercher un modèle</a>
+        <a href="{{ members_url }}">{{ settings.tm_members_label | escape }} · fidélité &amp; parrainage</a>
+        {%- if shop.customer_accounts_enabled -%}<a href="{{ routes.account_url }}">{% if customer %}Mon compte{% else %}Se connecter{% endif %}</a>{%- endif -%}
+        <a href="#" data-tm-sizes>Guide des tailles</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="t-search" id="tmSearch" role="dialog" aria-modal="true" aria-label="Recherche" aria-hidden="true" inert>
+    <div class="t-wrap">
+      <form action="{{ routes.search_url }}" method="get" role="search" id="tmSForm">
+        <input type="hidden" name="type" value="product">
+        <label for="tmSIn" class="t-sr">Rechercher</label>
+        <input id="tmSIn" type="search" name="q" placeholder="Jogpant, denim, noir…" autocomplete="off">
+        <button type="button" class="t-icon-btn" data-tm-close>Fermer ✕</button>
+      </form>
+      <div class="t-search-pop">
+        <span class="t-mono t-muted" style="align-self:center">Populaire</span>
+        {%- assign chips = section.settings.search_chips | split: ',' -%}
+        {%- for c in chips -%}<button class="t-chip" type="button" data-q="{{ c | strip | escape }}">{{ c | strip | escape }}</button>{%- endfor -%}
+      </div>
+      <div class="t-search-res" id="tmSRes" aria-live="polite"></div>
+    </div>
+  </div>
+  <div class="t-scrim" id="tmScrim"></div>
+</div>
+
+{% schema %}
+{
+  "name": "T · En-tête",
+  "class": "tm-header-section",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo (facultatif)", "info": "Sans logo, le lockup TIMSSAN du brand book est utilisé." },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "text", "id": "outlet_title", "label": "Lien à marquer (titre contient)", "default": "Dernier Passage" },
+    { "type": "text", "id": "outlet_tag", "label": "Étiquette", "default": "Outlet" },
+    { "type": "product", "id": "feature_product", "label": "Produit mis en avant dans le méga-menu" },
+    { "type": "text", "id": "feature_label", "label": "Titre du produit mis en avant", "default": "Le modèle du moment" },
+    { "type": "text", "id": "search_chips", "label": "Recherches populaires (séparées par des virgules)", "default": "Jogpant, Denim, Noir, Bermuda, Parfum" }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

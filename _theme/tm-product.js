@@ -15,9 +15,20 @@
     const colorNames = CI === null ? [] : [...new Set(P.variants.map(v => v.options[CI].toLowerCase()))];
     const groupByAlt = allSlides.some(s => colorNames.includes((s.dataset.alt || '').toLowerCase()));
     let vis = [], idx = 0;
+    /* Regroupement par couleur via l'image mise en avant de chaque variante */
+    const starts = {};
+    if (!groupByAlt && CI !== null) P.variants.forEach(v => {
+      if (!v.media) return; const i = allSlides.findIndex(s => s.dataset.mediaId == v.media); if (i < 0) return;
+      const k = v.options[CI].toLowerCase(); if (starts[k] === undefined || i < starts[k]) starts[k] = i;
+    });
+    const startList = Object.entries(starts).sort((a, b) => a[1] - b[1]);
+    const groupByVariant = startList.length > 1;
+    const rangeOf = c => { const k = startList.findIndex(e => e[0] === c); if (k < 0) return null; return [startList[k][1], k + 1 < startList.length ? startList[k + 1][1] : allSlides.length]; };
     function filter() {
       const c = (color() || '').toLowerCase();
+      const rg = groupByVariant ? rangeOf(c) : null;
       vis = allSlides.map((s, i) => i).filter(i => {
+        if (rg) return (i >= rg[0] && i < rg[1]) || (i < startList[0][1]);
         if (!groupByAlt) return true;
         const a = (allSlides[i].dataset.alt || '').toLowerCase();
         return !colorNames.includes(a) || a === c;
