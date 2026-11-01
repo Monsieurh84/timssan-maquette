@@ -1,0 +1,18 @@
+{%- comment -%} Renvoie « top » si le produit (global) a des tailles en lettres (S, M, L…), sinon « bottom ». {%- endcomment -%}
+{%- liquid
+  assign k = 'bottom'
+  if product
+    for o in product.options_with_values
+      assign on = o.name | downcase
+      if on contains 'taille' or on contains 'size'
+        assign fv = o.values.first | upcase | strip
+        assign num = fv | plus: 0
+        if num == 0
+          assign k = 'top'
+        endif
+        break
+      endif
+    endfor
+  endif
+  echo k
+-%}

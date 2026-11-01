@@ -1,0 +1,31 @@
+{%- comment -%} Calculateur taille + poids → taille Timssan (barèmes : Réglages du thème > Timssan). Paramètres : id, kind (facultatif : top / bottom, sinon déduit du produit) {%- endcomment -%}
+{%- liquid
+  assign fk = kind
+  if fk == blank
+    capture fk
+      render 'tm-size-kind'
+    endcapture
+    assign fk = fk | strip
+  endif
+  assign chips = '38,40,42,44,46' | split: ','
+  if fk == 'top'
+    assign chips = 'S,M,L,XL,XXL' | split: ','
+  endif
+  if product
+    for o in product.options_with_values
+      assign on = o.name | downcase
+      if on contains 'taille' or on contains 'size'
+        if o.values.size > 1
+          assign chips = o.values
+        endif
+        break
+      endif
+    endfor
+  endif
+-%}
+<div class="t-finder" data-finder="{{ id }}" data-kind="{{ fk }}">
+  <label for="{{ id }}H">Votre taille <output id="{{ id }}HO">178 cm</output></label><input id="{{ id }}H" type="range" min="155" max="200" value="178" step="1">
+  <label for="{{ id }}W">Votre poids <output id="{{ id }}WO">75 kg</output></label><input id="{{ id }}W" type="range" min="50" max="115" value="75" step="1">
+  <div class="t-sizes" aria-hidden="true">{%- for k in chips -%}<span data-s="{{ k | escape }}"><b>{{ k }}</b></span>{%- endfor -%}</div>
+  <p class="t-res" role="status" aria-live="polite"></p>
+</div>
