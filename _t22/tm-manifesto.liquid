@@ -1,0 +1,23 @@
+<section class="t-sec tm" id="manifeste" style="padding-top:0">
+  <div class="t-wrap">
+    <div class="t-label t-muted" style="margin-bottom:28px">{{ section.settings.label | escape }}</div>
+    <div class="t-manif">
+      <p>{{ section.settings.left | escape | newline_to_br }}</p>
+      <span class="t-v" aria-hidden="true"></span>
+      <p class="t-r">{{ section.settings.right | escape | newline_to_br }}</p>
+    </div>
+    {%- if section.settings.sign != blank -%}<div class="t-manif-sign"><span class="t-label t-muted">— {{ section.settings.sign | escape }}</span></div>{%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "T · Manifeste",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Étiquette", "default": "[ Le manifeste ]" },
+    { "type": "textarea", "id": "left", "label": "Colonne gauche", "default": "On ne court pas après les tendances.\nOn court parfois après le métro, oui.\nMais pas après les tendances.\nOn ne s'habille pas pour impressionner la galerie.\nOn s'habille pour vivre la journée. En entier.\nPour enchaîner réunions inutiles et moments utiles.\nChez TIMSSAN, on croit aux vêtements qui tiennent.\nQui tiennent la forme. Qui tiennent la route.\nQui tiennent dans le temps." },
+    { "type": "textarea", "id": "right", "label": "Colonne droite", "default": "On ne promet pas de changer votre vie.\nOn promet juste que votre pantalon ne vous gênera pas pendant que vous la vivez.\nOn préfère la coupe juste à l'effet spectaculaire.\nDes vêtements pour des hommes qui travaillent, qui bougent, qui vivent.\nQui veulent être bien, sans y penser.\nS'habiller pour la vraie vie.\nSans bruit. Avec justesse." },
+    { "type": "text", "id": "sign", "label": "Signature", "default": "Hassan" }
+  ],
+  "presets": [{ "name": "T · Manifeste" }]
+}
+{% endschema %}

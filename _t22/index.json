@@ -1,0 +1,329 @@
+{
+  "sections": {
+    "hero": {
+      "type": "tm-hero",
+      "settings": {
+        "btn1_url": "shopify://collections/jogpants-homme",
+        "btn2_url": "/#manifeste"
+      },
+      "blocks": {
+        "p1": {
+          "type": "proof",
+          "settings": {
+            "big": "+ de 25 000",
+            "small": "clients satisfaits"
+          }
+        },
+        "p2": {
+          "type": "proof",
+          "settings": {
+            "big": "4,8/5",
+            "small": "sur Trustpilot"
+          }
+        },
+        "p3": {
+          "type": "proof",
+          "settings": {
+            "big": "24/48h",
+            "small": "livraison offerte"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ]
+    },
+    "cats": {
+      "type": "tm-cats",
+      "settings": {
+        "link": "shopify://collections/pantalons-homme"
+      },
+      "blocks": {
+        "c0": {
+          "type": "cat",
+          "settings": {
+            "collection": "jogpants-homme",
+            "title": "Jogpants",
+            "img_product": "nuby-jogpant",
+            "img_index": 3
+          }
+        },
+        "c1": {
+          "type": "cat",
+          "settings": {
+            "collection": "pantalons-7-8-homme",
+            "title": "Pantalons 7/8",
+            "img_product": "mist-pantalon-7-8-stone",
+            "img_index": 3
+          }
+        },
+        "c2": {
+          "type": "cat",
+          "settings": {
+            "collection": "bermudas-longs-homme",
+            "title": "Bermudas longs",
+            "img_product": "blevo-bermuda-long-denim",
+            "img_index": 3
+          }
+        },
+        "c3": {
+          "type": "cat",
+          "settings": {
+            "collection": "t-shirt-homme-no-limit",
+            "title": "Hauts",
+            "img_product": "built-280-t-shirt-manche-longue",
+            "img_index": 7
+          }
+        }
+      },
+      "block_order": [
+        "c0",
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    "manifesto": {
+      "type": "tm-manifesto",
+      "settings": {
+        "sign": "Hassan"
+      }
+    },
+    "products": {
+      "type": "tm-products",
+      "settings": {
+        "collection": "pantalons-homme",
+        "limit": 8,
+        "link": "shopify://collections/pantalons-homme"
+      }
+    },
+    "promise": {
+      "type": "tm-promise",
+      "settings": {}
+    },
+    "anatomy": {
+      "type": "tm-anatomy",
+      "settings": {
+        "img_index": 1,
+        "product": "pantalon-jogpant-homme-jeans-gris-stone",
+        "fit": "cover",
+        "show_button": true,
+        "button_label": "Voir le modèle"
+      },
+      "blocks": {
+        "s0": {
+          "type": "spec",
+          "settings": {
+            "title": "La ceinture",
+            "text": "Élastiquée à l'arrière, nette à l'avant. Elle tient comme un jean et se porte comme un jogging.",
+            "x": 50,
+            "y": 15
+          }
+        },
+        "s1": {
+          "type": "spec",
+          "settings": {
+            "title": "Les poches",
+            "text": "Profondes pour garder le téléphone en place. Rien ne tombe quand vous vous asseyez.",
+            "x": 34,
+            "y": 30
+          }
+        },
+        "s2": {
+          "type": "spec",
+          "settings": {
+            "title": "La toile stretch",
+            "text": "Un denim souple qui suit le genou au lieu de le bloquer. Le délavage est fait avant couture : pas de surprise au premier lavage.",
+            "x": 62,
+            "y": 55
+          }
+        },
+        "s3": {
+          "type": "spec",
+          "settings": {
+            "title": "Les chevilles",
+            "text": "Un ourlet élastiqué pour un tombé net sur la basket. La silhouette jogpant, sans l'effet survêtement.",
+            "x": 40,
+            "y": 86
+          }
+        }
+      },
+      "block_order": [
+        "s0",
+        "s1",
+        "s2",
+        "s3"
+      ]
+    },
+    "proofs": {
+      "type": "tm-proofs",
+      "settings": {},
+      "blocks": {
+        "p0": {
+          "type": "proof",
+          "settings": {
+            "title": "Coupe constante",
+            "text": "Des patrons stables d'une collection à l'autre. Votre taille reste votre taille."
+          }
+        },
+        "p1": {
+          "type": "proof",
+          "settings": {
+            "title": "Finitions fiables",
+            "text": "Des matières choisies pour ne pas boulocher ni rétrécir au lavage."
+          }
+        },
+        "p2": {
+          "type": "proof",
+          "settings": {
+            "title": "Durabilité prouvée",
+            "text": "Des pièces portées, lavées et retestées avant de rejoindre la collection."
+          }
+        },
+        "p3": {
+          "type": "proof",
+          "settings": {
+            "title": "Achat rassurant",
+            "text": "Stock à jour, échange offert, 14 jours pour changer d'avis."
+          }
+        },
+        "p4": {
+          "type": "proof",
+          "settings": {
+            "title": "Savoir-faire",
+            "text": "Un atelier, des personnes, des étapes racontées simplement."
+          }
+        }
+      },
+      "block_order": [
+        "p0",
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ]
+    },
+    "finder": {
+      "type": "tm-finder",
+      "settings": {}
+    },
+    "reviews": {
+      "type": "tm-reviews",
+      "settings": {},
+      "blocks": {
+        "q0": {
+          "type": "quote",
+          "settings": {
+            "text": "Après plusieurs commandes, jogpant et 7/8, je suis toujours aussi content de la coupe et de la qualité. Et l'envoi est rapide.",
+            "name": "Will"
+          }
+        },
+        "q1": {
+          "type": "quote",
+          "settings": {
+            "text": "Le guide des tailles est précis : reportez les mesures d'un pantalon qui vous va et vous ne pouvez pas vous tromper.",
+            "name": "Julien"
+          }
+        },
+        "q2": {
+          "type": "quote",
+          "settings": {
+            "text": "Troisième commande, qualité vraiment excellente, livraison très courte. Petit plus : l'échantillon de parfum dans le colis.",
+            "name": "Hicham"
+          }
+        },
+        "q3": {
+          "type": "quote",
+          "settings": {
+            "text": "J'hésitais, puis j'ai vu le rendu en vidéo. À la réception, franchement surpris par la qualité des bermudas.",
+            "name": "Abdel"
+          }
+        },
+        "q4": {
+          "type": "quote",
+          "settings": {
+            "text": "Trois t-shirts 100 % coton offerts. Après plusieurs machines ils restent nickel, et ils sont très agréables à porter.",
+            "name": "Ghislain"
+          }
+        }
+      },
+      "block_order": [
+        "q0",
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ]
+    },
+    "feature": {
+      "type": "tm-feature",
+      "settings": {
+        "img_product": "22-09-eau-de-parfum",
+        "img_index": 2,
+        "url": "shopify://products/22-09-eau-de-parfum"
+      }
+    },
+    "club": {
+      "type": "tm-club",
+      "settings": {}
+    },
+    "reass": {
+      "type": "tm-reassurance",
+      "settings": {
+        "space": 72
+      },
+      "blocks": {
+        "r0": {
+          "type": "item",
+          "settings": {
+            "title": "Livraison offerte 24/48h",
+            "text": "France métropolitaine"
+          }
+        },
+        "r1": {
+          "type": "item",
+          "settings": {
+            "title": "Échange offert",
+            "text": "Pas la bonne taille ? On échange"
+          }
+        },
+        "r2": {
+          "type": "item",
+          "settings": {
+            "title": "14 jours pour changer d'avis",
+            "text": "Retours simples"
+          }
+        },
+        "r3": {
+          "type": "item",
+          "settings": {
+            "title": "Paiement 3 ou 4 fois",
+            "text": "Sans frais, 100 % sécurisé"
+          }
+        }
+      },
+      "block_order": [
+        "r0",
+        "r1",
+        "r2",
+        "r3"
+      ]
+    }
+  },
+  "order": [
+    "hero",
+    "cats",
+    "manifesto",
+    "products",
+    "promise",
+    "anatomy",
+    "proofs",
+    "finder",
+    "reviews",
+    "feature",
+    "club",
+    "reass"
+  ]
+}

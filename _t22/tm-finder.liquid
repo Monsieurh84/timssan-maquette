@@ -1,0 +1,7 @@
+{%- comment -%} Calculateur taille + poids → taille Timssan (barème : Réglages du thème > Timssan). Paramètre : id {%- endcomment -%}
+<div class="t-finder" data-finder="{{ id }}">
+  <label for="{{ id }}H">Votre taille <output id="{{ id }}HO">178 cm</output></label><input id="{{ id }}H" type="range" min="155" max="200" value="178" step="1">
+  <label for="{{ id }}W">Votre poids <output id="{{ id }}WO">75 kg</output></label><input id="{{ id }}W" type="range" min="50" max="115" value="75" step="1">
+  <div class="t-sizes" aria-hidden="true">{%- for s in (0..4) -%}{%- assign k = s | times: 2 | plus: 38 -%}<span data-s="{{ k }}"><b>{{ k }}</b></span>{%- endfor -%}</div>
+  <p class="t-res" role="status" aria-live="polite"></p>
+</div>
