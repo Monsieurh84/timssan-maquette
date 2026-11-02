@@ -1,0 +1,18 @@
+{%- comment -%}
+  Mode d'inscription d'un produit (tags) :
+  « drop » → lancement (S'inscrire au drop) · « bientot » → retour en stock prévu (Me prévenir) · rien → pas d'inscription.
+  Paramètre : p (produit). Renvoie drop, soon ou vide.
+{%- endcomment -%}
+{%- liquid
+  assign m = ''
+  for t in p.tags
+    assign tt = t | downcase | strip
+    if tt == 'drop'
+      assign m = 'drop'
+      break
+    elsif tt == 'bientot' or tt == 'bientôt'
+      assign m = 'soon'
+    endif
+  endfor
+  echo m
+-%}

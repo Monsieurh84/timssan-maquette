@@ -1,0 +1,29 @@
+{%- comment -%} Modale « Guide des tailles » (barème poids × taille + calculateur), ouverte par [data-tm-sizes] {%- endcomment -%}
+{%- capture sk -%}{%- render 'tm-size-kind' -%}{%- endcapture -%}{%- assign sk = sk | strip -%}
+<script>window.TM_KLAVIYO = {{ settings.tm_klaviyo_key | json }};</script>
+{%- assign rows = settings.tm_size_grid | newline_to_br | split: '<br />' -%}
+<script type="application/json" id="tmSizeGrid">[{%- assign fst = true -%}{%- for r in rows -%}{%- assign rr = r | strip -%}{%- if rr contains ':' -%}{%- assign w = rr | split: ':' | first | strip -%}{%- assign v = rr | split: ':' | last | strip | split: ',' -%}{%- unless fst -%},{%- endunless -%}{%- assign fst = false -%}[{{ w }}{%- for x in v -%},{{ x | strip | json }}{%- endfor -%}]{%- endif -%}{%- endfor -%}]</script>
+{%- assign rows = settings.tm_size_grid_top | newline_to_br | split: '<br />' -%}
+<script type="application/json" id="tmSizeGridTop">[{%- assign fst = true -%}{%- for r in rows -%}{%- assign rr = r | strip -%}{%- if rr contains ':' -%}{%- assign w = rr | split: ':' | first | strip -%}{%- assign v = rr | split: ':' | last | strip | split: ',' -%}{%- unless fst -%},{%- endunless -%}{%- assign fst = false -%}[{{ w }}{%- for x in v -%},{{ x | strip | json }}{%- endfor -%}]{%- endif -%}{%- endfor -%}]</script>
+<div class="tm t-modal" id="tmSizeModal" data-kind="{{ sk }}" role="dialog" aria-modal="true" aria-labelledby="tmSgT" aria-hidden="true">
+  <div class="t-modal-in">
+    <button class="t-x" type="button" data-tm-close>Fermer ✕</button>
+    <span class="t-mono t-muted">Guide des tailles</span><h2 id="tmSgT">Trouvez votre taille</h2>
+    {%- assign chart = product.metafields._up.sizechart_image.value -%}
+    {%- if sk == 'top' -%}
+      {%- if chart != blank -%}
+        <p style="margin:0">Comparez vos mesures avec le tableau ci-dessous. Entre deux tailles, prenez la plus grande pour un tombé plus ample.</p>
+        {{ chart | image_url: width: 1200 | image_tag: loading: 'lazy', style: 'width:100%;height:auto;margin-top:12px', alt: 'Tableau des tailles' }}
+      {%- else -%}
+        <p style="margin:0">Le tableau des mesures de ce modèle arrive bientôt. Une question sur la taille ? Écrivez-nous, on vous répond vite.</p>
+      {%- endif -%}
+    {%- else -%}
+    <p style="margin:0">Indiquez votre taille et votre poids : on vous donne la taille Timssan qui vous va. Entre deux tailles, prenez la plus petite.</p>
+    {%- render 'tm-finder', id: 'sg', kind: sk -%}
+    {%- if chart != blank -%}
+      <details class="t-grid-d"><summary>Voir le tableau des mesures</summary>{{ chart | image_url: width: 1200 | image_tag: loading: 'lazy', style: 'width:100%;height:auto;margin-top:12px' }}</details>
+    {%- endif -%}
+    <details class="t-grid-d"><summary>Voir le barème complet</summary><div class="t-tbl-wrap"><table class="t-ptable"><thead><tr><th>Poids</th><th>165–175 cm</th><th>175–185 cm</th><th>185–195 cm</th></tr></thead><tbody id="tmSgBody"></tbody></table></div></details>
+    {%- endif -%}
+  </div>
+</div>
